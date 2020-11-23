@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+	<title>JS Chat Room</title>
+	<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="Client.css">
+</head>
+<body>
+    <div class="interface">
+		<div class="ChatRoom Block">
+			<div class="Title">Chat Room</div>
+			<pre class="Output"></pre>
+		</div>
+		<div class="Status Block">
+			<div class="Title">Status</div>
+			<pre class="Output"><span style="color: #e7483f;">Please enter a chat room</span></pre>
+		</div>
+		<div class="UserInfo Block">
+			<div class="Title">User Info.</div>
+			<pre class="Output"></pre>
+		</div>
+		<div class="InputArea Block">
+			<div class="Title">Input Area</div>
+			<input type="text" class="Input">
+		</div>
+	</div>
+</body>
+<footer>
+	<script src="Client.js"></script>
+	<script>
+		var input=$('.Input');
+		input.on('keypress',K=>{
+			if(K.keyCode==13&&input.val()!==''){
+				Send(input.val());
+				input.val('');
+			}
+		});
+	</script>
+</footer>
+</html>

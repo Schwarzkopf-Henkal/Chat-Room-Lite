@@ -1,0 +1,82 @@
+body{
+    background-color: black;
+}
+.ChatRoom{
+    height: 300px;
+    width: 400px;
+}
+.Status{
+    height: 30px;
+    width: 250px;
+    left: 435px;
+}
+.UserInfo{
+    width: 250px;
+    height: 256px;
+    left: 435px;
+    top: 52px;
+}
+.InputArea{
+    height: 29px;
+    width: 677px;
+    top: 325px;
+}
+.Block{
+    position: absolute;
+    border: 2px solid #cccccc;
+}
+.Block .Title{
+    position: absolute;
+    top:-7px;
+    left: 7px;
+    font-family: Consolas;
+    line-height: 14px;
+    display: inline-block;
+    background-color: #cccccc;
+}
+.Input{
+    position: absolute;
+    height: 14px;
+    width: 660px;
+    left: 5px;
+    top: 7px;
+    color: #cccccc;
+    font-family: Consolas;
+    background-color: black;
+    outline: none;
+    border:0;
+}
+.Output{
+    margin: 0;
+    font-family: Consolas;
+    color:#cccccc;
+    line-height: 14px;
+    position: absolute;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    left: 7px;
+    top: 7px;
+    overflow: hidden;
+}
+.ChatRoom .Output{
+    width: 387px;
+    height: 287px;
+    overflow: auto;
+}
+.ChatRoom .Output::-webkit-scrollbar{
+    width: 5px;
+}
+.ChatRoom .Output::-webkit-scrollbar:hover {
+    width: 10px;
+    background-color: #776170;
+}
+.ChatRoom .Output::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    background-color: #C9613F;
+}
+.Status .Output{
+    width: 243px;
+}
+.UserInfo .Output{
+    width: 243px;
+}
