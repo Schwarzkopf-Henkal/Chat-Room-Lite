@@ -88,7 +88,14 @@ function Send(msg){
             Initalize();
         }
     }else if(msg[0]==='/'){
-        Commands[msg.substr(1)].fun();
+        if(!Commands[msg.substr(1)]){
+            ws.send(JSON.stringify({
+                headers:{
+                    Content_Type:'application/message'
+                },
+                body:msg
+            }))
+        }else Commands[msg.substr(1)].fun();
     }else {
         ws.send(JSON.stringify({
             headers:{

@@ -77,11 +77,10 @@ body{
 .Status .Output{
     /* height: 25px; */
     width: 236px;
-    overflow-y: hidden;
-    overflow-x: scroll;
     /* background-color: white; */
 }
 .UserInfo .Output{
     width: 236px;
     height: 242px;
+    overflow: auto;
 }
