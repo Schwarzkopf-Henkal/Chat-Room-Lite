@@ -1,4 +1,5 @@
-var ws,output=$('.ChatRoom .Output');
+var ws,output=$('.ChatRoom .Output'),DOC_title=$('title');
+var MSGC=0,WFocus=true,M_Notice=false;
 var User=new Object(),Server=new Object();
 if (!window.WebSocket){
     output.html('');
@@ -28,7 +29,7 @@ function Initalize(){
             $('.Status .Output').html('Chat Room');
             $('.UserInfo .Output').html(`Chat Name : ${Server.name}\nUser : ${User.name}\nUser List : \n${Server.usrList.map(x=>'|---'+x).join('\n')}`);
             output.html('');
-            Write(`[NOTE] Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n`,{"color":"#13c60d"});
+            Write(`[NOTE] Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
         if(msg.headers['Content_Type']==='application/message'){
             if(msg.headers['Style']){
@@ -60,6 +61,12 @@ var Commands={
     },
     "exit":{
         fun:()=>{ws.close()}
+    },
+    "notice":{
+        fun:()=>{
+            M_Notice=!M_Notice;
+            Write(`[NOTE] Message notice=${M_Notice}\n`,{"color":"#13c60d"})
+        }
     }
 },S_Status=0,S_Interface=true;
 function Send(msg){
@@ -108,7 +115,22 @@ window.onload=()=>{
         }
     }
 }
+window.onfocus=()=>{
+    WFocus=true;
+    DOC_title.html(`JS Chat Room`);
+}
+window.onblur=()=>{
+    WFocus=false;
+    MSGC=0;
+}
+function MSGC_SS(){
+    if(WFocus===false&&M_Notice){
+        MSGC++;
+        DOC_title.html(`(${MSGC}) JS Chat Room`);
+    }
+}
 function Write(msg,style){
+    MSGC_SS();
     if(style){
         let StyleText=[];
         Object.keys(style).forEach(key=>{
