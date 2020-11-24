@@ -48,7 +48,7 @@ body{
 }
 .Output{
     margin: 0;
-    font-family: Consolas;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono';
     color:#cccccc;
     line-height: 14px;
     position: absolute;
@@ -63,20 +63,25 @@ body{
     height: 287px;
     overflow: auto;
 }
-.ChatRoom .Output::-webkit-scrollbar{
+.Output::-webkit-scrollbar{
     width: 5px;
 }
-.ChatRoom .Output::-webkit-scrollbar:hover {
+.Output::-webkit-scrollbar:hover {
     width: 10px;
     background-color: #776170;
 }
-.ChatRoom .Output::-webkit-scrollbar-thumb {
+.Output::-webkit-scrollbar-thumb {
     border-radius: 1px;
     background-color: #C9613F;
 }
 .Status .Output{
-    width: 243px;
+    /* height: 25px; */
+    width: 236px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    /* background-color: white; */
 }
 .UserInfo .Output{
-    width: 243px;
+    width: 236px;
+    height: 242px;
 }
