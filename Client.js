@@ -137,10 +137,8 @@ function Write(msg,style){
         r=i;
         let ifMatched=false;
         if(msg[i]==='@'){
-            console.log("Found @");
             for(let j=0;j<Server.usrList.length;j++)
                 if(i+Server.usrList[j].length<msg.length){
-                    console.log("On search");
                     ifMatched=true;
                     for(let k=1;k<=Server.usrList[j].length;k++)
                         if(Server.usrList[j][k-1]!=msg[i+k]){
