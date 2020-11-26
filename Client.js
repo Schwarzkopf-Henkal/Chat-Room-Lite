@@ -45,13 +45,13 @@ var RemoteCommands={
     "UsrAdd":(Para)=>{
         if(Server.usrList){
             Server.usrList.push(Para[0]);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i>User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
         }
     },
     "UsrDel":(Para)=>{
         if(Server.usrList){
             Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i>User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
         }
     }
 }
