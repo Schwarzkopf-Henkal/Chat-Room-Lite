@@ -6,7 +6,7 @@ body{
     width: 400px;
 }
 .Status{
-    height: 30px;
+    height: 28px;
     width: 250px;
     left: 435px;
 }
@@ -29,7 +29,8 @@ body{
     position: absolute;
     top:-7px;
     left: 7px;
-    font-family: Consolas;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono';
+    font-size: 14px;
     line-height: 14px;
     display: inline-block;
     background-color: #cccccc;
@@ -50,7 +51,8 @@ body{
     margin: 0;
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono';
     color:#cccccc;
-    line-height: 18.4px;
+    font-size: 14px;
+    line-height: 14px;
     position: absolute;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -75,9 +77,7 @@ body{
     background-color: #C9613F;
 }
 .Status .Output{
-    /* height: 25px; */
-    width: 236px;
-    /* background-color: white; */
+    top:7px;
 }
 .UserInfo .Output{
     width: 236px;
