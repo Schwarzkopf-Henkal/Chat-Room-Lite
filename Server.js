@@ -20,10 +20,70 @@ fs.writeFile(Filename,``,(err,stats)=>{
         process.exit();
     }
 })
+//---Commandline Depot
+const readline=require('readline');
+var scanf=readline.createInterface({
+    input:process.stdin,
+    output:process.stdout
+});
+(async()=>{
+    let LocalCommands={
+        "list":{
+            fun:()=>{
+                console.log(ServerInfo.usrList.map(usr=>'|---'+usr).join('\n'));
+            },
+            Parameter:false
+        },
+        "log":{
+            fun:()=>{
+                //当然，一开始就没怎么想着要做服务器日志的功能，所以显然只能输出一些没啥用的东西。
+                console.log(Bufp);
+            },
+            Parameter:false
+        },
+        "ban":{
+            fun:(usrn)=>{
+                let Bantotal=0;
+                Server.clients.forEach(Cli=>{
+                    if(usrn.indexOf(Cli.ClientId)!==-1){
+                        Cli.send(JSON.stringify({
+                            headers:{
+                                Content_Type:'application/message',
+                                Style:{"color":"#e7483f"}
+                            },
+                            body:"[ERROR] You are banned from the server."
+                        }));
+                        Cli.close();
+                        broadcast(`[NOTE] @${Cli.ClientId} is banned from the server.`,{"color":"#ffff00"})
+                        Bantotal++;
+                    }
+                });
+                console.log(`Banned ${Bantotal} users in total.`);
+            },
+            Parameter:true
+        }
+    };
+    let ThrowERR=[`欸，你刚才是不是输入了什么见不得人的东西啊~`,`不懂哦，唉。`,`根本搞不懂你在说什么！`,`不要乱来！`,`这样下去可是要被绑在耻辱柱上的哦~`];
+    CMD();
+    function CMD(){
+        scanf.question('CRL />',(input)=>{
+            input=input.trim().split(/\s+/);
+            if(LocalCommands[input[0]]){
+                if(LocalCommands[input[0]].Parameter===true)
+                    (async()=>{await LocalCommands[input[0]].fun(input.splice(1,input.length-1));})();
+                else (async()=>{await LocalCommands[input[0]].fun();})();
+            }else if(input[0]!=='')
+                console.log(ThrowERR[Math.floor(Math.random()*ThrowERR.length)]);
+            CMD();
+        });
+    }
+})();
 Server.on('connection',(ws,Req)=>{
     let ip=Req.connection.remoteAddress;
     let port=Req.connection.remotePort;
     let ClientId,Status=false;
+    // console.log(ws.url);
+    // ws.
     ws.on('message',msg=>{
         msg=JSON.parse(msg);
         if(msg.headers['Content_Type']==='application/init'){
@@ -36,6 +96,7 @@ Server.on('connection',(ws,Req)=>{
             broadcommand('UsrAdd',[ClientId]);
             ServerInfo.usrList.push(ClientId);
             Status=true;
+            ws.ClientId=ClientId;
             ws.send(JSON.stringify({
                 headers:{
                     Content_Type:'application/init',
