@@ -51,10 +51,10 @@ var scanf=readline.createInterface({
                                 Content_Type:'application/message',
                                 Style:{"color":"#e7483f"}
                             },
-                            body:"[ERROR] You are banned from the server."
+                            body:"<i class='fas fa-ban'></i> You are banned from the server."
                         }));
                         Cli.close();
-                        broadcast(`[NOTE] @${Cli.ClientId} is banned from the server.`,{"color":"#ffff00"})
+                        broadcast(`<i class="fa fa-exclamation-triangle"></i> @${Cli.ClientId} is banned from the server.`,{"color":"#ffff00"})
                         Bantotal++;
                     }
                 });
@@ -92,7 +92,7 @@ Server.on('connection',(ws,Req)=>{
             ClientId=msg.headers['Set_Name'];
             // console.log(`${ClientId}`);
             ServerInfo.time=new Date();
-            let EventMsg=`[NOTE] ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
+            let EventMsg=`<i class="fas fa-user-plus"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#13c60d'});
             broadcommand('UsrAdd',[ClientId]);
@@ -106,15 +106,15 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
         }else if(msg.headers.Content_Type==='application/message'){
-            broadcast(`[INFO] ${ClientId}: ${msg.body}`);
+            broadcast(`${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
         }
     });
     ws.on('close',()=>{
         if(ClientId){
             ServerInfo.time=new Date();
-            let EventMsg=`[NOTE] ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} left the chat room!`;
+            let EventMsg=`<i class="fas fa-user-times"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} left the chat room!`;
             Bufp+=EventMsg;
-            broadcast(EventMsg,{'color':'#13c60d'});
+            broadcast(EventMsg,{'color':'#e7483f'});
             broadcommand('UsrDel',[ClientId]);
             ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ClientId),1);
             Status=false;
