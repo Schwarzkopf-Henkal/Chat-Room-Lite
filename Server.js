@@ -26,7 +26,7 @@ var scanf=readline.createInterface({
     input:process.stdin,
     output:process.stdout
 });
-(async()=>{
+(()=>{
     let LocalCommands={
         "list":{
             fun:()=>{
@@ -67,14 +67,16 @@ var scanf=readline.createInterface({
     CMD();
     function CMD(){
         scanf.question('CRL />',(input)=>{
-            input=input.trim().split(/\s+/);
-            if(LocalCommands[input[0]]){
-                if(LocalCommands[input[0]].Parameter===true)
-                    (async()=>{await LocalCommands[input[0]].fun(input.splice(1,input.length-1));})();
-                else (async()=>{await LocalCommands[input[0]].fun();})();
-            }else if(input[0]!=='')
-                console.log(ThrowERR[Math.floor(Math.random()*ThrowERR.length)]);
-            CMD();
+            (async ()=>{
+                input=input.trim().split(/\s+/);
+                if(LocalCommands[input[0]]){
+                    if(LocalCommands[input[0]].Parameter===true)
+                        await LocalCommands[input[0]].fun(input.splice(1,input.length-1));
+                    else await LocalCommands[input[0]].fun();
+                }else if(input[0]!=='')
+                    console.log(ThrowERR[Math.floor(Math.random()*ThrowERR.length)]);
+                CMD();
+            })();
         });
     }
 })();
