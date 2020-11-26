@@ -282,3 +282,30 @@
 .fa-spinner:before {
     content: "\f110"
 }
+.fa-user-plus:before {
+  content: "\f234";
+}
+.fa-user-times:before {
+  content: "\f235";
+}
+.fa-info-circle:before {
+  content: "\f05a";
+}
+.fa-wrench:before {
+  content: "\f0ad";
+}
+.fa-unlink:before,
+.fa-chain-broken:before {
+  content: "\f127";
+}
+.fa-chain:before,
+.fa-link:before {
+  content: "\f0c1";
+}
+.fa-ban:before {
+  content: "\f05e";
+}
+.fa-warning:before,
+.fa-exclamation-triangle:before {
+  content: "\f071";
+}
