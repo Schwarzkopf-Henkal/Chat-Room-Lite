@@ -29,7 +29,7 @@ function Initalize(){
             $('.Status .Output').html('Chat Room');
             $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
             output.html('');
-            Write(`[NOTE] Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
+            Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
         if(msg.headers['Content_Type']==='application/message'){
             if(msg.headers['Style']){
@@ -65,7 +65,7 @@ var Commands={
     "notice":{
         fun:()=>{
             M_Notice=!M_Notice;
-            Write(`[NOTE] Message notice=${M_Notice}\n`,{"color":"#13c60d"})
+            Write(`<i class="fas fa-wrench"></i> Message notice=${M_Notice}\n`,{"color":"#13c60d"})
         }
     }
 },S_Status=0,S_Interface=true;
@@ -75,12 +75,12 @@ function Send(msg){
         if(S_Status===0){
             User.host=msg;
             S_Status++;
-            Write(`[NOTE] Get Host IP : ${User.host}\n`,{'color':'#13c60d'});
+            Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Host IP : ${User.host}\n`,{'color':'#13c60d'});
             Write(`Service Port : \n`);
         }else if(S_Status===1){
             User.port=parseInt(msg);
             S_Status++;
-            Write(`[NOTE] Get Service Port : ${User.port}\n`,{'color':'#13c60d'});
+            Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Service Port : ${User.port}\n`,{'color':'#13c60d'});
             Write(`Your Name : \n`);
         }else if(S_Status===2){
             User.name=msg;
@@ -104,13 +104,13 @@ window.onload=()=>{
     Ping.onerror=()=>{
         if(S_Interface===true){
             output.empty();
-            Write(`Host IP : \n<i class="fas fa-close" style="color:#e7483f;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#e7483f;'>·Offline</span>\n`);
+            Write(`Host IP : \n<i class="fas fa-chain-broken" style="color:#e7483f;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#e7483f;'>·Offline</span>\n`);
         }
     };
     Ping.onopen=()=>{
         if(S_Interface===true){
             output.empty();
-            Write(`Host IP : \n<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span>\n`);
+            Write(`Host IP : \n<i class="fas fa-link" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span>\n`);
             Ping.close();
         }
     }
