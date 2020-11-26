@@ -146,11 +146,11 @@ function Write(msg,style){
                             break;
                         }
                     var nextCharacter = i+Server.usrList[j].length+1;
-                    if(ifMatched && (nextCharacter>=msg.length || msg[nextCharacter]==' ' || msg[nextCharacter]=='\t')){
+                    if(ifMatched && (nextCharacter>=msg.length || msg[nextCharacter]==' ' || msg[nextCharacter]=='\t'|| msg[nextCharacter]=='\n')){
                         EXC+=`<span class='fuckat'>${msg.substr(i,Server.usrList[j].length+1)}</span>`;
                         r=i+Server.usrList[j].length;
                         break;
-                    }
+                    }else ifMatched=false;
                 }
         }
         if(ifMatched===false)
