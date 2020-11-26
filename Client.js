@@ -27,7 +27,7 @@ function Initalize(){
         if(msg.headers['Content_Type']==='application/init'){
             Server=msg.headers.Set_serverinfo;
             $('.Status .Output').html('Chat Room');
-            $('.UserInfo .Output').html(`Chat Name : ${Server.name}\nUser : ${User.name}\nUser List : \n${Server.usrList.map(x=>'|---'+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
             output.html('');
             Write(`[NOTE] Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
@@ -45,13 +45,13 @@ var RemoteCommands={
     "UsrAdd":(Para)=>{
         if(Server.usrList){
             Server.usrList.push(Para[0]);
-            $('.UserInfo .Output').html(`Chat Name : ${Server.name}\nUser : ${User.name}\nUser List : \n${Server.usrList.map(x=>'|---'+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i>User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
         }
     },
     "UsrDel":(Para)=>{
         if(Server.usrList){
             Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
-            $('.UserInfo .Output').html(`Chat Name : ${Server.name}\nUser : ${User.name}\nUser List : \n${Server.usrList.map(x=>'|---'+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i>User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
         }
     }
 }
@@ -99,18 +99,18 @@ function Send(msg){
     }
 }
 window.onload=()=>{
-    Write(`Host IP : \n|-- Public Room: 49.234.17.22:8080 <span style='color:grey;'>·Pending</span>\n`);
+    Write(`Host IP : \n<i class="fa fa-spinner fa-spin" style="width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:grey;'>·Pending</span>\n`);
     let Ping=new WebSocket('ws://49.234.17.22:8080');
     Ping.onerror=()=>{
         if(S_Interface===true){
             output.empty();
-            Write(`Host IP : \n|-- Public Room: 49.234.17.22:8080 <span style='color:#e7483f;'>·Offline</span>\n`);
+            Write(`Host IP : \n<i class="fas fa-close" style="color:#e7483f;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#e7483f;'>·Offline</span>\n`);
         }
     };
     Ping.onopen=()=>{
         if(S_Interface===true){
             output.empty();
-            Write(`Host IP : \n|-- Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span>\n`);
+            Write(`Host IP : \n<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span>\n`);
             Ping.close();
         }
     }
@@ -132,6 +132,7 @@ function MSGC_SS(){
 function Write(msg,style){
     MSGC_SS();
     let EXC='';
+    var nextCharacter;
     //在实现@功能的时候，我只能通过创建一个用于Exchange的数组来完成/fn
     for(let i=0,r;i<msg.length;i=r+1){
         r=i;
@@ -145,12 +146,13 @@ function Write(msg,style){
                             ifMatched=false;
                             break;
                         }
-                    var nextCharacter = i+Server.usrList[j].length+1;
-                    if(ifMatched && (nextCharacter>=msg.length || msg[nextCharacter]==' ' || msg[nextCharacter]=='\t'|| msg[nextCharacter]=='\n')){
+                    let nextCharacter = i+Server.usrList[j].length+2;
+                    if(ifMatched && (nextCharacter>=msg.length || msg[nextCharacter]===' ' || msg[nextCharacter]==='\t' || msg[nextCharacter]==='\n')){
                         EXC+=`<span class='fuckat'>${msg.substr(i,Server.usrList[j].length+1)}</span>`;
                         r=i+Server.usrList[j].length;
                         break;
-                    }else ifMatched=false;
+                    }
+                    ifMatched=false;
                 }
         }
         if(ifMatched===false)
