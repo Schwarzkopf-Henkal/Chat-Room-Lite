@@ -30,7 +30,7 @@
 	<script>
 		var input=$('.Input');
 		input.on('keypress',K=>{
-			if(K.keyCode==13&&input.val()!==''){
+			if((K.keyCode==13||K.keyCode==10)&&input.val()!==''){
 				Send(input.val());
 				input.val('');
 			}

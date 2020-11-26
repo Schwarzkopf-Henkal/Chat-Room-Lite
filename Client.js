@@ -87,15 +87,8 @@ function Send(msg){
             S_Status++;
             Initalize();
         }
-    }else if(msg[0]==='/'){
-        if(!Commands[msg.substr(1)]){
-            ws.send(JSON.stringify({
-                headers:{
-                    Content_Type:'application/message'
-                },
-                body:msg
-            }))
-        }else Commands[msg.substr(1)].fun();
+    }else if(msg[0]==='/'&&Commands[msg.substr(1)]){
+        Commands[msg.substr(1)].fun();
     }else {
         ws.send(JSON.stringify({
             headers:{
@@ -138,6 +131,34 @@ function MSGC_SS(){
 }
 function Write(msg,style){
     MSGC_SS();
+    let EXC='';
+    //在实现@功能的时候，我只能通过创建一个用于Exchange的数组来完成/fn
+    for(let i=0,r;i<msg.length;i=r+1){
+        r=i;
+        let ifMatched=false;
+        if(msg[i]==='@'){
+            console.log("Found @");
+            for(let j=0;j<Server.usrList.length;j++)
+                if(i+Server.usrList[j].length<msg.length){
+                    console.log("On search");
+                    ifMatched=true;
+                    for(let k=1;k<=Server.usrList[j].length;k++)
+                        if(Server.usrList[j][k-1]!=msg[i+k]){
+                            ifMatched=false;
+                            break;
+                        }
+                    if(ifMatched){
+                        EXC+=`<span class='fuckat'>${msg.substr(i,Server.usrList[j].length+1)}</span>`;
+                        r=i+Server.usrList[j].length;
+                        break;
+                    }
+                }
+        }
+        if(ifMatched===false)
+            EXC+=msg[i];
+    }
+    msg=EXC;
+    // console.log(EXC);
     if(style){
         let StyleText=[];
         Object.keys(style).forEach(key=>{
