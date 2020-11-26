@@ -145,7 +145,8 @@ function Write(msg,style){
                             ifMatched=false;
                             break;
                         }
-                    if(ifMatched){
+                    var nextCharacter = i+Server.usrList[j].length+1;
+                    if(ifMatched && (nextCharacter>=msg.length || msg[nextCharacter]==' ' || msg[nextCharacter]=='\t')){
                         EXC+=`<span class='fuckat'>${msg.substr(i,Server.usrList[j].length+1)}</span>`;
                         r=i+Server.usrList[j].length;
                         break;
