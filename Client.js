@@ -1,29 +1,34 @@
 var ws,output=$('.ChatRoom .Output'),DOC_title=$('title');
 var MSGC=0,WFocus=true,M_Notice=false;
 var User=new Object(),Server=new Object();
+var InitUserList;
 if (!window.WebSocket){
     output.html('');
     Write(`Fucking Error: No Websocket support.\n`,{'color':"#e7483f"});
 }
 function Initalize(){
     ws=new WebSocket(`ws://${User.host}:${User.port}`);
-    Commands.cls.fun();
     ws.onopen=()=>{
         ws.send(JSON.stringify({
             headers:{
-                "Content_Type":'application/init',
-                "Set_Name":User.name
+                "Content_Type":'application/userlist'
             }
         }));
     }
     ws.onclose=(CS_E)=>{
         console.log(CS_E);
         $('.Status .Output').html(`<span style='color:#e7483f;'>Cannot find the service</span>`);
-        Write(`[ERROR] Error Code : ${CS_E.code}\nCannot find the service.`,{'color':"#e7483f"});
+        Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error Code : ${CS_E.code}\nCannot find the service.`,{'color':"#e7483f"});
     }
     ws.onmessage=(msg)=>{
         // console.log(msg);
+        // ${Server.usrList.join(', ')}
         msg=JSON.parse(msg.data);
+        if(msg.headers['Content_Type']==='application/userlist'){
+            Server=msg.headers.Set_serverinfo;
+            InitUserList=Server.usrList;
+            Write(`<i class="fas fa-users" style="width:20px"></i> User(s) : ${Server.usrList.join(', ')}\n`);
+        }
         if(msg.headers['Content_Type']==='application/init'){
             Server=msg.headers.Set_serverinfo;
             $('.Status .Output').html('Chat Room');
@@ -65,7 +70,7 @@ var Commands={
     "notice":{
         fun:()=>{
             M_Notice=!M_Notice;
-            Write(`<i class="fas fa-wrench"></i> Message notice=${M_Notice}\n`,{"color":"#13c60d"})
+            Write(`<i class="fas fa-wrench" style="width:20px"></i> Message notice = ${M_Notice}\n`,{"color":"#13c60d"})
         }
     }
 },S_Status=0,S_Interface=true;
@@ -81,11 +86,24 @@ function Send(msg){
             User.port=parseInt(msg);
             S_Status++;
             Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Service Port : ${User.port}\n`,{'color':'#13c60d'});
-            Write(`Your Name : \n`);
+            Initalize();
+            Write(`Your Unique Name : \n`);
         }else if(S_Status===2){
             User.name=msg;
+            for(var p=0;p<InitUserList.length;p++)
+                if(User.name===InitUserList[p]){
+                    Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error : Same Username Found.\n`,{'color':"#e7483f"});
+                    ws.close();
+                    return;
+                }
             S_Status++;
-            Initalize();
+            Commands.cls.fun();
+            ws.send(JSON.stringify({
+                headers:{
+                    "Content_Type":'application/init',
+                    "Set_Name":User.name
+                }
+            }));
         }
     }else if(msg[0]==='/'&&Commands[msg.substr(1)]){
         Commands[msg.substr(1)].fun();
@@ -139,7 +157,8 @@ function Write(msg,style){
         let ifMatched=false;
         if(msg[i]==='@'){
             for(let j=0;j<Server.usrList.length;j++)
-                if(i+Server.usrList[j].length<msg.length){
+                //懒得改细节.jpg
+                if(User.name === Server.usrList[j] && i+Server.usrList[j].length<msg.length){
                     ifMatched=true;
                     for(let k=1;k<=Server.usrList[j].length;k++)
                         if(Server.usrList[j][k-1]!=msg[i+k]){
