@@ -86,7 +86,8 @@ Server.on('connection',(ws,Req)=>{
     let ip=Req.connection.remoteAddress;
     let port=Req.connection.remotePort;
     let ClientId,Status=false;
-     let HACK_MSG_C=0;
+    let HACK_MSG_C=0;
+	let USER_NAME_WRONG=false;
     // console.log(ws.url);
     // ws.
     ws.on('message',msg=>{
@@ -131,6 +132,7 @@ Server.on('connection',(ws,Req)=>{
                         },
                         body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Same Username Found."
                     }));
+					USER_NAME_WRONG=true;
 					ws.close();
 				}
             ServerInfo.time=new Date();
@@ -153,7 +155,7 @@ Server.on('connection',(ws,Req)=>{
         }
     });
     ws.on('close',()=>{
-        if(ClientId){
+        if(ClientId && !USER_NAME_WRONG){
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} left the chat room!`;
             Bufp+=EventMsg;
