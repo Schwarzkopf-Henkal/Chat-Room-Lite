@@ -133,7 +133,7 @@ Server.on('connection',(ws,Req)=>{
                         body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Same Username Found."
                     }));
 					USER_NAME_WRONG=true;
-					ws.close();
+					ws.close();return;
 				}
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
