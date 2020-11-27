@@ -5,6 +5,12 @@ if (!window.WebSocket){
     output.html('');
     Write(`Fucking Error: No Websocket support.\n`,{'color':"#e7483f"});
 }
+function ChangeInputContent(str){
+	$('.Input').val(str);
+}
+function AddInputContent(str){
+	$('.Input').val($('.Input').val()+str);
+}
 function Initalize(){
     ws=new WebSocket(`ws://${User.host}:${User.port}`);
     ws.onopen=()=>{
@@ -30,7 +36,7 @@ function Initalize(){
         if(msg.headers['Content_Type']==='application/init'){
             Server=msg.headers.Set_serverinfo;
             $('.Status .Output').html('Chat Room');
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
             output.html('');
             Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
@@ -48,13 +54,13 @@ var RemoteCommands={
     "UsrAdd":(Para)=>{
         if(Server.usrList){
             Server.usrList.push(Para[0]);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
         }
     },
     "UsrDel":(Para)=>{
         if(Server.usrList){
             Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
         }
     }
 }
