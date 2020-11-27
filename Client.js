@@ -1,7 +1,6 @@
 var ws,output=$('.ChatRoom .Output'),DOC_title=$('title');
 var MSGC=0,WFocus=true,M_Notice=false;
 var User=new Object(),Server=new Object();
-var InitUserList;
 if (!window.WebSocket){
     output.html('');
     Write(`Fucking Error: No Websocket support.\n`,{'color':"#e7483f"});
@@ -26,7 +25,6 @@ function Initalize(){
         msg=JSON.parse(msg.data);
         if(msg.headers['Content_Type']==='application/userlist'){
             Server=msg.headers.Set_serverinfo;
-            InitUserList=Server.usrList;
             Write(`<i class="fas fa-users" style="width:20px"></i> User(s) : ${Server.usrList.join(', ')}\n`);
         }
         if(msg.headers['Content_Type']==='application/init'){
@@ -90,12 +88,6 @@ function Send(msg){
             Write(`Your Unique Name : \n`);
         }else if(S_Status===2){
             User.name=msg;
-            for(var p=0;p<InitUserList.length;p++)
-                if(User.name===InitUserList[p]){
-                    Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error : Same Username Found.\n`,{'color':"#e7483f"});
-                    ws.close();
-                    return;
-                }
             S_Status++;
             Commands.cls.fun();
             ws.send(JSON.stringify({
@@ -157,7 +149,6 @@ function Write(msg,style){
         let ifMatched=false;
         if(msg[i]==='@'){
             for(let j=0;j<Server.usrList.length;j++)
-                //懒得改细节.jpg
                 if(User.name === Server.usrList[j] && i+Server.usrList[j].length<msg.length){
                     ifMatched=true;
                     for(let k=1;k<=Server.usrList[j].length;k++)
