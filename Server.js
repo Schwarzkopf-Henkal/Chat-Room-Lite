@@ -126,6 +126,7 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
         }else if(msg.headers.Content_Type==='application/message'){
+            ServerInfo.time=new Date();
             broadcast(`${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
         }
     });
