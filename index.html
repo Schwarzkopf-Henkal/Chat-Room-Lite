@@ -22,7 +22,7 @@
 		</div>
 		<div class="InputArea Block">
 			<div class="Title">Input Area</div>
-			<input type="text" class="Input">
+			<textarea class="Input" placeholder="Your Comment Here. Use CTRL+ENTER To Send." style="resize:none"></textarea>
 		</div>
 	</div>
 </body>
@@ -31,9 +31,13 @@
 	<script>
 		var input=$('.Input');
 		input.on('keypress',K=>{
-			if((K.keyCode==13||K.keyCode==10)&&input.val()!==''){
-				Send(input.val());
-				input.val('');
+			if(event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
+				if(input.val!=""){
+					console.log(input.val());
+					Send(input.val());
+					input.val("");
+				}
+				return false;
 			}
 		});
 	</script>

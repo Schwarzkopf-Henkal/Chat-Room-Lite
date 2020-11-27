@@ -56,6 +56,7 @@ function Initalize(){
             Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
         if(msg.headers['Content_Type']==='application/message'){
+			console.log(msg.body);
             if(msg.headers['Style']){
                 Write(msg.body+'\n',msg.headers['Style']);
             }else Write(msg.body+'\n');
@@ -183,8 +184,9 @@ function Write(msg,style){
             StyleText.push(`${key}:${style[key]}`);
         });
         StyleText=StyleText.join(';');
-        output.html(`${output.html()}<span style='${StyleText}'>${msg}</span>`)
+        output.html(`${output.html()}<span style='${StyleText}'>${msg}</span>`);
     }else {
         output.html(output.html()+msg);
     }
+    output.scrollTop(output[0].scrollHeight);
 }

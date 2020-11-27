@@ -17,7 +17,7 @@ body{
     top: 52px;
 }
 .InputArea{
-    height: 29px;
+    height: 90px;
     width: 677px;
     top: 325px;
 }
@@ -37,7 +37,7 @@ body{
 }
 .Input{
     position: absolute;
-    height: 14px;
+    height: 77px;
     width: 660px;
     left: 5px;
     top: 7px;
@@ -65,14 +65,17 @@ body{
     height: 287px;
     overflow: auto;
 }
-.Output::-webkit-scrollbar{
+.Output::-webkit-scrollbar,
+.Input::-webkit-scrollbar{
     width: 5px;
 }
-.Output::-webkit-scrollbar:hover {
+.Output::-webkit-scrollbar:hover,
+.Input::-webkit-scrollbar:hover {
     width: 10px;
     background-color: #776170;
 }
-.Output::-webkit-scrollbar-thumb {
+.Output::-webkit-scrollbar-thumb,
+.Input::-webkit-scrollbar-thumb{
     border-radius: 1px;
     background-color: #C9613F;
 }
