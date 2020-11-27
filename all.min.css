@@ -318,3 +318,6 @@
 .fa-clock:before {
     content: "\f017";
 }
+.fa-at:before {
+  content: "\f1fa";
+}
