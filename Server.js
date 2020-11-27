@@ -122,6 +122,17 @@ Server.on('connection',(ws,Req)=>{
         if(msg.headers['Content_Type']==='application/init'){
             ClientId=msg.headers['Set_Name'];
             // console.log(`${ClientId}`);
+			for(var p=0;p<ServerInfo.usrList.length;p++)
+				if(ClientId===ServerInfo.usrList[p]){
+					ws.send(JSON.stringify({
+                        headers:{
+                            Content_Type:'application/message',
+                            Style:{"color":"#e7483f"}
+                        },
+                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Same Username Found."
+                    }));
+					ws.close();
+				}
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
             Bufp+=EventMsg;
