@@ -309,3 +309,12 @@
 .fa-exclamation-triangle:before {
   content: "\f071";
 }
+.fa-exclamation-circle:before {
+  content: "\f06a";
+}
+.fa-clock-o:before {
+  content: "\f017";
+}
+.fa-clock:before {
+    content: "\f017";
+}
