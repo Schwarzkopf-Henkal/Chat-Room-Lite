@@ -1,6 +1,21 @@
 var ws,output=$('.ChatRoom .Output'),DOC_title=$('title');
-var MSGC=0,WFocus=true,M_Notice=false;
+var MSGC=0,WFocus=true,M_Notice=true;
 var User=new Object(),Server=new Object();
+var Commands={
+    "cls":{
+        fun:()=>{output.empty();}
+    },
+    "exit":{
+        fun:()=>{ws.close()}
+    },
+    "notice":{
+        fun:()=>{
+            M_Notice=!M_Notice;
+			document.getElementById('AlertS').className=(M_Notice?"fas fa-bell":"fas fa-bell-slash");
+            Write(`<i class="fas fa-wrench" style="width:20px"></i> Message notice = ${M_Notice}\n`,{"color":"#13c60d"})
+        }
+    }
+},S_Status=0,S_Interface=true;
 if (!window.WebSocket){
     output.html('');
     Write(`Fucking Error: No Websocket support.\n`,{'color':"#e7483f"});
@@ -35,7 +50,7 @@ function Initalize(){
         }
         if(msg.headers['Content_Type']==='application/init'){
             Server=msg.headers.Set_serverinfo;
-            $('.Status .Output').html('Chat Room');
+            $('.Status .Output').html('<i class="fas fa-close" onclick="ChangeInputContent(\'/exit\')" style="color:#e7483f;width:20px"></i><i class="fas fa-bell" id="AlertS" onclick="ChangeInputContent(\'/notice\')" style="width:20px"></i> Chat Room');
             $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
             output.html('');
             Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
@@ -64,20 +79,6 @@ var RemoteCommands={
         }
     }
 }
-var Commands={
-    "cls":{
-        fun:()=>{output.empty();}
-    },
-    "exit":{
-        fun:()=>{ws.close()}
-    },
-    "notice":{
-        fun:()=>{
-            M_Notice=!M_Notice;
-            Write(`<i class="fas fa-wrench" style="width:20px"></i> Message notice = ${M_Notice}\n`,{"color":"#13c60d"})
-        }
-    }
-},S_Status=0,S_Interface=true;
 function Send(msg){
     S_Interface=false;
     if(S_Status!==3){

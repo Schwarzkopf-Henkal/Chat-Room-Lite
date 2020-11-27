@@ -321,3 +321,17 @@
 .fa-at:before {
   content: "\f1fa";
 }
+.fa-bell:before {
+  content: "\f0f3";
+}
+.fa-bell-slash:before {
+  content: "\f1f6";
+}
+.fa-sign-out:before {
+  content: "\f08b";
+}
+.fa-remove:before,
+.fa-close:before,
+.fa-times:before {
+  content: "\f00d";
+}
