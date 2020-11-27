@@ -20,6 +20,8 @@ fs.writeFile(Filename,``,(err,stats)=>{
         process.exit();
     }
 })
+//Environment Vars
+const HACK_MSG_MX=10;
 //---Commandline Depot
 const readline=require('readline');
 var scanf=readline.createInterface({
@@ -84,10 +86,28 @@ Server.on('connection',(ws,Req)=>{
     let ip=Req.connection.remoteAddress;
     let port=Req.connection.remotePort;
     let ClientId,Status=false;
+    let HACK_MSG_C=0;
     // console.log(ws.url);
     // ws.
     ws.on('message',msg=>{
-        msg=JSON.parse(msg);
+        try{
+            msg=JSON.parse(msg);
+        }catch(OOPS_LOOKS_LIKE_A_HACK_MESSAGE){
+            ws.send(msg);
+            HACK_MSG_C++;
+            if(HACK_MSG_C>=HACK_MSG_MX){
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-ban'></i> You are banned from the server."
+                }));
+                ws.close();
+                broadcast(`<i class="fa fa-exclamation-triangle"></i> @${ws.ClientId} is banned from the server for hack tries.`,{"color":"#ffff00"})
+            }
+            return;
+        }
         if(msg.headers['Content_Type']==='application/init'){
             ClientId=msg.headers['Set_Name'];
             // console.log(`${ClientId}`);
