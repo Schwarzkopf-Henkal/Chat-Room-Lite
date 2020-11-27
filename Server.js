@@ -53,10 +53,10 @@ var scanf=readline.createInterface({
                                 Content_Type:'application/message',
                                 Style:{"color":"#e7483f"}
                             },
-                            body:"<i class='fas fa-ban'></i> You are banned from the server."
+                            body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server."
                         }));
                         Cli.close();
-                        broadcast(`<i class="fa fa-exclamation-triangle"></i> @${Cli.ClientId} is banned from the server.`,{"color":"#ffff00"})
+                        broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> @${Cli.ClientId} is banned from the server.`,{"color":"#ffff00"})
                         Bantotal++;
                     }
                 });
@@ -86,7 +86,7 @@ Server.on('connection',(ws,Req)=>{
     let ip=Req.connection.remoteAddress;
     let port=Req.connection.remotePort;
     let ClientId,Status=false;
-    let HACK_MSG_C=0;
+     let HACK_MSG_C=0;
     // console.log(ws.url);
     // ws.
     ws.on('message',msg=>{
@@ -108,11 +108,22 @@ Server.on('connection',(ws,Req)=>{
             }
             return;
         }
+        if(msg.headers['Content_Type']==='application/userlist'){
+            // console.log(`${ClientId}`);
+            ServerInfo.time=new Date();
+            Status=true;
+            ws.send(JSON.stringify({
+                headers:{
+                    Content_Type:'application/userlist',
+                    Set_serverinfo:ServerInfo
+                }
+            }));
+        }
         if(msg.headers['Content_Type']==='application/init'){
             ClientId=msg.headers['Set_Name'];
             // console.log(`${ClientId}`);
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-plus"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
+            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#13c60d'});
             broadcommand('UsrAdd',[ClientId]);
@@ -127,13 +138,13 @@ Server.on('connection',(ws,Req)=>{
             }));
         }else if(msg.headers.Content_Type==='application/message'){
             ServerInfo.time=new Date();
-            broadcast(`${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
+            broadcast(`<i class="fas fa-clock" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
         }
     });
     ws.on('close',()=>{
         if(ClientId){
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-times"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} left the chat room!`;
+            let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} left the chat room!`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#e7483f'});
             broadcommand('UsrDel',[ClientId]);
