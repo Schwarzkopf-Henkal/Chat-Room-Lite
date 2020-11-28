@@ -151,7 +151,7 @@ Server.on('connection',(ws,Req)=>{
             }));
         }else if(msg.headers.Content_Type==='application/message'){
             ServerInfo.time=new Date();
-            broadcast(`<i class="fas fa-clock" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
+            broadcast(`${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
         }
     });
     ws.on('close',()=>{
