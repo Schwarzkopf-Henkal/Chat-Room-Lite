@@ -153,7 +153,6 @@ Server.on('connection',(ws,Req)=>{
                     body:"<i class='fas fa-ban'></i> You are banned from the server."
                 }));
                 ws.close();
-                broadcast(`<i class="fa fa-exclamation-triangle"></i> @${ws.ClientId} is banned from the server for hack tries.`,{"color":"#ffff00"});
 				return;
 			}
             ServerInfo.time=new Date();
