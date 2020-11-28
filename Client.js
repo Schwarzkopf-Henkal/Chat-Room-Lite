@@ -36,13 +36,10 @@ function Initalize(){
         }));
     }
     ws.onclose=(CS_E)=>{
-        console.log(CS_E);
         $('.Status .Output').html(`<span style='color:#e7483f;'>Cannot find the service</span>`);
         Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error Code : ${CS_E.code}\nCannot find the service.`,{'color':"#e7483f"});
     }
     ws.onmessage=(msg)=>{
-        // console.log(msg);
-        // ${Server.usrList.join(', ')}
         msg=JSON.parse(msg.data);
         if(msg.headers['Content_Type']==='application/userlist'){
             Server=msg.headers.Set_serverinfo;
@@ -180,7 +177,6 @@ function Write(msg,style){
             EXC+=msg[i];
     }
     msg=EXC;
-    // console.log(EXC);
     if(style){
         let StyleText=[];
         Object.keys(style).forEach(key=>{
@@ -191,7 +187,6 @@ function Write(msg,style){
     }else {
         output.html(output.html()+msg);
     }
-	console.log(output[0].scrollTop,output[0].scrollHeight);
 	if(scrollBotton)
 		output.scrollTop(output[0].scrollHeight);
 }
