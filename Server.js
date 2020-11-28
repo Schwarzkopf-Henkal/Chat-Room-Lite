@@ -53,10 +53,10 @@ var scanf=readline.createInterface({
                                 Content_Type:'application/message',
                                 Style:{"color":"#e7483f"}
                             },
-                            body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server."
+                            body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                         }));
                         Cli.close();
-                        broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> @${Cli.ClientId} is banned from the server.`,{"color":"#ffff00"})
+                        broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${Cli.ClientId} is banned from the server.</span></div>`,{"color":"#ffff00"})
                         Bantotal++;
                     }
                 });
@@ -84,7 +84,7 @@ var scanf=readline.createInterface({
 })();
 Server.on('connection',(ws,Req)=>{
     ws.HACK_MSG_C=0;
-	ws.USER_NAME_WRONG=false;
+    ws.USER_NAME_WRONG=false;
     ws.VERIFIED=false;
     //----连接属性
     ws.on('message',msg=>{
@@ -99,10 +99,10 @@ Server.on('connection',(ws,Req)=>{
                         Content_Type:'application/message',
                         Style:{"color":"#e7483f"}
                     },
-                    body:"<i class='fas fa-ban'></i> You are banned from the server."
+                    body:"<i class='fas fa-ban'></i> You are banned from the server.\n"
                 }));
                 ws.close();
-                broadcast(`<i class="fa fa-exclamation-triangle"></i> @${ws.ClientId} is banned from the server for hack tries.`,{"color":"#ffff00"})
+                broadcast(`<i class="fa fa-exclamation-triangle"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.</span></div>`,{"color":"#ffff00"})
             }
             return;
         }
@@ -118,21 +118,21 @@ Server.on('connection',(ws,Req)=>{
         }
         if(msg.headers['Content_Type']==='application/init'){
             ws.ClientId=msg.headers['Set_Name'];
-			for(var p=0;p<ServerInfo.usrList.length;p++)
-				if(ws.ClientId===ServerInfo.usrList[p]){
-					ws.send(JSON.stringify({
+            for(var p=0;p<ServerInfo.usrList.length;p++)
+                if(ws.ClientId===ServerInfo.usrList[p]){
+                    ws.send(JSON.stringify({
                         headers:{
                             Content_Type:'application/message',
                             Style:{"color":"#e7483f"}
                         },
-                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Same Username Found."
+                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Same Username Found.\n"
                     }));
-					ws.USER_NAME_WRONG=true;
-					ws.close();return;
-				}
-			ws.VERIFIED=true;
+                    ws.USER_NAME_WRONG=true;
+                    ws.close();return;
+                }
+            ws.VERIFIED=true;
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ws.ClientId} entered the chat room!`;
+            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>${ws.ClientId} entered the chat room!</span></div>`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#13c60d'});
             broadcommand('UsrAdd',[ws.ClientId]);
@@ -144,32 +144,32 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
         }else if(msg.headers.Content_Type==='application/message'){
-			if(!ws.VERIFIED){
-				ws.send(JSON.stringify({
+            if(!ws.VERIFIED){
+                ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
                         Style:{"color":"#e7483f"}
                     },
-                    body:"<i class='fas fa-ban'></i> You are banned from the server."
+                    body:"<i class='fas fa-ban'></i> You are banne from the server.\n"
                 }));
                 ws.close();
-				return;
-			}
+                return;
+            }
             ServerInfo.time=new Date();
-            broadcast(`<i class="fas fa-clock" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}: ${msg.body}`);
+            broadcast(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>${msg.body}</span></div>`);
         }
     });
     ws.on('close',()=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ws.ClientId} left the chat room!`;
+            let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#e7483f'});
             broadcommand('UsrDel',[ws.ClientId]);
             ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ws.ClientId),1);
             Status=false;
         }
-		ws.VERIFIED=false;
+        ws.VERIFIED=false;
     })
 });
 function broadcommand(cmd,para){

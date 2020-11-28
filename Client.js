@@ -58,8 +58,8 @@ function Initalize(){
         if(msg.headers['Content_Type']==='application/message'){
 			if(S_Status!=3)	return;
             if(msg.headers['Style']){
-                Write(msg.body+'\n',msg.headers['Style']);
-            }else Write(msg.body+'\n');
+                Write(msg.body,msg.headers['Style']);
+            }else Write(msg.body);
         }
         if(msg.headers['Content_Type']==='application/command'){
             RemoteCommands[msg.headers['Command']](msg.headers['Parameter']);
@@ -181,7 +181,7 @@ function Write(msg,style){
                             break;
                         }
                     let nextCharacter = i+Server.usrList[j].length+1;
-                    if(ifMatched && (nextCharacter>=msg.length || msg[nextCharacter]===' ' || msg[nextCharacter]==='\t' || msg[nextCharacter]==='\n')){
+                    if(ifMatched && (nextCharacter>=msg.length-14 || msg[nextCharacter]===' ' || msg[nextCharacter]==='\t' || msg[nextCharacter]==='\n')){
                         EXC+=`<span class='fuckat'>${msg.substr(i,Server.usrList[j].length+1)}</span>`;
                         r=i+Server.usrList[j].length;
                         break;

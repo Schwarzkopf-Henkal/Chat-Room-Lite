@@ -341,3 +341,6 @@
 .fa-terminal:before {
   content: "\f120";
 }
+.fa-comment:before {
+  content: "\f075";
+}

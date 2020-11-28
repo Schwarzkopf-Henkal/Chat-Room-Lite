@@ -100,3 +100,20 @@ body{
 	left: 7px;
     top: 422px;
 }
+.MessageInfo{
+    background: #00717d;
+    border-radius: 3px;
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-left: 14px;
+}
+.SignIn{
+    background: #004c11 !important;
+}
+.Error,
+.SignOut{
+    background: #630000 !important;
+}
+.Warning{
+    background: #616300 !important;
+}
