@@ -36,10 +36,13 @@ function Initalize(){
         }));
     }
     ws.onclose=(CS_E)=>{
+        console.log(CS_E);
         $('.Status .Output').html(`<span style='color:#e7483f;'>Cannot find the service</span>`);
         Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error Code : ${CS_E.code}\nCannot find the service.`,{'color':"#e7483f"});
     }
     ws.onmessage=(msg)=>{
+        // console.log(msg);
+        // ${Server.usrList.join(', ')}
         msg=JSON.parse(msg.data);
         if(msg.headers['Content_Type']==='application/userlist'){
             Server=msg.headers.Set_serverinfo;
@@ -87,13 +90,14 @@ function Send(msg){
 	if(checkEmpty(msg))	return;
     S_Interface=false;
 	snsArr=msg.split(/[(\r\n)\r\n]+/);
-	snsArr.forEach((item,index)=>{
-		if(!item)
-			snsArr.splice(index,1);
-	})
+    let idx=0;
+    for(;idx<snsArr.length;idx++)
+        if($.trim(snsArr[idx])!="")
+            break;
+    console.log(snsArr,idx,msg[idx]);
     if(S_Status!==3){
         if(S_Status===0){
-            User.host=$.trim(snsArr[0]);
+            User.host=$.trim(snsArr[idx]);
             S_Status++;
             Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Host IP : ${User.host}\n`,{'color':'#13c60d'});
             Write(`Service Port : \n`);
@@ -104,7 +108,7 @@ function Send(msg){
             Initalize();
             Write(`Your Unique Name : \n`);
         }else if(S_Status===2){
-            User.name=$.trim(snsArr[0]);
+            User.name=$.trim(snsArr[idx]);
             S_Status++;
             Commands.cls.fun();
             ws.send(JSON.stringify({
@@ -189,6 +193,7 @@ function Write(msg,style){
             EXC+=msg[i];
     }
     msg=EXC;
+    // console.log(EXC);
     if(style){
         let StyleText=[];
         Object.keys(style).forEach(key=>{
@@ -199,6 +204,7 @@ function Write(msg,style){
     }else {
         output.html(output.html()+msg);
     }
+	console.log(output[0].scrollTop,output[0].scrollHeight);
 	if(scrollBotton)
 		output.scrollTop(output[0].scrollHeight);
 }
