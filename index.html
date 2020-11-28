@@ -32,8 +32,7 @@
 		var input=$('.Input');
 		input.on('keypress',K=>{
 			if(event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
-				if(input.val!=""){
-					console.log(input.val());
+				if(input.val!==""){
 					Send(input.val());
 					input.val("");
 				}
