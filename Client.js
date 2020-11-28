@@ -56,6 +56,7 @@ function Initalize(){
             Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
         if(msg.headers['Content_Type']==='application/message'){
+			if(S_Status!=3)	return;
             if(msg.headers['Style']){
                 Write(msg.body+'\n',msg.headers['Style']);
             }else Write(msg.body+'\n');
@@ -147,6 +148,9 @@ function MSGC_SS(){
     }
 }
 function Write(msg,style){
+	let scrollBotton=false;
+	if(output[0].scrollTop+14>output[0].scrollHeight-287)
+		scrollBotton=true;
     MSGC_SS();
     let EXC='';
     var nextCharacter;
@@ -187,5 +191,7 @@ function Write(msg,style){
     }else {
         output.html(output.html()+msg);
     }
-    output.scrollTop(output[0].scrollHeight);
+	console.log(output[0].scrollTop,output[0].scrollHeight);
+	if(scrollBotton)
+		output.scrollTop(output[0].scrollHeight);
 }

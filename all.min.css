@@ -335,3 +335,9 @@
 .fa-times:before {
   content: "\f00d";
 }
+.fa-align-left:before {
+  content: "\f036";
+}
+.fa-terminal:before {
+  content: "\f120";
+}
