@@ -34,7 +34,7 @@
 		var MultiplySelection=false;
 		input.on('keypress',K=>{
 			if(MultiplySelection&&event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
-				if(input.val!=""){
+				if(input.val()!=""){
 					console.log(input.val());
 					Send(input.val());
 					input.val("");
@@ -42,7 +42,7 @@
 				return false;
 			}
 			if(!MultiplySelection&&!event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
-				if(input.val!=""){
+				if(input.val()!=""){
 					console.log(input.val());
 					Send(input.val());
 					input.val("");
