@@ -83,21 +83,17 @@ var scanf=readline.createInterface({
     }
 })();
 Server.on('connection',(ws,Req)=>{
-    let ip=Req.connection.remoteAddress;
-    let port=Req.connection.remotePort;
-    let ClientId,Status=false;
-    let HACK_MSG_C=0;
-	let USER_NAME_WRONG=false;
-	let VERIFIED=false;
-    // console.log(ws.url);
-    // ws.
+    ws.HACK_MSG_C=0;
+	ws.USER_NAME_WRONG=false;
+    ws.VERIFIED=false;
+    //----连接属性
     ws.on('message',msg=>{
         try{
             msg=JSON.parse(msg);
         }catch(OOPS_LOOKS_LIKE_A_HACK_MESSAGE){
             ws.send(msg);
-            HACK_MSG_C++;
-            if(HACK_MSG_C>=HACK_MSG_MX){
+            ws.HACK_MSG_C++;
+            if(ws.HACK_MSG_C>=HACK_MSG_MX){
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
@@ -121,10 +117,9 @@ Server.on('connection',(ws,Req)=>{
             }));
         }
         if(msg.headers['Content_Type']==='application/init'){
-            ClientId=msg.headers['Set_Name'];
-            // console.log(`${ClientId}`);
+            ws.ClientId=msg.headers['Set_Name'];
 			for(var p=0;p<ServerInfo.usrList.length;p++)
-				if(ClientId===ServerInfo.usrList[p]){
+				if(ws.ClientId===ServerInfo.usrList[p]){
 					ws.send(JSON.stringify({
                         headers:{
                             Content_Type:'application/message',
@@ -132,18 +127,16 @@ Server.on('connection',(ws,Req)=>{
                         },
                         body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Same Username Found."
                     }));
-					USER_NAME_WRONG=true;
+					ws.USER_NAME_WRONG=true;
 					ws.close();return;
 				}
-			VERIFIED=true;
+			ws.VERIFIED=true;
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
+            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ws.ClientId} entered the chat room!`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#13c60d'});
-            broadcommand('UsrAdd',[ClientId]);
-            ServerInfo.usrList.push(ClientId);
-            Status=true;
-            ws.ClientId=ClientId;
+            broadcommand('UsrAdd',[ws.ClientId]);
+            ServerInfo.usrList.push(ws.ClientId);
             ws.send(JSON.stringify({
                 headers:{
                     Content_Type:'application/init',
@@ -151,7 +144,7 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
         }else if(msg.headers.Content_Type==='application/message'){
-			if(!VERIFIED){
+			if(!ws.VERIFIED){
 				ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
@@ -164,20 +157,20 @@ Server.on('connection',(ws,Req)=>{
 				return;
 			}
             ServerInfo.time=new Date();
-            broadcast(`<i class="fas fa-clock" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
+            broadcast(`<i class="fas fa-clock" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}: ${msg.body}`);
         }
     });
     ws.on('close',()=>{
-        if(ClientId && !USER_NAME_WRONG){
+        if(ws.ClientId && !ws.USER_NAME_WRONG){
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} left the chat room!`;
+            let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ws.ClientId} left the chat room!`;
             Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#e7483f'});
-            broadcommand('UsrDel',[ClientId]);
-            ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ClientId),1);
+            broadcommand('UsrDel',[ws.ClientId]);
+            ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ws.ClientId),1);
             Status=false;
         }
-		VERIFIED=false;
+		ws.VERIFIED=false;
     })
 });
 function broadcommand(cmd,para){
