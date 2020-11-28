@@ -77,11 +77,23 @@ var RemoteCommands={
         }
     }
 }
+function checkEmpty(msg){
+	for(var i=0;i<msg.length;i++)
+		if(!(msg[i]==' ' || msg[i]=='\n' || msg[i]=='\r' || msg[i]=='\t'))
+			return false;
+	return true;
+}
 function Send(msg){
+	if(checkEmpty(msg))	return;
     S_Interface=false;
+	snsArr=msg.split(/[(\r\n)\r\n]+/);
+	snsArr.forEach((item,index)=>{
+		if(!item)
+			snsArr.splice(index,1);
+	})
     if(S_Status!==3){
         if(S_Status===0){
-            User.host=msg;
+            User.host=$.trim(snsArr[0]);
             S_Status++;
             Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Host IP : ${User.host}\n`,{'color':'#13c60d'});
             Write(`Service Port : \n`);
@@ -92,7 +104,7 @@ function Send(msg){
             Initalize();
             Write(`Your Unique Name : \n`);
         }else if(S_Status===2){
-            User.name=msg;
+            User.name=$.trim(snsArr[0]);
             S_Status++;
             Commands.cls.fun();
             ws.send(JSON.stringify({
