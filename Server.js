@@ -88,6 +88,7 @@ Server.on('connection',(ws,Req)=>{
     let ClientId,Status=false;
     let HACK_MSG_C=0;
 	let USER_NAME_WRONG=false;
+	let VERIFIED=false;
     // console.log(ws.url);
     // ws.
     ws.on('message',msg=>{
@@ -112,7 +113,6 @@ Server.on('connection',(ws,Req)=>{
         if(msg.headers['Content_Type']==='application/userlist'){
             // console.log(`${ClientId}`);
             ServerInfo.time=new Date();
-            Status=true;
             ws.send(JSON.stringify({
                 headers:{
                     Content_Type:'application/userlist',
@@ -135,6 +135,7 @@ Server.on('connection',(ws,Req)=>{
 					USER_NAME_WRONG=true;
 					ws.close();return;
 				}
+			VERIFIED=true;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ClientId} entered the chat room!`;
             Bufp+=EventMsg;
@@ -150,6 +151,18 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
         }else if(msg.headers.Content_Type==='application/message'){
+			if(!VERIFIED){
+				ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-ban'></i> You are banned from the server."
+                }));
+                ws.close();
+                broadcast(`<i class="fa fa-exclamation-triangle"></i> @${ws.ClientId} is banned from the server for hack tries.`,{"color":"#ffff00"});
+				return;
+			}
             ServerInfo.time=new Date();
             broadcast(`<i class="fas fa-clock" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ClientId}: ${msg.body}`);
         }
@@ -164,6 +177,7 @@ Server.on('connection',(ws,Req)=>{
             ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ClientId),1);
             Status=false;
         }
+		VERIFIED=false;
     })
 });
 function broadcommand(cmd,para){
