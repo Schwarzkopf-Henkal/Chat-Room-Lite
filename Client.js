@@ -1,6 +1,6 @@
 var ws,output=$('.ChatRoom .Output'),DOC_title=$('title');
 var MSGC=0,WFocus=true,M_Notice=true;
-var User=new Object(),Server=new Object();
+var User=new Object(),Server=new Object(),isAdmin;
 var Commands={
     "cls":{
         fun:()=>{output.empty();}
@@ -36,13 +36,10 @@ function Initalize(){
         }));
     }
     ws.onclose=(CS_E)=>{
-        console.log(CS_E);
         $('.Status .Output').html(`<span style='color:#e7483f;'>Cannot find the service</span>`);
         Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error Code : ${CS_E.code}\nCannot find the service.`,{'color':"#e7483f"});
     }
     ws.onmessage=(msg)=>{
-        // console.log(msg);
-        // ${Server.usrList.join(', ')}
         msg=JSON.parse(msg.data);
         if(msg.headers['Content_Type']==='application/userlist'){
             Server=msg.headers.Set_serverinfo;
@@ -50,8 +47,9 @@ function Initalize(){
         }
         if(msg.headers['Content_Type']==='application/init'){
             Server=msg.headers.Set_serverinfo;
+            isAdmin=Server.isAdmin;
             $('.Status .Output').html('<i class="fas fa-close" onclick="ChangeInputContent(\'/exit\')" style="color:#e7483f;width:20px"></i><i class="fas fa-bell" id="AlertS" onclick="ChangeInputContent(\'/notice\')" style="width:20px"></i> Chat Room');
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
             output.html('');
             Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
@@ -64,20 +62,30 @@ function Initalize(){
         if(msg.headers['Content_Type']==='application/command'){
             RemoteCommands[msg.headers['Command']](msg.headers['Parameter']);
         }
+        if(msg.headers['Content_Type']==='application/adminChange'){
+            Server=msg.headers.Set_serverinfo;
+            if(!isAdmin[User.name] && Server.isAdmin[User.name])
+                Write("<i class='fas fa-cogs' style='width:20px'></i> You are set as adminstrator from the server.\n",{"color":"#13c60d"});
+            else if(isAdmin[User.name] && !Server.isAdmin[User.name])
+                Write("<i class='fas fa-cogs' style='width:20px'></i> You are set as common user from the server.\n",{"color":"#e7483f"});
+            else    Write(msg.body,{"color":"#13c60d"});
+            isAdmin=Server.isAdmin;
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
+        }
     }
 }
 var RemoteCommands={
     "UsrAdd":(Para)=>{
         if(Server.usrList){
             Server.usrList.push(Para[0]);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
         }
     },
     "UsrDel":(Para)=>{
         if(Server.usrList){
             Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   <i class="fas fa-check" style="color:#13c60d;width:20px"></i><i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
-        }
+            isAdmin[Para[0]]=false;
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);}
     }
 }
 function checkEmpty(msg){
@@ -94,7 +102,6 @@ function Send(msg){
     for(;idx<snsArr.length;idx++)
         if($.trim(snsArr[idx])!="")
             break;
-    console.log(snsArr,idx,msg[idx]);
     if(S_Status!==3){
         if(S_Status===0){
             User.host=$.trim(snsArr[idx]);
@@ -193,7 +200,6 @@ function Write(msg,style){
             EXC+=msg[i];
     }
     msg=EXC;
-    // console.log(EXC);
     if(style){
         let StyleText=[];
         Object.keys(style).forEach(key=>{
@@ -204,7 +210,6 @@ function Write(msg,style){
     }else {
         output.html(output.html()+msg);
     }
-	console.log(output[0].scrollTop,output[0].scrollHeight);
 	if(scrollBotton)
 		output.scrollTop(output[0].scrollHeight);
 }
