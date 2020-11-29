@@ -18,7 +18,6 @@ console.log(`时间:${ServerInfo.time.toDateString()}\n-----------------------\n
 const HACK_MSG_MX=10;
 //---Commandline Depot
 const readline=require('readline');
-const { EDEADLK } = require('constants');
 var scanf=readline.createInterface({
     input:process.stdin,
     output:process.stdout
@@ -26,12 +25,23 @@ var scanf=readline.createInterface({
 (()=>{
     let LocalCommands={
         "list":{
-            fun:()=>{
-                let list=[];
-                Server.clients.forEach(cli=>{if(cli.VERIFIED)list.push(`|---${cli.ClientId} ${cli.IP}`)});
-                console.log(list.join('\n'));
+            fun:(Para)=>{
+                if(Para.length===0||Para[0]==='user'){
+                    let list=[];
+                    Server.clients.forEach(cli=>{if(cli.VERIFIED)list.push(`|---${cli.ClientId} ${cli.IP}`)});
+                    console.log(list.join('\n'));
+                    return;
+                }
+                if(Para[0]==='bannedips'){
+                    let list=[];
+                    for(let i in ServerInfo.BannedIPs)
+                        if(ServerInfo.BannedIPs[i]===true)
+                            list.push(i);
+                    console.log(list.join('\n'));
+                    return;
+                }
             },
-            Parameter:false
+            Parameter:true
         },
         "ban":{
             fun:(usrn)=>{
@@ -73,6 +83,12 @@ var scanf=readline.createInterface({
                     }
                 });
                 console.log(`Banned ${Bantotal} users in total.`);
+            },
+            Parameter:true
+        },
+        "recover":{
+            fun:(usrip)=>{
+                usrip.map((usr)=>{ServerInfo.BannedIPs[usr]=false});
             },
             Parameter:true
         }
