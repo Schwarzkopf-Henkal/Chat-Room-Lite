@@ -1,9 +1,12 @@
 'use scrict';
 const WebSocket = require('ws');
 const cin=require("readline-sync");
+//ServerInfo Vars
 var ServerInfo=new Object();
 ServerInfo.usrList=[];
 ServerInfo.time=new Date();
+ServerInfo.BannedIPs=new Object();
+//---
 console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
 console.log(`请输入对话名字：`);
@@ -15,6 +18,7 @@ console.log(`时间:${ServerInfo.time.toDateString()}\n-----------------------\n
 const HACK_MSG_MX=10;
 //---Commandline Depot
 const readline=require('readline');
+const { EDEADLK } = require('constants');
 var scanf=readline.createInterface({
     input:process.stdin,
     output:process.stdout
@@ -23,7 +27,9 @@ var scanf=readline.createInterface({
     let LocalCommands={
         "list":{
             fun:()=>{
-                console.log(ServerInfo.usrList.map(usr=>'|---'+usr).join('\n'));
+                let list=[];
+                Server.clients.forEach(cli=>{if(cli.VERIFIED)list.push(`|---${cli.ClientId} ${cli.IP}`)});
+                console.log(list.join('\n'));
             },
             Parameter:false
         },
@@ -32,6 +38,28 @@ var scanf=readline.createInterface({
                 let Bantotal=0;
                 Server.clients.forEach(Cli=>{
                     if(usrn.indexOf(Cli.ClientId)!==-1){
+                        Cli.send(JSON.stringify({
+                            headers:{
+                                Content_Type:'application/message',
+                                Style:{"color":"#e7483f"}
+                            },
+                            body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
+                        }));
+                        Cli.close();
+                        broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${Cli.ClientId} is banned from the server.</span></div>`,{"color":"#ffff00"})
+                        Bantotal++;
+                    }
+                });
+                console.log(`Banned ${Bantotal} users in total.`);
+            },
+            Parameter:true
+        },
+        "banip":{
+            fun:(usrip)=>{
+                let Bantotal=0;
+                usrip.forEach((ip)=>{ServerInfo.BannedIPs[ip]=true});
+                Server.clients.forEach((Cli)=>{
+                    if(ServerInfo.BannedIPs[Cli.IP]===true){
                         Cli.send(JSON.stringify({
                             headers:{
                                 Content_Type:'application/message',
@@ -70,6 +98,7 @@ Server.on('connection',(ws,Req)=>{
     ws.HACK_MSG_C=0;
     ws.USER_NAME_WRONG=false;
     ws.VERIFIED=false;
+    ws.IP=Req.connection.remoteAddress;
     //----连接属性
     ws.on('message',msg=>{
         try{
@@ -101,6 +130,17 @@ Server.on('connection',(ws,Req)=>{
             }));
         }
         if(msg.headers['Content_Type']==='application/init'){
+            if(ServerInfo.BannedIPs[ws.IP]===true){
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : This server is currently not available to you.\n"
+                }));
+                ws.close();
+                return;
+            }
             ws.ClientId=msg.headers['Set_Name'];
             for(var p=0;p<ServerInfo.usrList.length;p++)
                 if(ws.ClientId===ServerInfo.usrList[p]){
