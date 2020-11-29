@@ -344,3 +344,13 @@
 .fa-comment:before {
   content: "\f075";
 }
+.fa-user-secret:before {
+  content: "\f21b";
+}
+.fa-sign-in:before {
+  content: "\f090";
+}
+.fa-gears:before,
+.fa-cogs:before {
+  content: "\f085";
+}

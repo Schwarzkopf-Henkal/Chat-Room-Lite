@@ -4,6 +4,7 @@ const cin=require("readline-sync");
 //ServerInfo Vars
 var ServerInfo=new Object();
 ServerInfo.usrList=[];
+ServerInfo.isAdmin=new Object();
 ServerInfo.time=new Date();
 ServerInfo.BannedIPs=new Object();
 //---
@@ -83,6 +84,34 @@ var scanf=readline.createInterface({
                     }
                 });
                 console.log(`Banned ${Bantotal} users in total.`);
+            },
+            Parameter:true
+        },
+        "setAdmin":{
+            fun:(usrn)=>{
+                let Admintotal=0;
+                Server.clients.forEach(Cli=>{
+                    if(usrn.indexOf(Cli.ClientId)!==-1 && !ServerInfo.isAdmin[Cli.ClientId]){
+                        ServerInfo.isAdmin[Cli.ClientId]=true;
+                        broadcastAsAlert(`<i class="fa fa-cogs" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${Cli.ClientId} is set as adminstrator from the server.</span></div>`,'application/adminChange',{"color":"#13c60d"})
+                        Admintotal++;
+                    }
+                });
+                console.log(`Set ${Admintotal} users as adminstrator in total.`);
+            },
+            Parameter:true
+        },
+        "unsetAdmin":{
+            fun:(usrn)=>{
+                let Admintotal=0;
+                Server.clients.forEach(Cli=>{
+                    if(usrn.indexOf(Cli.ClientId)!==-1 && ServerInfo.isAdmin[Cli.ClientId]){
+                        ServerInfo.isAdmin[Cli.ClientId]=false;
+                        broadcastAsAlert(`<i class="fa fa-cogs" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>@${Cli.ClientId} is set as common user from the server.</span></div>`,'application/adminChange',{"color":"#e7483f"})
+                        Admintotal++;
+                    }
+                });
+                console.log(`Set ${Admintotal} users as common user in total.`);
             },
             Parameter:true
         },
@@ -200,6 +229,7 @@ Server.on('connection',(ws,Req)=>{
     });
     ws.on('close',()=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
+            ServerInfo.isAdmin[ws.ClientId]=false;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
             broadcast(EventMsg,{'color':'#e7483f'});
@@ -243,6 +273,35 @@ function broadcast(msg,style){
                 Cli.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message'
+                    },
+                    body:msg
+                }));
+            }
+        });
+    }
+}
+function broadcastAsAlert(msg,contentType,style){
+    // console.log(style);
+    if(style){
+        Server.clients.forEach(Cli=>{
+            if(Cli.readyState===WebSocket.OPEN){
+                Cli.send(JSON.stringify({
+                    headers:{
+                        Content_Type:contentType,
+                        Set_serverinfo:ServerInfo,
+                        Style:style
+                    },
+                    body:msg
+                }));
+            }
+        });
+    }else {
+        Server.clients.forEach(Cli=>{
+            if(Cli.readyState===WebSocket.OPEN){
+                Cli.send(JSON.stringify({
+                    headers:{
+                        Content_Type:contentType,
+                        Set_serverinfo:ServerInfo,
                     },
                     body:msg
                 }));
