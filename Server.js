@@ -1,7 +1,6 @@
 'use scrict';
 const WebSocket = require('ws');
 const cin=require("readline-sync");
-const fs=require('fs');
 var ServerInfo=new Object();
 ServerInfo.usrList=[];
 ServerInfo.time=new Date();
@@ -12,14 +11,6 @@ ServerInfo.name=cin.question('>');
 const Server = new WebSocket.Server({ port: ServerInfo.port });
 console.log(`机房聊天工具【服务端】\n服务器端口：[${ServerInfo.port}]\n对话名字：${ServerInfo.name}\n`);
 console.log(`时间:${ServerInfo.time.toDateString()}\n-----------------------\n`);
-var Filename=`chat_${ServerInfo.time.toDateString().split(' ').join('-')}.log`;
-var Bufp=`*-*-*-*-*[${ServerInfo.time.toDateString()}]*-*-*-*-*\n\n`;
-fs.writeFile(Filename,``,(err,stats)=>{
-    if(err){
-        console.log('ERROR : data file cannot be opened!\n');
-        process.exit();
-    }
-})
 //Environment Vars
 const HACK_MSG_MX=10;
 //---Commandline Depot
@@ -33,13 +24,6 @@ var scanf=readline.createInterface({
         "list":{
             fun:()=>{
                 console.log(ServerInfo.usrList.map(usr=>'|---'+usr).join('\n'));
-            },
-            Parameter:false
-        },
-        "log":{
-            fun:()=>{
-                //当然，一开始就没怎么想着要做服务器日志的功能，所以显然只能输出一些没啥用的东西。
-                console.log(Bufp);
             },
             Parameter:false
         },
@@ -133,7 +117,6 @@ Server.on('connection',(ws,Req)=>{
             ws.VERIFIED=true;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>${ws.ClientId} entered the chat room!</span></div>`;
-            Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#13c60d'});
             broadcommand('UsrAdd',[ws.ClientId]);
             ServerInfo.usrList.push(ws.ClientId);
@@ -163,7 +146,6 @@ Server.on('connection',(ws,Req)=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
-            Bufp+=EventMsg;
             broadcast(EventMsg,{'color':'#e7483f'});
             broadcommand('UsrDel',[ws.ClientId]);
             ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ws.ClientId),1);
