@@ -49,7 +49,7 @@ function Initalize(){
             Server=msg.headers.Set_serverinfo;
             isAdmin=Server.isAdmin;
             $('.Status .Output').html('<i class="fas fa-close" onclick="ChangeInputContent(\'/exit\')" style="color:#e7483f;width:20px"></i><i class="fas fa-bell" id="AlertS" onclick="ChangeInputContent(\'/notice\')" style="width:20px"></i> Chat Room');
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
             output.html('');
             Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n               JS Chat Room\n/cls      | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
         }
@@ -70,7 +70,7 @@ function Initalize(){
                 Write("<i class='fas fa-cogs' style='width:20px'></i> You are set as common user from the server.\n",{"color":"#e7483f"});
             else    Write(msg.body,{"color":"#13c60d"});
             isAdmin=Server.isAdmin;
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
         }
     }
 }
@@ -78,14 +78,14 @@ var RemoteCommands={
     "UsrAdd":(Para)=>{
         if(Server.usrList){
             Server.usrList.push(Para[0]);
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);
         }
     },
     "UsrDel":(Para)=>{
         if(Server.usrList){
             Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
             isAdmin[Para[0]]=false;
-            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);}
+            $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>'   '+(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="color:#13c60d;width:20px"></i>')+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x.replace("\"","&quot;").replace("'","&apos;")+' \')" style="width:20px"></i> '+x).join('\n')}`);}
     }
 }
 function checkEmpty(msg){
