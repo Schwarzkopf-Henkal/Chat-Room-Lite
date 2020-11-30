@@ -92,12 +92,12 @@ body{
     color: black;
 }
 .InputType{
-	font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     color:#cccccc;
     font-size: 14px;
     line-height: 14px;
     position: absolute;
-	left: 7px;
+    left: 7px;
     top: 422px;
 }
 .MessageInfo{

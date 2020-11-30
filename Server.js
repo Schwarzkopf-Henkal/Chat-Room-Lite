@@ -7,6 +7,11 @@ ServerInfo.usrList=[];
 ServerInfo.isAdmin=new Object();
 ServerInfo.time=new Date();
 ServerInfo.BannedIPs=new Object();
+ServerInfo.BanName="";
+ServerInfo.BanTime=0;
+ServerInfo.BannedUntil=new Object();
+ServerInfo.isBanned=new Object();
+ServerInfo.isBannedIP=new Object();
 //---
 console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
@@ -223,6 +228,12 @@ Server.on('connection',(ws,Req)=>{
                     Set_serverinfo:ServerInfo
                 }
             }));
+            if(ServerInfo.isBannedIP[ws.IP]){
+                ServerInfo.isBanned[ws.ClientId]=true;
+                ServerInfo.BanName=ws.ClientId;
+                ServerInfo.BanTime=(ServerInfo.BannedUntil[ws.IP]-new Date().getTime());
+                broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${ws.ClientId} is recently banned by adminstrator.</span></div>`,"application/banChange",{color:"#e7483f"});
+            }
         }else if(msg.headers.Content_Type==='application/message'){
             if(!ws.VERIFIED){
                 ws.send(JSON.stringify({
@@ -230,18 +241,69 @@ Server.on('connection',(ws,Req)=>{
                         Content_Type:'application/message',
                         Style:{"color":"#e7483f"}
                     },
-                    body:"<i class='fas fa-ban'></i> You are banne from the server.\n"
+                    body:"<i class='fas fa-ban'></i> You are banned from the server.\n"
                 }));
                 ws.close();
+                return;
+            }
+            if(ServerInfo.isBanned[ws.ClientId]){
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-ban'></i> You are still banned from the server.\n"
+                }));
                 return;
             }
             ServerInfo.time=new Date();
             broadcast(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>${msg.body}</span></div>`);
         }
+        else if(msg.headers.Content_Type==='application/banUser'){
+            let userName=msg.headers['Set_Name'];
+            let banTime=msg.headers['Ban_Time'];
+            ServerInfo.BanName=userName;
+            ServerInfo.BanTime=banTime;
+            ServerInfo.isBanned[userName]=true;
+            ServerInfo.isBannedIP[ws.IP]=true;
+            ServerInfo.BannedUntil[ws.IP]=new Date().getTime()+banTime;
+            broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${userName} is banned for ${banTime/1000}s by adminstrator.</span></div>`,"application/banChange",{color:"#e7483f"});
+        }
+        else if(msg.headers.Content_Type==='application/unbanUser'){
+            let userName=msg.headers['Set_Name'];
+            let currentTime=new Date().getTime();
+            if(!ServerInfo.isBanned[userName])   return;
+            if(ServerInfo.isAdmin[ws.ClientId]){
+                ServerInfo.isBanned[userName]=false;
+                ServerInfo.isBannedIP[ws.IP]=false;
+                ServerInfo.BannedUntil[ws.IP]=0;
+                ServerInfo.BanName=userName;
+                broadcastAsAlert(`<i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is unbanned by adminstrator.</span></div>`,"application/unbanChange",{color:"#13c60d"});
+            }
+            else if(currentTime>=ServerInfo.BannedUntil[ws.IP]){
+                ServerInfo.isBanned[userName]=false;
+                ServerInfo.isBannedIP[ws.IP]=false;
+                ServerInfo.BannedUntil[ws.IP]=0;
+                ServerInfo.BanName=userName;
+                broadcastAsAlert(`<i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is unbanned.</span></div>`,"application/unbanChange",{color:"#13c60d"});
+            }
+            else{
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
+                }));
+                ws.close();
+                broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.</span></div>`,{"color":"#ffff00"})
+            }
+        }
     });
     ws.on('close',()=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
             ServerInfo.isAdmin[ws.ClientId]=false;
+            ServerInfo.isBanned[ws.ClientId]=false;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
             broadcast(EventMsg,{'color':'#e7483f'});
