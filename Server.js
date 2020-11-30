@@ -12,6 +12,8 @@ ServerInfo.BanTime=0;
 ServerInfo.BannedUntil=new Object();
 ServerInfo.isBanned=new Object();
 ServerInfo.isBannedIP=new Object();
+ServerInfo.multiplyIP=new Object();
+ServerInfo.ipNumber=new Object();
 //---
 console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
@@ -89,6 +91,29 @@ var scanf=readline.createInterface({
                     }
                 });
                 console.log(`Banned ${Bantotal} users in total.`);
+            },
+            Parameter:true
+        },
+        "setDev":{
+            fun:(usrip)=>{
+                let Devtotal=0;
+                usrip.forEach((ip)=>{
+                    Devtotal+=(!ServerInfo.multiplyIP[ip]);
+                    ServerInfo.multiplyIP[ip]=true;
+
+                });
+                console.log(`Set ${Devtotal} IPs as developer IP in total.`);
+            },
+            Parameter:true
+        },
+        "unsetDev":{
+            fun:(usrip)=>{
+                let Devtotal=0;
+                usrip.forEach((ip)=>{
+                    Devtotal+=(ServerInfo.multiplyIP[ip]);
+                    ServerInfo.multiplyIP[ip]=false;
+                });
+                console.log(`Unset ${Devtotal} IPs as developer IP in total.`);
             },
             Parameter:true
         },
@@ -180,6 +205,17 @@ Server.on('connection',(ws,Req)=>{
             }));
         }
         if(msg.headers['Content_Type']==='application/init'){
+            if(ServerInfo.multiplyIP[ws.IP]!==true && ServerInfo.ipNumber[ws.IP]>0){
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : No multiple IP for common user.\n"
+                }));
+                ws.close();
+                return;
+            }
             if(ServerInfo.BannedIPs[ws.IP]===true){
                 ws.send(JSON.stringify({
                     headers:{
@@ -216,6 +252,10 @@ Server.on('connection',(ws,Req)=>{
                     ws.USER_NAME_WRONG=true;
                     ws.close();return;
                 }
+            if(ServerInfo.ipNumber[ws.IP]===undefined)
+                ServerInfo.ipNumber[ws.IP]=1;
+            else
+                ServerInfo.ipNumber[ws.IP]=Number(ServerInfo.ipNumber[ws.IP])+1;
             ws.VERIFIED=true;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>${ws.ClientId} entered the chat room!</span></div>`;
@@ -302,6 +342,7 @@ Server.on('connection',(ws,Req)=>{
     });
     ws.on('close',()=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
+            --ServerInfo.ipNumber[ws.IP];
             ServerInfo.isAdmin[ws.ClientId]=false;
             ServerInfo.isBanned[ws.ClientId]=false;
             ServerInfo.time=new Date();
