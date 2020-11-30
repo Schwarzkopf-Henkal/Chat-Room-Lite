@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-	<title>JS Chat Room</title>
+	<title>在线聊天室</title>
 	<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="Client.css">
 	<link rel="stylesheet" href="all.min.css">
@@ -9,22 +9,22 @@
 <body>
     <div class="interface">
 		<div class="ChatRoom Block">
-			<div class="Title">Chat Room</div>
+			<div class="Title">聊天室/div>
 			<pre class="Output"></pre>
 		</div>
 		<div class="Status Block">
-			<div class="Title">Status</div>
-			<pre class="Output"><span style="color: #e7483f;"><i class="fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span></pre>
+			<div class="Title">状态</div>
+			<pre class="Output"><span style="color: #e7483f;"><i class="fa fa-exclamation-circle" style="width:20px"></i>请进入一个聊天室</span></pre>
 		</div>
 		<div class="UserInfo Block">
-			<div class="Title">User Info.</div>
+			<div class="Title">用户信息</div>
 			<pre class="Output"></pre>
 		</div>
 		<div class="InputArea Block">
-			<div class="Title">Input Area</div>
+			<div class="Title">输入区</div>
 			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 		</div>
-		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
+		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">简易模式 - 使用回车键以发送消息</span></span>
 	</div>
 </body>
 <footer>
