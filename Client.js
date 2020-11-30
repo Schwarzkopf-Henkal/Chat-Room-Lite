@@ -168,7 +168,7 @@ function parseCommand(msg){
 			headers:{
 				Content_Type:'application/message'
 			},
-			body:msg
+			body:'/'+msg
 		}))
 	}
 }
