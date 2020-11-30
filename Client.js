@@ -134,7 +134,7 @@ function parseCommand(msg){
 		Commands[cmd[0]].fun();
 	else if(cmd[0]==="ban"){
 		if(!isAdmin[User.name])
-			Write(`<i class="fas fa-times" style="width:20px"></i> The command is unabled as you are not an adminstrator.\n`,{"color":"#e7483f"});
+			Write(`<i class="fas fa-times" style="width:20px"></i> The command is disabled as you are not an adminstrator.\n`,{"color":"#e7483f"});
 		else if(Server.usrList.indexOf(cmd[1])===-1)
 			Write(`<i class="fas fa-times" style="width:20px"></i> User ${cmd[1]} Not Found.\n`,{"color":"#e7483f"});
 		else{
@@ -151,7 +151,7 @@ function parseCommand(msg){
 	}
 	else if(cmd[0]==="unban"){
 		if(!isAdmin[User.name])
-			Write(`<i class="fas fa-times" style="width:20px"></i> The command is unabled as you are not an adminstrator.\n`,{"color":"#e7483f"});
+			Write(`<i class="fas fa-times" style="width:20px"></i> The command is disabled as you are not an adminstrator.\n`,{"color":"#e7483f"});
 		else if(Server.usrList.indexOf(cmd[1])===-1)
 			Write(`<i class="fas fa-times" style="width:20px"></i> User ${cmd[1]} Not Found.\n`,{"color":"#e7483f"});
 		else{
