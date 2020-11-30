@@ -163,6 +163,15 @@ function parseCommand(msg){
 			}));
 		}
 	}
+	else if(cmd[0]==="verify"){
+		if(cmd.length>1)
+			ws.send(JSON.stringify({
+				headers:{
+					"Content_Type":'application/verifyIdentity',
+					"Set_Code":cmd[1]
+				}
+			}));
+	}
 	else{
 		ws.send(JSON.stringify({
 			headers:{

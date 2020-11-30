@@ -15,10 +15,28 @@ ServerInfo.isBannedIP=new Object();
 ServerInfo.multiplyIP=new Object();
 ServerInfo.ipNumber=new Object();
 //---
+var alphabet = ['0','1','2','3','4','5','6','7','8','9',
+                'A','B','C','D','E','F','G','H','I','J',
+                'K','L','M','N','O','P','Q','R','S','T',
+                'U','V','W','X','Y','Z','a','b','c','d',
+                'e','f','g','h','i','j','k','l','m','n',
+                'o','p','q','r','s','t','u','v','w','x',
+                'y','z'];
+function generateMixed(n) {
+   var res = "";
+   for(var i = 0; i < n ; i ++) {
+     var id = Math.ceil(Math.random()*61);
+     res += alphabet[id];
+   }
+   return res;
+}
 console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
 console.log(`请输入对话名字：`);
 ServerInfo.name=cin.question('>');
+console.log(`请输入校验码长度：`)
+var VerifyCode=generateMixed(parseInt(cin.question('>')));
+console.log(`校验码（用于验证管理员）：${VerifyCode}\n`);
 const Server = new WebSocket.Server({ port: ServerInfo.port });
 console.log(`机房聊天工具【服务端】\n服务器端口：[${ServerInfo.port}]\n对话名字：${ServerInfo.name}\n`);
 console.log(`时间:${ServerInfo.time.toDateString()}\n-----------------------\n`);
@@ -169,6 +187,9 @@ var scanf=readline.createInterface({
         });
     }
 })();
+function makeRandomCode(){
+
+}
 Server.on('connection',(ws,Req)=>{
     ws.HACK_MSG_C=0;
     ws.USER_NAME_WRONG=false;
@@ -337,6 +358,24 @@ Server.on('connection',(ws,Req)=>{
                 }));
                 ws.close();
                 broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.</span></div>`,{"color":"#ffff00"})
+            }
+        }
+        else if(msg.headers.Content_Type==='application/verifyIdentity'){
+            let userName=ws.ClientId;
+            let quesCode=msg.headers['Set_Code'];
+            if(quesCode===VerifyCode){
+                if(ServerInfo.isAdmin[userName])    return;
+                ServerInfo.isAdmin[userName]=true;
+                broadcastAsAlert(`<i class="fa fa-cogs" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is set as adminstrator by verify code.</span></div>`,'application/adminChange',{"color":"#13c60d"})
+            }
+            else{
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"color":"#e7483f"}
+                    },
+                    body:"<i class='fas fa-times' style='width:20px'></i> The Code Is Wrong.\n"
+                }));
             }
         }
     });
