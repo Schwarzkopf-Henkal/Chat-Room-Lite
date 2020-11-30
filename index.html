@@ -24,7 +24,7 @@
 			<div class="Title">输入区</div>
 			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 		</div>
-		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">简易模式 - 使用回车键以发送消息</span></span>
+		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">简易模式 - 按下回车键以发送消息</span></span>
 	</div>
 </body>
 <footer>
@@ -52,8 +52,8 @@
 			MultiplySelection=!MultiplySelection;
 			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
 			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
-			"Multiple Line Mode - CTRL + Enter to send message":
-			"Single Line Mode - Enter to send message";
+			"高级模式 - CTRL + 回车键以发送消息":
+			"简易模式 - 按下回车键以发送消息";
 		}
 	</script>
 </footer>
