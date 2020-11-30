@@ -187,6 +187,18 @@ Server.on('connection',(ws,Req)=>{
                 return;
             }
             ws.ClientId=msg.headers['Set_Name'];
+            for(var p=0;p<ws.ClientId.length;p++)
+                if(ws.ClientId[p]=='\\' || ws.ClientId[p]=='\'' || ws.ClientId[p]=='\"'){
+                    ws.send(JSON.stringify({
+                        headers:{
+                            Content_Type:'application/message',
+                            Style:{"color":"#e7483f"}
+                        },
+                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : You Cannot Use \'\\\', \'\'\' or \'\"\' for safety.\n"
+                    }));
+                    ws.USER_NAME_WRONG=true;
+                    ws.close();return;
+                }
             for(var p=0;p<ServerInfo.usrList.length;p++)
                 if(ws.ClientId===ServerInfo.usrList[p]){
                     ws.send(JSON.stringify({
