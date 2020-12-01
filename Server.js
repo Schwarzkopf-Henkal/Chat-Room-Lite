@@ -212,7 +212,7 @@ Server.on('connection',(ws,Req)=>{
                     body:"<i class='fas fa-ban'></i> You are banned from the server.\n"
                 }));
                 ws.close();
-                broadcast(`<i class="fa fa-exclamation-triangle"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.</span></div>`,'',{"color":"#ffff00"})
+                broadcast(`<i class="fa fa-exclamation-triangle"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.\n- hack messages received.</span></div>`,'',{"color":"#ffff00"})
             }
             return;
         }
@@ -372,7 +372,7 @@ Server.on('connection',(ws,Req)=>{
                     body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                 }));
                 ws.close();
-                broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.</span></div>`,'',{"color":"#ffff00"})
+                broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.\n- send unban command ${(ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]-currentTime)/1000}s earlier.</span></div>`,'',{"color":"#ffff00"})
             }
         }
         else if(msg.headers.Content_Type==='application/verifyIdentity'){
