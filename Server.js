@@ -14,6 +14,7 @@ ServerInfo.isBanned=new Object();
 ServerInfo.isBannedIP=new Object();
 ServerInfo.multiplyIP=new Object();
 ServerInfo.ipNumber=new Object();
+ServerInfo.name2IP=new Object();
 //---
 var alphabet = ['0','1','2','3','4','5','6','7','8','9',
                 'A','B','C','D','E','F','G','H','I','J',
@@ -187,9 +188,6 @@ var scanf=readline.createInterface({
         });
     }
 })();
-function makeRandomCode(){
-
-}
 Server.on('connection',(ws,Req)=>{
     ws.HACK_MSG_C=0;
     ws.USER_NAME_WRONG=false;
@@ -278,6 +276,7 @@ Server.on('connection',(ws,Req)=>{
             else
                 ServerInfo.ipNumber[ws.IP]=Number(ServerInfo.ipNumber[ws.IP])+1;
             ws.VERIFIED=true;
+            ServerInfo.name2IP[ws.ClientId]=ws.IP;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>${ws.ClientId} entered the chat room!</span></div>`;
             broadcast(EventMsg,{'color':'#13c60d'});
@@ -326,8 +325,8 @@ Server.on('connection',(ws,Req)=>{
             ServerInfo.BanName=userName;
             ServerInfo.BanTime=banTime;
             ServerInfo.isBanned[userName]=true;
-            ServerInfo.isBannedIP[ws.IP]=true;
-            ServerInfo.BannedUntil[ws.IP]=new Date().getTime()+banTime;
+            ServerInfo.isBannedIP[ServerInfo.name2IP[userName]]=true;
+            ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]=new Date().getTime()+banTime;
             broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${userName} is banned for ${banTime/1000}s by adminstrator.</span></div>`,"application/banChange",{color:"#e7483f"});
         }
         else if(msg.headers.Content_Type==='application/unbanUser'){
@@ -336,15 +335,15 @@ Server.on('connection',(ws,Req)=>{
             if(!ServerInfo.isBanned[userName])   return;
             if(ServerInfo.isAdmin[ws.ClientId]){
                 ServerInfo.isBanned[userName]=false;
-                ServerInfo.isBannedIP[ws.IP]=false;
-                ServerInfo.BannedUntil[ws.IP]=0;
+                ServerInfo.isBannedIP[ServerInfo.name2IP[userName]]=false;
+                ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]=0;
                 ServerInfo.BanName=userName;
                 broadcastAsAlert(`<i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is unbanned by adminstrator.</span></div>`,"application/unbanChange",{color:"#13c60d"});
             }
-            else if(currentTime>=ServerInfo.BannedUntil[ws.IP]){
+            else if(currentTime>=ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]){
                 ServerInfo.isBanned[userName]=false;
-                ServerInfo.isBannedIP[ws.IP]=false;
-                ServerInfo.BannedUntil[ws.IP]=0;
+                ServerInfo.isBannedIP[ServerInfo.name2IP[userName]]=false;
+                ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]=0;
                 ServerInfo.BanName=userName;
                 broadcastAsAlert(`<i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is unbanned.</span></div>`,"application/unbanChange",{color:"#13c60d"});
             }
