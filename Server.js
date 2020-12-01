@@ -15,6 +15,9 @@ ServerInfo.isBannedIP=new Object();
 ServerInfo.multiplyIP=new Object();
 ServerInfo.ipNumber=new Object();
 ServerInfo.name2IP=new Object();
+//Environment Vars
+const HACK_MSG_MX=10;
+const VerifyCodeLen=40;
 //---
 var alphabet = ['0','1','2','3','4','5','6','7','8','9',
                 'A','B','C','D','E','F','G','H','I','J',
@@ -35,14 +38,11 @@ console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
 console.log(`请输入对话名字：`);
 ServerInfo.name=cin.question('>');
-console.log(`请输入校验码长度：`)
-var VerifyCode=generateMixed(parseInt(cin.question('>')));
+var VerifyCode=generateMixed(VerifyCodeLen);
 console.log(`校验码（用于验证管理员）：${VerifyCode}\n`);
 const Server = new WebSocket.Server({ port: ServerInfo.port });
 console.log(`机房聊天工具【服务端】\n服务器端口：[${ServerInfo.port}]\n对话名字：${ServerInfo.name}\n`);
 console.log(`时间:${ServerInfo.time.toDateString()}\n-----------------------\n`);
-//Environment Vars
-const HACK_MSG_MX=10;
 //---Commandline Depot
 const readline=require('readline');
 var scanf=readline.createInterface({
