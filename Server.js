@@ -200,7 +200,6 @@ Server.on('connection',(ws,Req)=>{
         try{
             msg=JSON.parse(msg);
         }catch(OOPS_LOOKS_LIKE_A_HACK_MESSAGE){
-            ws.send(msg);
             ws.HACK_MSG_C++;
             if(ws.HACK_MSG_C>=HACK_MSG_MX){
                 ws.send(JSON.stringify({
@@ -217,7 +216,6 @@ Server.on('connection',(ws,Req)=>{
             return;
         }
         if(msg.headers['Content_Type']==='application/userlist'){
-            // console.log(`${ClientId}`);
             ServerInfo.time=new Date();
             ws.send(JSON.stringify({
                 headers:{
@@ -251,16 +249,16 @@ Server.on('connection',(ws,Req)=>{
                 ws.close();
                 return;
             }
-            ws.ClientId=msg.headers['Set_Name'];
+            ws.ClientId=msg.headers['Set_Name'].trim();
             for(var p=0;p<ws.ClientId.length;p++)
-                if(ws.ClientId[p]=='\\' || ws.ClientId[p]=='\'' || ws.ClientId[p]=='\"' || ws.ClientId[p]==' '){
+                if(ws.ClientId[p]=='\\' || ws.ClientId[p]=='\'' || ws.ClientId[p]=='\"' || ws.ClientId[p]==' '|| ws.ClientId[p]=='&'|| ws.ClientId[p]=='<'|| ws.ClientId[p]=='>'|| ws.ClientId[p]=='/'){
                     ws.send(JSON.stringify({
                         headers:{
                             Content_Type:'application/message',
                             Style:{"color":"#e7483f"},
                         	Set_Name:''
                         },
-                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : You Cannot Use \'\\\', \'\'\', \'\"\' or \' \' for safety.\n"
+                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : \\, /, \', \", \&, \<, \> and Space are not allowed for user name.\n"
                     }));
                     ws.USER_NAME_WRONG=true;
                     ws.close();return;
@@ -331,6 +329,7 @@ Server.on('connection',(ws,Req)=>{
                 }));
                 return;
             }
+            msg.body=HtmlSpecialChars(msg.body);
             ServerInfo.time=new Date();
             broadcast(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>${msg.body}</span></div>`,ws.ClientId);
         }
@@ -481,3 +480,14 @@ function broadcastAsAlert(msg,contentType,style){
         });
     }
 }
+function HtmlSpecialChars(text) {
+    var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+  
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+  }
