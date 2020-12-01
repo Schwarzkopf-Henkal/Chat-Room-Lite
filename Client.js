@@ -240,7 +240,7 @@ function Send(msg){
 	}
 }
 window.onload=()=>{
-	Write(`Host IP : \n<i class="fa fa-spinner fa-spin" style="width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:grey;'>·Pending</span>\n`);
+	Write(`Host IP : \n<i class="fa fa-spinner fa-spin"></i> Public Room: 49.234.17.22:8080 <span style='color:grey;'>·Pending</span>\n`);
 	let Ping=new WebSocket('ws://49.234.17.22:8080');
 	Ping.onerror=()=>{
 		if(S_Interface===true){
