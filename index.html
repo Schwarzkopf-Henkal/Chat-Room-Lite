@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-	<title>JS Chat Room</title>
+	<title>Chat Room Lite</title>
 	<script src="jquery.min.js"></script>
 	<link rel="stylesheet" href="Client.css">
 	<link rel="stylesheet" href="all.min.css">
@@ -24,37 +24,4 @@
 			<div class="Title">Input Area</div>
 			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 		</div>
-		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
-	</div>
-</body>
-<footer>
-	<script src="Client.js"></script>
-	<script>
-		var input=$('.Input');
-		var MultiplySelection=false;
-		input.on('keypress',K=>{
-			if(MultiplySelection&&event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
-				if(input.val()!=""){
-					Send(input.val());
-					input.val("");
-				}
-				return false;
-			}
-			if(!MultiplySelection&&!event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
-				if(input.val()!=""){
-					Send(input.val());
-					input.val("");
-				}
-				return false;
-			}
-		});
-		function changeInputType(){
-			MultiplySelection=!MultiplySelection;
-			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
-			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
-			"Multiple Line Mode - CTRL + Enter to send message":
-			"Single Line Mode - Enter to send message";
-		}
-	</script>
-</footer>
-</html>
+		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();
