@@ -199,6 +199,8 @@ Server.on('connection',(ws,Req)=>{
     ws.on('message',msg=>{
         try{
             msg=JSON.parse(msg);
+            if(!msg.headers)
+                throw '不合格式的消息';
         }catch(OOPS_LOOKS_LIKE_A_HACK_MESSAGE){
             ws.HACK_MSG_C++;
             if(ws.HACK_MSG_C>=HACK_MSG_MX){
