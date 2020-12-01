@@ -296,10 +296,16 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
             if(ServerInfo.isBannedIP[ws.IP]){
-                ServerInfo.isBanned[ws.ClientId]=true;
-                ServerInfo.BanName=ws.ClientId;
-                ServerInfo.BanTime=(ServerInfo.BannedUntil[ws.IP]-new Date().getTime());
-                broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${ws.ClientId} is recently banned by adminstrator.</span></div>`,"application/banChange",{color:"#e7483f"});
+                if(ServerInfo.BannedUntil[ws.IP]<=(new Date().getTime)){
+                    ServerInfo.isBannedIP[ws.IP]=false;
+                    ServerInfo.BannedUntil[ws.IP]=0;
+                }
+                else{
+                    ServerInfo.isBanned[ws.ClientId]=true;
+                    ServerInfo.BanName=ws.ClientId;
+                    ServerInfo.BanTime=(ServerInfo.BannedUntil[ws.IP]-new Date().getTime());
+                    broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${ws.ClientId} is recently banned by adminstrator.</span></div>`,"application/banChange",{color:"#e7483f"});
+                }
             }
         }else if(msg.headers.Content_Type==='application/message'){
             if(!ws.VERIFIED){
