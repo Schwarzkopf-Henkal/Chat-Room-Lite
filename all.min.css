@@ -357,3 +357,9 @@
 .fa-commenting:before {
   content: "\f27a";
 }
+.fa-eye:before {
+  content: "\f06e";
+}
+.fa-eye-slash:before {
+  content: "\f070";
+}
