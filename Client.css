@@ -52,7 +52,6 @@ body{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     color:#cccccc;
     font-size: 14px;
-    line-height: 14px;
     position: absolute;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -105,26 +104,57 @@ body{
     border-radius: 3px;
     padding-left: 14px;
     padding-right: 14px;
-    margin-left: 14px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    width: 345px;
+    display: inline-block;
 }
 .SignIn{
     background: #004c11 !important;
+    display: block !important;
 }
 .Error,
 .SignOut{
     background: #630000 !important;
+    display: block !important;
 }
 .Warning{
     background: #616300 !important;
+    display: block !important;
 }
 .light{
     color: #ffff00;
 }
 
 /* Markdown Config */
-p{
+p, h1, h2, h3, h4, h5, h6{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     color:#cccccc;
-    font-size: 14px;
     margin:0 auto;
+    display: inline;
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+ol, li{
+    margin: 0px;
+    display: inline-block;
+    line-height: 7px;
+}
+ol {
+    list-style-type: decimal;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+pre {
+    margin: 0px;
+}
+code {
+    display: inline;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }

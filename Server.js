@@ -285,7 +285,7 @@ Server.on('connection',(ws,Req)=>{
             ws.VERIFIED=true;
             ServerInfo.name2IP[ws.ClientId]=ws.IP;
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>${ws.ClientId} entered the chat room!</span></div>`;
+            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn">${ws.ClientId} entered the chat room!</span></div>`;
             broadcast(EventMsg,'',{'color':'#13c60d'});
             broadcommand('UsrAdd',[ws.ClientId]);
             ServerInfo.usrList.push(ws.ClientId);
@@ -506,4 +506,4 @@ function HtmlSpecialChars(text) {
     };
   
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-  }
+}

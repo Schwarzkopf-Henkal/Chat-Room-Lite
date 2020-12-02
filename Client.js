@@ -81,7 +81,7 @@ function Initalize(){
 			if(S_Status!=3)	return;
 			if(closeNotice[msg.headers['Set_Name']]===true)	return;
 			if(msg.headers['Set_Rawmessage'])
-				msg.body=msg.body+getMarkdownCode(msg.headers['Set_Rawmessage'])+`</span></div>`;
+				msg.body=msg.body+getMarkdownCode(msg.headers['Set_Rawmessage'])+`</div>`;
 			if(msg.headers['Style']){
 				Write(msg.body,msg.headers['Style']);
 			}else Write(msg.body);
