@@ -2,24 +2,24 @@ body{
     background-color: black;
 }
 .ChatRoom{
-    height: 450px;
-    width: 600px;
+    height: 443px;
+    width: 510px;
 }
 .Status{
-    height: 42px;
-    width: 375px;
-    left: 652.5px;
+    height: 36px;
+    width: 345px;
+    left: 540px;
 }
 .UserInfo{
-    width: 375px;
+    width: 345px;
     height: 384px;
-    left: 652.5px;
-    top: 78px;
+    left: 540px;
+    top: 67px;
 }
 .InputArea{
     height: 135px;
-    width: 1015.5px;
-    top: 487.5px;
+    width: 877px;
+    top: 470px;
 }
 .Block{
     position: absolute;
@@ -38,7 +38,7 @@ body{
 .Input{
     position: absolute;
     height: 115.5px;
-    width: 990px;
+    width: 860px;
     left: 7.5px;
     top: 10.5px;
     color: #cccccc;
@@ -60,7 +60,7 @@ body{
     overflow: hidden;
 }
 .ChatRoom .Output{
-    width: 580.5px;
+    width: 495px;
     height: 430.5px;
     overflow: auto;
 }
@@ -90,7 +90,7 @@ code::-webkit-scrollbar-corner{
     top:10.5px;
 }
 .UserInfo .Output{
-    width: 354px;
+    width: 325px;
     height: 363px;
     overflow: auto;
 }
@@ -105,7 +105,7 @@ code::-webkit-scrollbar-corner{
     line-height: 1.5;
     position: absolute;
     left: 10.5px;
-    top: 633px;
+    top: 613px;
 }
 .MessageInfo{
     background: #00717d;
@@ -114,7 +114,7 @@ code::-webkit-scrollbar-corner{
     padding-right: 14px;
     padding-top: 3px;
     padding-bottom: 3px;
-    width: 550.5px;
+    width: 455px;
     display: inline-block;
 }
 .SignIn{
