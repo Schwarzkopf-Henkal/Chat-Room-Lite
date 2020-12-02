@@ -31,7 +31,7 @@
 <footer>
 	<script src="Client.js"></script>
 	<script>
-		var input=$('.Input');
+		var input=$('.Input'),Doc=$(document);
 		var MultiplySelection=false;
 		input.on('keypress',K=>{
 			if(MultiplySelection&&event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
@@ -48,6 +48,10 @@
 				}
 				return false;
 			}
+		});
+		Doc.on('keypress',K=>{
+			if(K.ctrlKey===true&&K.shiftKey===true&&K.keyCode===1)
+				changeInputType();
 		});
 		function changeInputType(){
 			MultiplySelection=!MultiplySelection;

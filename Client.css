@@ -2,24 +2,24 @@ body{
     background-color: black;
 }
 .ChatRoom{
-    height: 300px;
-    width: 400px;
+    height: 450px;
+    width: 600px;
 }
 .Status{
-    height: 28px;
-    width: 250px;
-    left: 435px;
+    height: 42px;
+    width: 375px;
+    left: 652.5px;
 }
 .UserInfo{
-    width: 250px;
-    height: 256px;
-    left: 435px;
-    top: 52px;
+    width: 375px;
+    height: 384px;
+    left: 652.5px;
+    top: 78px;
 }
 .InputArea{
-    height: 90px;
-    width: 677px;
-    top: 325px;
+    height: 135px;
+    width: 1015.5px;
+    top: 487.5px;
 }
 .Block{
     position: absolute;
@@ -37,10 +37,10 @@ body{
 }
 .Input{
     position: absolute;
-    height: 77px;
-    width: 660px;
-    left: 5px;
-    top: 7px;
+    height: 115.5px;
+    width: 990px;
+    left: 7.5px;
+    top: 10.5px;
     color: #cccccc;
     font-family: Consolas;
     background-color: black;
@@ -55,22 +55,22 @@ body{
     position: absolute;
     word-wrap: break-word;
     white-space: pre-wrap;
-    left: 7px;
-    top: 7px;
+    left: 10.5px;
+    top: 10.5px;
     overflow: hidden;
 }
 .ChatRoom .Output{
-    width: 387px;
-    height: 287px;
+    width: 580.5px;
+    height: 430.5px;
     overflow: auto;
 }
 .Output::-webkit-scrollbar,
 .Input::-webkit-scrollbar{
     width: 5px;
+    height: 5px;
 }
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover {
-    width: 10px;
     background-color: #776170;
 }
 .Output::-webkit-scrollbar-thumb,
@@ -78,12 +78,16 @@ body{
     border-radius: 1px;
     background-color: #C9613F;
 }
+.Output::-webkit-scrollbar-corner,
+.Input::-webkit-scrollbar-corner{
+    display: none;
+}
 .Status .Output{
-    top:7px;
+    top:10.5px;
 }
 .UserInfo .Output{
-    width: 236px;
-    height: 242px;
+    width: 354px;
+    height: 363px;
     overflow: auto;
 }
 .fuckat{
@@ -96,8 +100,8 @@ body{
     font-size: 14px;
     line-height: 14px;
     position: absolute;
-    left: 7px;
-    top: 422px;
+    left: 10.5px;
+    top: 633px;
 }
 .MessageInfo{
     background: #00717d;
@@ -106,7 +110,7 @@ body{
     padding-right: 14px;
     padding-top: 3px;
     padding-bottom: 3px;
-    width: 345px;
+    width: 550.5px;
     display: inline-block;
 }
 .SignIn{
