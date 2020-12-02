@@ -48,6 +48,7 @@ function changeNoticeOption(userName){
 }
 function getMarkdownCode(msg) {
     var converter = new showdown.Converter();
+    converter.setOption('tables', true); 
     return converter.makeHtml(msg);
 }
 function Initalize(){
