@@ -258,7 +258,7 @@ Server.on('connection',(ws,Req)=>{
                         headers:{
                             Content_Type:'application/message',
                             Style:{"color":"#e7483f"},
-                        	Set_Name:''
+                            Set_Name:''
                         },
                         body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : \\, /, \', \", \&, \<, \> and Space are not allowed for user name.\n"
                     }));
@@ -333,7 +333,7 @@ Server.on('connection',(ws,Req)=>{
             }
             msg.body=HtmlSpecialChars(msg.body);
             ServerInfo.time=new Date();
-            broadcast(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>${msg.body}</span></div>`,ws.ClientId);
+            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>`,msg.body,ws.ClientId);
         }
         else if(msg.headers.Content_Type==='application/banUser'){
             let userName=msg.headers['Set_Name'];
@@ -481,6 +481,20 @@ function broadcastAsAlert(msg,contentType,style){
             }
         });
     }
+}
+function broadcastAsMessage(msg,rawMessage,from){
+    Server.clients.forEach(Cli=>{
+        if(Cli.readyState===WebSocket.OPEN){
+            Cli.send(JSON.stringify({
+                headers:{
+                	Content_Type:'application/message',
+                    Set_Rawmessage:rawMessage,
+                    Set_Name:from
+                },
+                body:msg
+            }));
+        }
+    });
 }
 function HtmlSpecialChars(text) {
     var map = {

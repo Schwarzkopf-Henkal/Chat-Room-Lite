@@ -46,6 +46,10 @@ function changeNoticeOption(userName){
 	else	closeNotice[userName]=true,Write(`<i class="fas fa-eye-slash" style="width:20px"></i> You won\'t see messages from ${userName} now.\n`,{'color':`#e7483f`});
 	$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
 }
+function getMarkdownCode(msg) {
+    var converter = new showdown.Converter();
+    return converter.makeHtml(msg);
+}
 function Initalize(){
 	ws=new WebSocket(`ws://${User.host}:${User.port}`);
 	ws.onopen=()=>{
@@ -76,6 +80,8 @@ function Initalize(){
 		if(msg.headers['Content_Type']==='application/message'){
 			if(S_Status!=3)	return;
 			if(closeNotice[msg.headers['Set_Name']]===true)	return;
+			if(msg.headers['Set_Rawmessage'])
+				msg.body=msg.body+getMarkdownCode(msg.headers['Set_Rawmessage'])+`</span></div>`;
 			if(msg.headers['Style']){
 				Write(msg.body,msg.headers['Style']);
 			}else Write(msg.body);
