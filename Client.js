@@ -278,7 +278,7 @@ function MSGC_SS(){
 }
 function Write(msg,style){
 	let scrollBotton=false;
-	if(output[0].scrollTop+14>output[0].scrollHeight-287)
+	if(output.scrollTop+14>output.scrollHeight-output.height())
 		scrollBotton=true;
 	MSGC_SS();
 	let EXC='';
@@ -318,5 +318,5 @@ function Write(msg,style){
 		output.append(`<span style='${StyleText}'>${msg}</span>`);
 	}else output.append(msg);
 	if(scrollBotton)
-		output.scrollTop(output[0].scrollHeight);
+		output.scrollTop(output.scrollHeight);
 }
