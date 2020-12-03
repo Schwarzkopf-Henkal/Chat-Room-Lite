@@ -366,3 +366,6 @@
 .fa-bookmark:before {
   content: "\f02e";
 }
+.fa-globe:before {
+  content: "\f0ac";
+}

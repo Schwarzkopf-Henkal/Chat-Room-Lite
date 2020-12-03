@@ -48,15 +48,26 @@ function changeNoticeOption(userName){
 	$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description :\n    ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
 }
 function Initalize(){
-	ws=new WebSocket(`ws://${User.host}:${User.port}`);
+	ws=new WebSocket(`ws://${User.host}`);
 	ws.onopen=()=>{
+		$(".loadToServer").html(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Connected Successfully!`);
+		$(".loadToServer").attr("style","color:#13c60d");
 		ws.send(JSON.stringify({
 			headers:{
 				"Content_Type":'application/userlist'
 			}
 		}));
 	}
+	ws.onerror=()=>{
+		$(".loadToServer").html(`<i class="fas fa-times" style="color:#e7483f;width:20px"></i> Cannot Connect To The Server!`);
+		$(".loadToServer").attr("style","color:#e7483f");
+	}
 	ws.onclose=(CS_E)=>{
+		if(S_Status==1){
+			$(".loadToServer").html(`<i class="fas fa-times" style="color:#e7483f;width:20px"></i> Cannot Connect To The Server!`);
+			$(".loadToServer").attr("style","color:#e7483f");
+			return;
+		}
 		$('.Status .Output').html(`<span style='color:#e7483f;'><i class="fas fa fa-exclamation-circle" style="width:20px"></i>Cannot find the service</span>`);
 		Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error Code : ${CS_E.code}\nCannot find the service.`,{'color':"#e7483f"});
 	}
@@ -65,6 +76,7 @@ function Initalize(){
 		if(msg.headers['Content_Type']==='application/userlist'){
 			Server=msg.headers.Set_serverinfo;
 			Write(`<i class="fas fa-users" style="width:20px"></i> User(s) : ${Server.usrList.join(', ')}\n`);
+			S_Status++;Write("Your Unique Name: \n");
 		}
 		if(msg.headers['Content_Type']==='application/init'){
 			Server=msg.headers.Set_serverinfo;
@@ -211,14 +223,7 @@ function Send(msg){
 		if(S_Status===0){
 			User.host=$.trim(snsArr[idx]);
 			S_Status++;
-			Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Host IP : ${User.host}\n`,{'color':'#13c60d'});
-			Write(`Service Port : \n`);
-		}else if(S_Status===1){
-			User.port=parseInt(msg);
-			S_Status++;
-			Write(`<i class="fas fa-check" style="color:#13c60d;width:20px"></i> Get Service Port : ${User.port}\n`,{'color':'#13c60d'});
-			Initalize();
-			Write(`Your Unique Name : \n`);
+			Write2(`<span class="loadToServer"><i class="fa fa-spinner fa-spin"></i> Loading to the server : ${User.host} ... </span>\n`,{},Initalize);
 		}else if(S_Status===2){
 			User.name=$.trim(snsArr[idx]);
 			S_Status++;
@@ -230,6 +235,7 @@ function Send(msg){
 				}
 			}));
 		}
+		else ;
 	}
 	else if(msg[0]==='/'){
 		parseCommand(msg.substr(1));
@@ -242,22 +248,37 @@ function Send(msg){
 		}))
 	}
 }
+function getQueryVariable(variable){
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
 window.onload=()=>{
-	Write(`Host IP : \n<i class="fa fa-spinner fa-spin"></i> Public Room: 49.234.17.22:8080 <span style='color:grey;'>·Pending</span>\n`);
-	let Ping=new WebSocket('ws://49.234.17.22:8080');
-	Ping.onerror=()=>{
-		if(S_Interface===true){
-			output.empty();
-			Write(`Host IP : \n<i class="fas fa-chain-broken" style="color:#e7483f;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#e7483f;'>·Offline</span>\n`);
+	Write2(`<i class="fas fa-globe"></i> IP List: \n<span class="chatRoomList"><i class="fa fa-spinner fa-spin"></i> Public Room: 49.234.17.22:8080 <span style='color:grey;'>·Pending</span></span>\n`,{},function(){
+		let Ping=new WebSocket('ws://49.234.17.22:8080');
+		Ping.onerror=()=>{
+			if(S_Interface===true){
+				$(".chatRoomList").html(`<i class="fas fa-chain-broken" style="color:#e7483f;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#e7483f;'>·Offline</span>`);
+			}
+		};
+		Ping.onopen=()=>{
+			if(S_Interface===true){
+				$(".chatRoomList").html(`<span onclick="Send('49.234.17.22:8080');" style="cursor:pointer"><i class="fas fa-link" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span></span>`);
+				Ping.close();
+			}
 		}
-	};
-	Ping.onopen=()=>{
-		if(S_Interface===true){
-			output.empty();
-			Write(`Host IP : \n<i class="fas fa-link" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span>\n`);
-			Ping.close();
+		if(getQueryVariable("ip")){
+			let IPByGet = getQueryVariable("ip");
+			Write(`Get IP from URL : ${IPByGet}\n`);
+			Send(IPByGet);
 		}
-	}
+		else Write(`Host IP [IP:port] :\n`);
+	});
+	
 }
 window.onfocus=()=>{
 	WFocus=true;
@@ -275,6 +296,10 @@ function MSGC_SS(){
 		MSGC++;
 		DOC_title.html(`(${MSGC}) Chat Room Lite`);
 	}
+}
+function Write2(msg,style,callback){
+	Write(msg,style);
+	callback();
 }
 function Write(msg,style){
 	let scrollBotton=false;
