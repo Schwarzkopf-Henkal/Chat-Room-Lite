@@ -145,9 +145,10 @@ img{
     max-width: 100%;
     height: auto;
 }
-ol, li{
+ol, li, ul{
     margin: 0px;
     display: inline-block;
+    width: 100%;
     line-height: 7px;
 }
 ol {
@@ -173,4 +174,60 @@ code {
     overflow-x: auto;
     box-sizing: border-box;
     background: #19171c;
+}
+hr {
+    display: inline-block;
+    background: ;
+    width: 100%;
+}
+a {color: #55d015;}
+a:hover {color: #42c100;}
+a:onclick {color: #42c100;}
+a:visited {color: #55d015;}
+table{border-collapse: collapse; padding:2px;}
+table > tr > th, table > tr > td { border-color:#fff; }
+th, td{
+    border: 1px solid #fff;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+blockquote {
+    line-height: 1;
+    text-indent: 0px;
+    border-left-color: rgb(53, 57, 59);
+    border-left-style: solid;
+    border-left-width: 5px;
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    padding: 10px 20px;
+    padding-bottom: 10px;
+    margin: 0 0 10px;
+    margin-block-start: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    text-size-adjust: 100%;
+    display: block;
+    quotes: none;
+}
+blockquote > blockquote{
+    margin: 0 0 20px;
+}
+blockquote > p{
+    margin: 0px;
+    text-indent: 0px;
+    margin-block-start: 0px;
+    margin: 10px 0 !important;
+    display: block;
+}
+blockquote > p::before,
+blockquote > p::after {
+    content: none;
+}
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+    content: none;
 }

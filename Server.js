@@ -204,9 +204,7 @@ function getMarkdownCode(msg) {
                     { left: "$$", right: "$$", display: true },
                     { left: "$", right: "$", display: false },
                     { left: "\\[", right: "\\]", display: true },
-                    { left: "\\(", right: "\\)", display: false },
-                    { left: '~', right: '~', display: false, asciimath: true },
-                    { left: '&&', right: '&&', display: true, asciimath: true },
+                    { left: "\\(", right: "\\)", display: false }
                 ],
             }),
         ],
@@ -524,6 +522,8 @@ function HtmlSpecialChars(text) {
     var ret = "";
     var inCodeBlock = false;
     var inShortCodeBlock = false;
+    var inQuote = true;
+    var tillSpace = true;
     var map = {
       '&': '&amp;',
       '<': '&lt;',
@@ -532,15 +532,22 @@ function HtmlSpecialChars(text) {
       '\'': '&#039;'
     };
     for(var p=0;p<text.length;p++){
-        if(p>=2 && text[p]=='`' && text[p-1]=='`' && text[p-2]=='`' && (p==2 || (inCodeBlock?text[p-3]=='\n':text[p-3]!='`')))
+        if(text[p]=='\n' || text[p]=='\r')  tillSpace=true;
+        else if(text[p]!=' ' && text[p]!='\t')  tillSpace=false;
+        if(p>=2 && text[p]=='`' && text[p-1]=='`' && text[p-2]=='`' && (p==2 || (inCodeBlock?tillSpace:text[p-3]!='`')))
             inCodeBlock = !inCodeBlock;
         else if(p>=1 && text[p]=='`' && text[p-1]=='`' && (p==1 || text[p-2]!='`') && !inCodeBlock)
             inShortCodeBlock = !inShortCodeBlock;
         else if(text[p]=='`' && (p==0 || text[p-1]!='`') && !inCodeBlock)
             inShortCodeBlock = !inShortCodeBlock;
-        if(!inCodeBlock && !inShortCodeBlock)
-            ret += ((text[p]=='&' || text[p]=='<' || text[p]=='>'
-                  || text[p]=='"' || text[p]=='\'')?map[text[p]]:text[p]);
+        if(!inCodeBlock && !inShortCodeBlock){
+            if(text[p]=='\n')   inQuote = true;
+            else if(text[p]!='>' && text[p]!=' ' && text[p]!='\t')  inQuote=false;
+            if(!inQuote)  
+                ret += ((text[p]=='&' || text[p]=='<' || text[p]=='>'
+                    || text[p]=='"' || text[p]=='\'')?map[text[p]]:text[p]);
+            else    ret+=text[p];
+        }
         else    ret+=text[p];
     }
     return ret;

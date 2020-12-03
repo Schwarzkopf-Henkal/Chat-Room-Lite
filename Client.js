@@ -275,7 +275,6 @@ function MSGC_SS(){
 }
 function Write(msg,style){
 	let scrollBotton=false;
-	console.log(output.scrollTop()+14,output[0].scrollHeight-output.height());
 	if(output.scrollTop()+14>output[0].scrollHeight-output.height())	scrollBotton=true;
 	MSGC_SS();
 	let EXC='';
