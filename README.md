@@ -3,7 +3,7 @@
 ## Usage
 ### As Server
 1. Install Node.js
-2. Install npm package `ws`,`readline-sync`&`readline`. Also, you should install `showdown`, `showdown-highlight` for markdown.
+2. Install npm package `ws`,`readline-sync`&`readline`. Also, you should install `showdown`, `showdown-highlight`, `showdown-katex` for markdown.
 3. Use command `node Server.js` and follow the instruction to start a chat room server
 
 ### As Member
