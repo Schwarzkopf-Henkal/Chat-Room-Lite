@@ -3,6 +3,7 @@ const WebSocket = require('ws');
 const cin=require("readline-sync");
 const showdown = require("showdown");
 const showdownHighlight = require("showdown-highlight");
+const showdownKatex = require("showdown-katex");
 //ServerInfo Vars
 var ServerInfo=new Object();
 ServerInfo.usrList=[];
@@ -194,7 +195,21 @@ var scanf=readline.createInterface({
 })();
 function getMarkdownCode(msg) {
     var converter = new showdown.Converter({
-        extensions: [showdownHighlight]
+        extensions: [showdownHighlight,
+            showdownKatex({
+                throwOnError: true,
+                displayMode: false,
+                errorColor: '#ffff00',
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\[", right: "\\]", display: true },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: '~', right: '~', display: false, asciimath: true },
+                    { left: '&&', right: '&&', display: true, asciimath: true },
+                ],
+            }),
+        ],
     });
     converter.setOption('tables', true); 
     return converter.makeHtml(msg);
