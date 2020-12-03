@@ -275,8 +275,8 @@ function MSGC_SS(){
 }
 function Write(msg,style){
 	let scrollBotton=false;
-	if(output.scrollTop+14>output.scrollHeight-output.height())
-		scrollBotton=true;
+	console.log(output.scrollTop()+14,output[0].scrollHeight-output.height());
+	if(output.scrollTop()+14>output[0].scrollHeight-output.height())	scrollBotton=true;
 	MSGC_SS();
 	let EXC='';
 	var nextCharacter;
@@ -315,5 +315,5 @@ function Write(msg,style){
 		output.append(`<span style='${StyleText}'>${msg}</span>`);
 	}else output.append(msg);
 	if(scrollBotton)
-		output.scrollTop(output.scrollHeight);
+		output.scrollTop(output[0].scrollHeight);
 }
