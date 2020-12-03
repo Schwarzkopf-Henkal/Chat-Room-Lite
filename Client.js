@@ -267,6 +267,9 @@ window.onblur=()=>{
 	WFocus=false;
 	MSGC=0;
 }
+window.onbeforeunload = function() {
+    ws.close();
+}
 function MSGC_SS(){
 	if(WFocus===false&&M_Notice){
 		MSGC++;
