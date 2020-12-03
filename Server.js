@@ -1,6 +1,8 @@
 'use scrict';
 const WebSocket = require('ws');
 const cin=require("readline-sync");
+const showdown = require("showdown");
+const showdownHighlight = require("showdown-highlight");
 //ServerInfo Vars
 var ServerInfo=new Object();
 ServerInfo.usrList=[];
@@ -190,6 +192,13 @@ var scanf=readline.createInterface({
         });
     }
 })();
+function getMarkdownCode(msg) {
+    var converter = new showdown.Converter({
+        extensions: [showdownHighlight]
+    });
+    converter.setOption('tables', true); 
+    return converter.makeHtml(msg);
+}
 Server.on('connection',(ws,Req)=>{
     ws.HACK_MSG_C=0;
     ws.USER_NAME_WRONG=false;
@@ -331,7 +340,7 @@ Server.on('connection',(ws,Req)=>{
                 }));
                 return;
             }
-            msg.body=HtmlSpecialChars(msg.body);
+            msg.body=getMarkdownCode(HtmlSpecialChars(msg.body));
             ServerInfo.time=new Date();
             broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>`,msg.body,ws.ClientId);
         }
@@ -497,13 +506,22 @@ function broadcastAsMessage(msg,rawMessage,from){
     });
 }
 function HtmlSpecialChars(text) {
+    var ret = "";
+    var inCodeBlock = false;
     var map = {
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      "'": '&#039;'
+      '\'': '&#039;'
     };
-  
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    for(var p=0;p<text.length;p++){
+        if(p>=2 && text[p]=='`' && text[p-1]=='`' && text[p-2]=='`' && (p==2 || text[p-3]=='\n'))
+            inCodeBlock = !inCodeBlock;
+        if(!inCodeBlock)
+            ret += ((text[p]=='&' || text[p]=='<' || text[p]=='>'
+                  || text[p]=='"' || text[p]=='\'')?map[text[p]]:text[p]);
+        else    ret+=text[p];
+    }
+    return ret;
 }

@@ -162,6 +162,7 @@ pre {
 }
 pre > code{
     display: inline-block !important;
+    width: 100%;
 }
 code {
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
@@ -171,5 +172,5 @@ code {
     max-width: 100%;
     overflow-x: auto;
     box-sizing: border-box;
-    background: #000000;
+    background: #19171c;
 }
