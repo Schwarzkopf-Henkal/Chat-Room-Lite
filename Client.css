@@ -194,6 +194,7 @@ th, td{
     padding-bottom: 4px;
 }
 blockquote {
+    font-size: 0px;
     line-height: 1;
     text-indent: 0px;
     border-left-color: rgb(53, 57, 59);
@@ -203,7 +204,8 @@ blockquote {
     margin-block-start: 0px;
     padding: 10px 20px;
     padding-bottom: 10px;
-    margin: 0 0 10px;
+    margin-top: 10px !important;
+    margin-bottom: 0px;
     margin-block-start: 0px;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
@@ -212,13 +214,13 @@ blockquote {
     quotes: none;
 }
 blockquote > blockquote{
-    margin: 0 0 20px;
+    margin-bottom: 10px !important;
 }
 blockquote > p{
+    font-size: 14px;
     margin: 0px;
     text-indent: 0px;
     margin-block-start: 0px;
-    margin: 10px 0 !important;
     display: block;
 }
 blockquote > p::before,
