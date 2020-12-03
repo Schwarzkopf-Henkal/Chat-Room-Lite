@@ -508,6 +508,7 @@ function broadcastAsMessage(msg,rawMessage,from){
 function HtmlSpecialChars(text) {
     var ret = "";
     var inCodeBlock = false;
+    var inShortCodeBlock = false;
     var map = {
       '&': '&amp;',
       '<': '&lt;',
@@ -516,9 +517,13 @@ function HtmlSpecialChars(text) {
       '\'': '&#039;'
     };
     for(var p=0;p<text.length;p++){
-        if(p>=2 && text[p]=='`' && text[p-1]=='`' && text[p-2]=='`' && (p==2 || text[p-3]=='\n'))
+        if(p>=2 && text[p]=='`' && text[p-1]=='`' && text[p-2]=='`' && (p==2 || (inCodeBlock?text[p-3]=='\n':text[p-3]!='`')))
             inCodeBlock = !inCodeBlock;
-        if(!inCodeBlock)
+        else if(p>=1 && text[p]=='`' && text[p-1]=='`' && (p==1 || text[p-2]!='`') && !inCodeBlock)
+            inShortCodeBlock = !inShortCodeBlock;
+        else if(text[p]=='`' && (p==0 || text[p-1]!='`') && !inCodeBlock)
+            inShortCodeBlock = !inShortCodeBlock;
+        if(!inCodeBlock && !inShortCodeBlock)
             ret += ((text[p]=='&' || text[p]=='<' || text[p]=='>'
                   || text[p]=='"' || text[p]=='\'')?map[text[p]]:text[p]);
         else    ret+=text[p];
