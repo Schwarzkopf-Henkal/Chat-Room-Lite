@@ -173,7 +173,8 @@ code {
     max-width: 100%;
     overflow-x: auto;
     box-sizing: border-box;
-    background: #19171c;
+    background: #164b66;
+    border-radius: 3px;
 }
 hr {
     display: inline-block;
