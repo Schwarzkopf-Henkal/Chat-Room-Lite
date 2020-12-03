@@ -41,6 +41,8 @@ console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
 console.log(`请输入对话名字：`);
 ServerInfo.name=cin.question('>');
+console.log(`请输入对话简介：`);
+ServerInfo.description=allHtmlSpecialChars((cin.question('>')).substr(0,100));
 var VerifyCode=generateMixed(VerifyCodeLen);
 console.log(`校验码（用于验证管理员）：${VerifyCode}\n`);
 const Server = new WebSocket.Server({ port: ServerInfo.port });
@@ -551,4 +553,14 @@ function HtmlSpecialChars(text) {
         else    ret+=text[p];
     }
     return ret;
+}
+function allHtmlSpecialChars(text){
+	var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      '\'': '&#039;'
+    };
+	return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
