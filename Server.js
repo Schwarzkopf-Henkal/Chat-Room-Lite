@@ -197,7 +197,10 @@ var scanf=readline.createInterface({
 })();
 function getMarkdownCode(msg) {
     var converter = new showdown.Converter({
-        extensions: [showdownHighlight,
+    	tables: true,
+    	strikethrough: true,
+    	splitAdjacentBlockquotes: true,
+        extensions: [
             showdownKatex({
                 throwOnError: true,
                 displayMode: false,
@@ -205,13 +208,12 @@ function getMarkdownCode(msg) {
                 delimiters: [
                     { left: "$$", right: "$$", display: true },
                     { left: "$", right: "$", display: false },
-                    { left: "\\[", right: "\\]", display: true },
-                    { left: "\\(", right: "\\)", display: false }
+                    { left: '&&', right: '&&', display: true, asciimath: true },
                 ],
             }),
+            showdownHighlight,
         ],
     });
-    converter.setOption('tables', true); 
     return converter.makeHtml(msg);
 }
 Server.on('connection',(ws,Req)=>{
