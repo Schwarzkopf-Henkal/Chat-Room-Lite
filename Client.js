@@ -3,7 +3,6 @@ var MSGC=0,WFocus=true,M_Notice=true;
 var User=new Object(),Server=new Object(),isAdmin=new Object(),isBanned=new Object();
 var closeNotice=new Object();
 var isBannedNow=false;
-// const showdownHighlight = require("./showdown-highlight-2.1.5/lib");
 var Commands={
 	"cls":{
 		fun:()=>{output.empty();}
@@ -267,7 +266,7 @@ window.onload=()=>{
 		};
 		Ping.onopen=()=>{
 			if(S_Interface===true){
-				$(".chatRoomList").html(`<span onclick="Send('49.234.17.22:8080');" style="cursor:pointer"><i class="fas fa-link" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span></span>`);
+				$(".chatRoomList").html(`<span onclick="if(S_Status==0) Send('49.234.17.22:8080');" style="cursor:pointer"><i class="fas fa-link" style="color:#13c60d;width:20px"></i> Public Room: 49.234.17.22:8080 <span style='color:#13c60d;'>·Online</span></span>`);
 				Ping.close();
 			}
 		}
