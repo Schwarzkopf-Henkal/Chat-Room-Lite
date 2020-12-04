@@ -41,6 +41,26 @@ use command `/ban <User ID> <Time(secs)>` to shut somebody up. If `<Time>` is no
 
 use command `/unban <User ID>` to clear somebody's mute status.
 
+use command `/cls` to clear the screen.
+
+use command `/exit` to leave the chat room.
+
+use command `/notice` to open / close the notice at the title of the website `(<New Message Number>)Chat Room Lite`.
+
+You can use `Ctrl+Shift+A` to change input mode. Two input modes are provided:
+
+1. Single Line Mode - You can send messages in a fast speed. Use `Enter` to send message.
+
+2. Multiple Line Mode - You can make multiple-line messages in this mode. Use `Ctrl+Enter` to send message.
+
+There are 3 icons before each username.
+
+🔔 : Click this to show/unshow the user's messages.
+
+✔️🚫 : Click this to add `/[set/unset] <User ID>` into the input box.
+
+@ : Click this to add `@<User ID> ` into the input box. NOTE: Only the recipient will highlight the code. You should add a space after each `@<Uset ID>`, even after the end of the message.
+
 ## Feature
 1. WLAN support
 2. light and fast
