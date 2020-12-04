@@ -57,7 +57,7 @@ There are 3 icons before each username.
 
 🔔 : Click this to show/unshow the user's messages.
 
-✔️🚫 : Click this to add `/[set/unset] <User ID>` into the input box.
+✔️🚫 : Click this to add `/[ban/unban] <User ID>` into the input box.
 
 @ : Click this to add `@<User ID> ` into the input box. NOTE: Only the recipient will highlight the code. You should add a space after each `@<Uset ID>`, even after the end of the message.
 
