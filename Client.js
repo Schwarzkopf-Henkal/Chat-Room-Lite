@@ -89,7 +89,7 @@ function Initalize(){
 			if(S_Status!=3)	return;
 			if(closeNotice[msg.headers['Set_Name']]===true)	return;
 			if(msg.headers['Set_Rawmessage'])
-				msg.body=msg.body+msg.headers['Set_Rawmessage']+`</div>`;
+				msg.body=msg.body+msg.headers['Set_Rawmessage']+`</span></div>`;
 			if(msg.headers['Style']){
 				Write(msg.body,msg.headers['Style']);
 			}else Write(msg.body);
@@ -212,7 +212,6 @@ function parseCommand(msg){
 }
 function Send(msg){
 	if(checkEmpty(msg))	return;
-	S_Interface=false;
 	snsArr=msg.split(/[(\r\n)\r\n]+/);
 	let idx=0;
 	for(;idx<snsArr.length;idx++)
@@ -225,7 +224,7 @@ function Send(msg){
 			Write2(`<span class="loadToServer"><i class="fa fa-spinner fa-spin"></i> Loading to the server : ${User.host} ... </span>\n`,{},Initalize);
 		}else if(S_Status===2){
 			User.name=$.trim(snsArr[idx]);
-			S_Status++;
+			S_Status++;S_Interface=false;
 			Commands.cls.fun();
 			ws.send(JSON.stringify({
 				headers:{
