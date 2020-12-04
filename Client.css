@@ -66,24 +66,28 @@ body{
 }
 .Output::-webkit-scrollbar,
 .Input::-webkit-scrollbar,
-code::-webkit-scrollbar{
+code::-webkit-scrollbar,
+.MessageInfo::-webkit-scrollbar{
     width: 5px;
     height: 5px;
 }
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover,
-code::-webkit-scrollbar:hover {
+code::-webkit-scrollbar:hover,
+.MessageInfo::-webkit-scrollbar:hover{
     background-color: #776170;
 }
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
-code::-webkit-scrollbar-thumb{
+code::-webkit-scrollbar-thumb,
+.MessageInfo::-webkit-scrollbar-thumb{
     border-radius: 1px;
     background-color: #C9613F;
 }
 .Output::-webkit-scrollbar-corner,
 .Input::-webkit-scrollbar-corner,
-code::-webkit-scrollbar-corner{
+code::-webkit-scrollbar-corner,
+.MessageInfo::-webkit-scrollbar-corner{
     display: none;
 }
 .Status .Output{
