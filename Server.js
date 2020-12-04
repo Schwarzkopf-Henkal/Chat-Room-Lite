@@ -253,18 +253,18 @@ Server.on('connection',(ws,Req)=>{
             }));
         }
         if(msg.headers['Content_Type']==='application/init'){
-            if(ServerInfo.multiplyIP[ws.IP]!==true && ServerInfo.ipNumber[ws.IP]>0){
-                ws.send(JSON.stringify({
-                    headers:{
-                        Content_Type:'application/message',
-                        Style:{"color":"#e7483f"},
-                        Set_Name:''
-                    },
-                    body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : No multiple IP for common user.\n"
-                }));
-                ws.close();
-                return;
-            }
+            // if(ServerInfo.multiplyIP[ws.IP]!==true && ServerInfo.ipNumber[ws.IP]>0){
+            //     ws.send(JSON.stringify({
+            //         headers:{
+            //             Content_Type:'application/message',
+            //             Style:{"color":"#e7483f"},
+            //             Set_Name:''
+            //         },
+            //         body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : No multiple IP for common user.\n"
+            //     }));
+            //     ws.close();
+            //     return;
+            // }
             if(ServerInfo.BannedIPs[ws.IP]===true){
                 ws.send(JSON.stringify({
                     headers:{
