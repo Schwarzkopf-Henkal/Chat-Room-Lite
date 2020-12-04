@@ -47,7 +47,7 @@ use command `/exit` to leave the chat room.
 
 use command `/notice` to open / close the notice at the title of the website `(<New Message Number>)Chat Room Lite`.
 
-You can use `Ctrl+Shift+A` to change input mode. Two input modes are provided:
+You can use `Ctrl+Shift+A` or click the icon below the input box to change input mode. Two input modes are provided:
 
 1. Single Line Mode - You can send messages in a fast speed. Use `Enter` to send message.
 
@@ -59,7 +59,7 @@ There are 3 icons before each username.
 
 ✔️🚫 : Click this to add `/[ban/unban] <User ID>` into the input box.
 
-@ : Click this to add `@<User ID> ` into the input box. NOTE: Only the recipient will highlight the code. You should add a space after each `@<Uset ID>`, even after the end of the message.
+@ : Click this to add `@<User ID> ` into the input box. NOTE: Only the recipient will highlight the code. You should add a space after each `@<User ID>`, even after the end of the message.
 
 ## Feature
 1. WLAN support
