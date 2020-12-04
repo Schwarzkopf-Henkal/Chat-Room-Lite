@@ -160,6 +160,7 @@ li {
 }
 pre {
     margin: 0px;
+    display: inline;
 }
 pre > code{
     display: inline-block !important;
@@ -211,6 +212,7 @@ blockquote {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     text-size-adjust: 100%;
+    white-space: normal;
     display: block;
     quotes: none;
 }
