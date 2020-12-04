@@ -369,3 +369,11 @@
 .fa-globe:before {
   content: "\f0ac";
 }
+.fa-send:before,
+.fa-paper-plane:before {
+  content: "\f1d8";
+}
+.fa-send-o:before,
+.fa-paper-plane-o:before {
+  content: "\f1d9";
+}
