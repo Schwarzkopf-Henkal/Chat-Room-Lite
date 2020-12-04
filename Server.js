@@ -202,7 +202,7 @@ function getMarkdownCode(msg) {
     	splitAdjacentBlockquotes: true,
         extensions: [
             showdownKatex({
-                throwOnError: true,
+                throwOnError: false,
                 displayMode: false,
                 errorColor: '#ffff00',
                 delimiters: [
