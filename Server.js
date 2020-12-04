@@ -197,9 +197,9 @@ var scanf=readline.createInterface({
 })();
 function getMarkdownCode(msg) {
     var converter = new showdown.Converter({
-    	tables: true,
-    	strikethrough: true,
-    	splitAdjacentBlockquotes: true,
+        tables: true,
+        strikethrough: true,
+        splitAdjacentBlockquotes: true,
         extensions: [
             showdownKatex({
                 throwOnError: false,
@@ -359,7 +359,7 @@ Server.on('connection',(ws,Req)=>{
             }
             msg.body=getMarkdownCode(HtmlSpecialChars(msg.body));
             ServerInfo.time=new Date();
-            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>`,msg.body,ws.ClientId);
+            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>`,msg.body,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
         }
         else if(msg.headers.Content_Type==='application/banUser'){
             let userName=msg.headers['Set_Name'];
@@ -508,12 +508,13 @@ function broadcastAsAlert(msg,contentType,style){
         });
     }
 }
-function broadcastAsMessage(msg,rawMessage,from){
+function broadcastAsMessage(msg,rawMessage,from,len,idx){
     Server.clients.forEach(Cli=>{
-        if(Cli.readyState===WebSocket.OPEN){
+        if(Cli.readyState===WebSocket.OPEN &&
+          (len==0 || idx[Cli.ClientId]===true)){
             Cli.send(JSON.stringify({
                 headers:{
-                	Content_Type:'application/message',
+                    Content_Type:'application/message',
                     Set_Rawmessage:rawMessage,
                     Set_Name:from
                 },
@@ -557,12 +558,12 @@ function HtmlSpecialChars(text) {
     return ret;
 }
 function allHtmlSpecialChars(text){
-	var map = {
+    var map = {
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
       '\'': '&#039;'
     };
-	return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
