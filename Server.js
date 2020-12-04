@@ -199,10 +199,11 @@ function getMarkdownCode(msg) {
     var converter = new showdown.Converter({
         tables: true,
         strikethrough: true,
+        literalMidWordUnderscores: true,
         splitAdjacentBlockquotes: true,
         extensions: [
             showdownKatex({
-                throwOnError: false,
+                throwOnError: true,
                 displayMode: false,
                 errorColor: '#ffff00',
                 delimiters: [
@@ -534,7 +535,8 @@ function HtmlSpecialChars(text) {
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      '\'': '&#039;'
+      '\'': '&#039;',
+      '\\': '\\\\'
     };
     for(var p=0;p<text.length;p++){
         if(text[p]=='\n' || text[p]=='\r')  tillSpace=true;
@@ -550,7 +552,7 @@ function HtmlSpecialChars(text) {
             else if(text[p]!='>' && text[p]!=' ' && text[p]!='\t')  inQuote=false;
             if(!inQuote)  
                 ret += ((text[p]=='&' || text[p]=='<' || text[p]=='>'
-                    || text[p]=='"' || text[p]=='\'')?map[text[p]]:text[p]);
+                    || text[p]=='"' || text[p]=='\'' || text[p]=='\\')?map[text[p]]:text[p]);
             else    ret+=text[p];
         }
         else    ret+=text[p];
@@ -563,7 +565,8 @@ function allHtmlSpecialChars(text){
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      '\'': '&#039;'
+      '\'': '&#039;',
+      '\\': '\\\\'
     };
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }

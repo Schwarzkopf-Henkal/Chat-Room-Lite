@@ -115,6 +115,7 @@ code::-webkit-scrollbar-corner{
     padding-top: 3px;
     padding-bottom: 3px;
     width: 455px;
+    overflow-x:auto;
     display: inline-block;
 }
 .SignIn{
@@ -147,9 +148,8 @@ img{
 }
 ol, li, ul{
     margin: 0px;
-    display: inline-block;
-    width: 100%;
-    line-height: 7px;
+    display: block;
+    max-width: 100%;
 }
 ol {
     list-style-type: decimal;
