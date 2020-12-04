@@ -1,4 +1,4 @@
-﻿# Chat Room Lite JS-Ver
+﻿# Chat Room Lite
 
 ## Usage
 ### As Server
