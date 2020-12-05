@@ -280,14 +280,16 @@ Server.on('connection',(ws,Req)=>{
             }
             ws.ClientId=msg.headers['Set_Name'].trim();
             for(var p=0;p<ws.ClientId.length;p++)
-                if(ws.ClientId[p]=='\\' || ws.ClientId[p]=='\'' || ws.ClientId[p]=='\"' || ws.ClientId[p]==' '|| ws.ClientId[p]=='&'|| ws.ClientId[p]=='<'|| ws.ClientId[p]=='>'|| ws.ClientId[p]=='/'){
+                if( ws.ClientId.length>24
+                  || !((ws.ClientId[p]>='0' && ws.ClientId[p]<='9') || (ws.ClientId[p]>='a' && ws.ClientId[p]<='z')
+                  || (ws.ClientId[p]>='A' && ws.ClientId[p]<='Z') || ws.ClientId[p]=='_')){
                     ws.send(JSON.stringify({
                         headers:{
                             Content_Type:'application/message',
                             Style:{"color":"#e7483f"},
                             Set_Name:''
                         },
-                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : \\, /, \', \", \&, \<, \> and Space are not allowed for user name.\n"
+                        body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Username must consist of up to 24 letters, numbers, and underscores\n"
                     }));
                     ws.USER_NAME_WRONG=true;
                     ws.close();return;
