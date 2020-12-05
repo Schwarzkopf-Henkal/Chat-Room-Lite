@@ -63,6 +63,8 @@ There are 3 icons before each username.
 
 @ : Click this to add `@<User ID> ` into the input box. NOTE: Only the recipient will highlight the code. You should add a space after each `@<User ID>`, even after the end of the message.
 
+You can click the comment icon beside a message to add a quote reply.
+
 ## Feature
 1. WLAN support
 2. light and fast
