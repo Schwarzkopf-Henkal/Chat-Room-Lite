@@ -120,11 +120,13 @@ code::-webkit-scrollbar-corner,
     padding-bottom: 3px;
     width: 455px;
     overflow-x:auto;
+    position: relative;
     display: inline-block;
 }
 .Message{
     min-height: 14px;
     overflow-y: hidden;
+    display: block;
 }
 .showContent{
     text-align: center;
