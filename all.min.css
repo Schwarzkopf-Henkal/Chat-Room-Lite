@@ -377,3 +377,9 @@
 .fa-paper-plane-o:before {
   content: "\f1d9";
 }
+.fa-angle-down:before {
+  content: "\f107";
+}
+.fa-angle-up:before {
+  content: "\f106";
+}

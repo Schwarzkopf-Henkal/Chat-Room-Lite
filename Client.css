@@ -122,6 +122,15 @@ code::-webkit-scrollbar-corner,
     overflow-x:auto;
     display: inline-block;
 }
+.Message{
+    min-height: 14px;
+    overflow-y: hidden;
+}
+.showContent{
+    text-align: center;
+    width:100%;
+    height: 14px;
+}
 .SignIn{
     background: #004c11 !important;
     display: block !important;

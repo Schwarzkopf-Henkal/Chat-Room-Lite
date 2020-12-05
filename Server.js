@@ -254,18 +254,6 @@ Server.on('connection',(ws,Req)=>{
             }));
         }
         if(msg.headers['Content_Type']==='application/init'){
-            // if(ServerInfo.multiplyIP[ws.IP]!==true && ServerInfo.ipNumber[ws.IP]>0){
-            //     ws.send(JSON.stringify({
-            //         headers:{
-            //             Content_Type:'application/message',
-            //             Style:{"color":"#e7483f"},
-            //             Set_Name:''
-            //         },
-            //         body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : No multiple IP for common user.\n"
-            //     }));
-            //     ws.close();
-            //     return;
-            // }
             if(ServerInfo.BannedIPs[ws.IP]===true){
                 ws.send(JSON.stringify({
                     headers:{
@@ -362,7 +350,7 @@ Server.on('connection',(ws,Req)=>{
             }
             msg.body=getMarkdownCode(HtmlSpecialChars(msg.body));
             ServerInfo.time=new Date();
-            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><span>`,msg.body,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
+            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo"><div class="Message">`,msg.body,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
         }
         else if(msg.headers.Content_Type==='application/banUser'){
             let userName=msg.headers['Set_Name'];
