@@ -109,58 +109,75 @@ function Initalize(){
 		if(msg.headers['Content_Type']==='application/message'){
 			if(S_Status!=3)	return;
 			if(closeNotice[msg.headers['Set_Name']]===true)	return;
-			if(msg.headers['Set_Rawmessage'])
-				msg.body=`<div>`+msg.body+msg.headers['Set_Rawmessage']+`</div><div class="showContent" data-no-cache="true"><i class="fas fa-angle-down" style="width:20px;"></i><span class="sh-btn">Unfold</span></div></div></div>`;
-			
-			if(msg.headers['Style']){
-				Write2(msg.body,msg.headers['Style'],function(){
-				$('.Message:last').each(function(){
-					if($(this).height()<82){
-						$(this).next('.showContent').hide();
-					}else{
-						$(this).css("height","82px");
-						$(this).css("--lcollapsed-height","82px");
-					}
+			if(msg.headers['Set_Rawmessage']){
+				msg.body=`<div>`+msg.body+`</div><div class="showContent" data-no-cache="true"><i class="fas fa-angle-down" style="width:20px;"></i><span class="sh-btn">Unfold</span></div></div></div>`;
+				if(msg.headers['Style']){
+					Write2(msg.body,msg.headers['Style'],function(){
+					$('.fa-comment:last').each(function(){
+						$(this).css('cursor', 'pointer');
+						$(this).click(function(){
+							$('.Input').val((ws.headers['Set_Rawmessage']).split('\n').map(x=>("> "+x)).join('\n'));
+						});
+					});
+					$('.Message:last').each(function(){
+						if($(this).height()<82){
+							$(this).next('.showContent').hide();
+						}else{
+							$(this).css("height","82px");
+							$(this).css("--lcollapsed-height","82px");
+						}
+					});
+					$('.showContent:last').click(function () {
+						var htm = $(this).find('.sh-btn').html();
+						if (htm == "Unfold") {
+							$(this).find('.sh-btn').html('Fold');
+							$(this).find('i').removeClass('fas fa-angle-down').addClass('fas fa-angle-up');
+							$(this).prev('.Message').css('height', 'auto');
+							$(this).prev('.Message').css('--lcollapsed-height', 'auto');
+						} else {
+							$(this).find('.sh-btn').html('Unfold');
+							$(this).find('i').removeClass('fas fa-angle-up').addClass('fas fa-angle-down');
+							$(this).prev('.Message').css('height', '82px');
+							$(this).prev('.Message').css('--lcollapsed-height', '82px');
+						}
+					});
+				});}
+				else Write2(msg.body,{},function(){
+					$('.fa-comment:last').each(function(){
+						$(this).css('cursor', 'pointer');
+						$(this).click(function(){
+							$('.Input').val((msg.headers['Set_Rawmessage']).split('\n').map(x=>("\n> "+x)).join(''));
+						});
+					});
+					$('.Message:last').each(function(){
+						if($(this).height()<82){
+							$(this).next('.showContent').hide();
+						}else{
+							$(this).css("height","82px");
+							$(this).css("--lcollapsed-height","82px");
+						}
+					});
+					$('.showContent:last').click(function () {
+						var htm = $(this).find('.sh-btn').html();
+						if (htm == "Unfold") {
+							$(this).find('.sh-btn').html('Fold');
+							$(this).find('i').removeClass('fas fa-angle-down').addClass('fas fa-angle-up');
+							$(this).prev('.Message').css('height', 'auto');
+							$(this).prev('.Message').css('--lcollapsed-height', 'auto');
+						} else {
+							$(this).find('.sh-btn').html('Unfold');
+							$(this).find('i').removeClass('fas fa-angle-up').addClass('fas fa-angle-down');
+							$(this).prev('.Message').css('height', '82px');
+							$(this).prev('.Message').css('--lcollapsed-height', '82px');
+						}
+					});
 				});
-				$('.showContent:last').click(function () {
-					var htm = $(this).find('.sh-btn').html();
-					if (htm == "Unfold") {
-						$(this).find('.sh-btn').html('Fold');
-						$(this).find('i').removeClass('fas fa-angle-down').addClass('fas fa-angle-up');
-						$(this).prev('.Message').css('height', 'auto');
-						$(this).prev('.Message').css('--lcollapsed-height', 'auto');
-					} else {
-						$(this).find('.sh-btn').html('Unfold');
-						$(this).find('i').removeClass('fas fa-angle-up').addClass('fas fa-angle-down');
-						$(this).prev('.Message').css('height', '82px');
-						$(this).prev('.Message').css('--lcollapsed-height', '82px');
-					}
-				});
-			});}
-			else Write2(msg.body,{},function(){
-				$('.Message:last').each(function(){
-					if($(this).height()<82){
-						$(this).next('.showContent').hide();
-					}else{
-						$(this).css("height","82px");
-						$(this).css("--lcollapsed-height","82px");
-					}
-				});
-				$('.showContent:last').click(function () {
-					var htm = $(this).find('.sh-btn').html();
-					if (htm == "Unfold") {
-						$(this).find('.sh-btn').html('Fold');
-						$(this).find('i').removeClass('fas fa-angle-down').addClass('fas fa-angle-up');
-						$(this).prev('.Message').css('height', 'auto');
-						$(this).prev('.Message').css('--lcollapsed-height', 'auto');
-					} else {
-						$(this).find('.sh-btn').html('Unfold');
-						$(this).find('i').removeClass('fas fa-angle-up').addClass('fas fa-angle-down');
-						$(this).prev('.Message').css('height', '82px');
-						$(this).prev('.Message').css('--lcollapsed-height', '82px');
-					}
-				});
-			});
+			}
+			else{
+				if(msg.headers['Style']){
+					Write(msg.body,msg.headers['Style']);
+				}else Write(msg.body);
+			}
 		}
 		if(msg.headers['Content_Type']==='application/command'){
 			RemoteCommands[msg.headers['Command']](msg.headers['Parameter']);
