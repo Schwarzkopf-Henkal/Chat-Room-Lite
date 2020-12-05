@@ -213,9 +213,8 @@ var RemoteCommands={
 			Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
 			isAdmin[Para[0]]=false;
 			closeNotice[Para[0]]=false;
-			if(SendUserList[Para[0]])
-				SendUsers.splice(SendUsers.indexOf(Para[0]),1);
-			SendNumber-=SendUserList[Para[0]];
+			if(SendUserList[Para[0]]===true)
+				SendUsers.splice(SendUsers.indexOf(Para[0]),1),--SendNumber;
 			SendUserList[Para[0]]=false;
 			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description :\n	${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
 		}
@@ -418,23 +417,3 @@ function Write(msg,style){
 	if(scrollBotton)
 		output.scrollTop(output[0].scrollHeight);
 }
-$('.Message').each(function(){
-	if($(this).height()<=106){
-		$(this).next('.sh').hide();
-		$(this).parent().css('padding-bottom','.5rem');
-	}else{
-		$(this).css("height","106px");
-	}
-});
-$('.showContent').click(function () {
-	var htm = $(this).find('.sh-btn').html();
-	if (htm == "Unfold") {
-		$(this).find('.sh-btn').html('Fold');
-		$(this).find('i').removeClass('icon-down').addClass('icon-up');
-		$(this).prev('.Message').css('height', 'auto');
-	} else {
-		$(this).find('.sh-btn').html('Unfold');
-		$(this).find('i').removeClass('icon-up').addClass('icon-down');
-		$(this).prev('.Message').css('height', '106px');
-	}
-});
