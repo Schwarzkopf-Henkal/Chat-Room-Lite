@@ -1,11 +1,12 @@
 'use scrict';
 const WebSocket = require('ws');
+const fs=require('fs');
 const cin=require("readline-sync");
 const showdown = require("showdown");
 const showdownHighlight = require("showdown-highlight");
 const showdownKatex = require("showdown-katex");
 //ServerInfo Vars
-var ServerInfo=new Object();
+var ServerInfo=new Object(),Settings;
 ServerInfo.usrList=[];
 ServerInfo.isAdmin=new Object();
 ServerInfo.time=new Date();
@@ -19,8 +20,12 @@ ServerInfo.multiplyIP=new Object();
 ServerInfo.ipNumber=new Object();
 ServerInfo.name2IP=new Object();
 //Environment Vars
-const HACK_MSG_MX=10;
-const VerifyCodeLen=40;
+try{
+    Settings=JSON.parse(fs.readFileSync("Properties.json"));
+}catch{
+    console.error('Error: Failed to load properties.');
+    process.exit(0);
+}
 //---
 var alphabet = ['0','1','2','3','4','5','6','7','8','9',
                 'A','B','C','D','E','F','G','H','I','J',
@@ -41,9 +46,8 @@ console.log(`请输入服务器端口：`);
 ServerInfo.port=parseInt(cin.question('>'));
 console.log(`请输入对话名字：`);
 ServerInfo.name=cin.question('>');
-console.log(`请输入对话简介：`);
-ServerInfo.description=allHtmlSpecialChars((cin.question('>')).substr(0,100));
-var VerifyCode=generateMixed(VerifyCodeLen);
+ServerInfo.description=allHtmlSpecialChars(Settings.Description.substr(0,100));
+var VerifyCode=generateMixed(Settings.VerifyCodeLen);
 console.log(`校验码（用于验证管理员）：${VerifyCode}\n`);
 const Server = new WebSocket.Server({ port: ServerInfo.port });
 console.log(`机房聊天工具【服务端】\n服务器端口：[${ServerInfo.port}]\n对话名字：${ServerInfo.name}\n`);
@@ -230,7 +234,7 @@ Server.on('connection',(ws,Req)=>{
                 throw '不合格式的消息';
         }catch(OOPS_LOOKS_LIKE_A_HACK_MESSAGE){
             ws.HACK_MSG_C++;
-            if(ws.HACK_MSG_C>=HACK_MSG_MX){
+            if(ws.HACK_MSG_C>=Settings.HACK_MSG_MX){
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
