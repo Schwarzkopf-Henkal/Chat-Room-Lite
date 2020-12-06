@@ -107,7 +107,7 @@ function Initalize(){
 			$('.Status .Output').html('<i class="fas fa-close" onclick="Send(\'/exit\')" style="cursor:pointer;color:#e7483f;width:20px"></i><i class="fas fa-bell light" id="AlertS" onclick="Send(\'/notice\')" style="width:20px;cursor:pointer;"></i> Chat Room');
 			flushOutput();
 			output.html('');
-			Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n	   Chat Room Lite\n/cls	  | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
+			Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n	   Chat Room Lite\n/cls	  | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n/tag      | to set your own tag.\n/untag    | to reset your tag.\n`,{"color":"#13c60d"});
 		}
 		if(msg.headers['Content_Type']==='application/message'){
 			if(S_Status!=3)	return;
