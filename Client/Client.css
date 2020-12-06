@@ -146,8 +146,17 @@ code::-webkit-scrollbar-corner,
     background: #616300 !important;
     display: block !important;
 }
-.light{
+.style_warning{
     color: #ffff00;
+}
+.style_error{
+    color :#e7483f;
+}
+.style_accept{
+    color: #13c60d;
+}
+.style_pending{
+    color: grey;
 }
 .userTag{
     margin-left: 5px;
