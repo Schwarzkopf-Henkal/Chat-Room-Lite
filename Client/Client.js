@@ -5,6 +5,9 @@ var SendUserList=new Object(),SendNumber=0;
 var SendUsers=[];
 var closeNotice=new Object();
 var isBannedNow=false;
+function flushOutput(){
+	$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description : ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i>'+x+(Server.tagInfo[x]?'<span class="userTag" style="background-color:'+Server.tagColor[x]+'">'+Server.tagInfo[x]+'</span>':'')).join('\n')}`);
+}
 function changeSendUserType(msg){
 	if(msg===User.name){
 		Write(`<i class="fas fa-times" style="width:20px"></i> You are not allowed to do this.\n`,{'color':"#e7483f"});
@@ -21,7 +24,7 @@ function changeSendUserType(msg){
 		SendUsers.push(msg);
 	}
 	Write(`<i class="fa fa-send" style="width:20px"></i> Set Recipient List: ${SendNumber==0?"All":'['+SendUsers.join(", ")+']'}\n`,{'color':'#ffff00'});
-	$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+	flushOutput();
 }
 var Commands={
 	"cls":{
@@ -64,7 +67,7 @@ function changeNoticeOption(userName){
 	if(closeNotice[userName]===true)
 		closeNotice[userName]=false,Write(`<i class="fas fa-eye" style="width:20px"></i> You will see messages from ${userName} now.\n`,{'color':`#13c60d`});
 	else	closeNotice[userName]=true,Write(`<i class="fas fa-eye-slash" style="width:20px"></i> You won\'t see messages from ${userName} now.\n`,{'color':`#e7483f`});
-	$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+	flushOutput();
 }
 function Initalize(){
 	ws=new WebSocket(`ws://${User.host}`);
@@ -102,9 +105,9 @@ function Initalize(){
 			isAdmin=Server.isAdmin;
 			SendUserList[User.name]=true;
 			$('.Status .Output').html('<i class="fas fa-close" onclick="Send(\'/exit\')" style="cursor:pointer;color:#e7483f;width:20px"></i><i class="fas fa-bell light" id="AlertS" onclick="Send(\'/notice\')" style="width:20px;cursor:pointer;"></i> Chat Room');
-			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+			flushOutput();
 			output.html('');
-			Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n	   Chat Room Lite\n/cls	  | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n`,{"color":"#13c60d"});
+			Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n	   Chat Room Lite\n/cls	  | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n/tag      | to set your own tag.\n/untag    | to reset your tag.\n`,{"color":"#13c60d"});
 		}
 		if(msg.headers['Content_Type']==='application/message'){
 			if(S_Status!=3)	return;
@@ -190,13 +193,13 @@ function Initalize(){
 				Write("<i class='fas fa-cogs' style='width:20px'></i> You are set as common user from the server.\n",{"color":"#e7483f"});
 			else	Write(msg.body,msg.headers['Style']);
 			isAdmin=Server.isAdmin;
-			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+			flushOutput();
 		}
 		if(msg.headers['Content_Type']==='application/banChange'){
 			Server=msg.headers.Set_serverinfo;
 			let banTime=Server.BanTime;
 			isBanned=Server.isBanned;
-			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+			flushOutput();
 			if(Server.BanName===User.name){
 				Write(`<i class='fas fa-ban' style='width:20px'></i> You are banned for ${banTime/1000}s from the server.\n`,{"color":"#e7483f"});
 				isBannedNow=true;
@@ -208,7 +211,7 @@ function Initalize(){
 		if(msg.headers['Content_Type']==='application/unbanChange'){
 			Server=msg.headers.Set_serverinfo;
 			isBanned=Server.isBanned;
-			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+			flushOutput();
 			if(Server.BanName===User.name){
 				isBannedNow=false;
 				$(".Input").attr("readOnly",false);
@@ -216,13 +219,21 @@ function Initalize(){
 			}
 			else	Write(msg.body,msg.headers['Style']);
 		}
+		if(msg.headers['Content_Type']==='application/changeUserTag'){
+			Server=msg.headers.Set_serverinfo;
+			if(S_Status!=3)	return;
+			if(msg.headers['Style']){
+				Write(msg.body,msg.headers['Style']);
+			}else Write(msg.body);
+			flushOutput();
+		}
 	}
 }
 var RemoteCommands={
 	"UsrAdd":(Para)=>{
 		if(Server.usrList){
 			Server.usrList.push(Para[0]);
-			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+			flushOutput();
 		}
 	},
 	"UsrDel":(Para)=>{
@@ -233,7 +244,7 @@ var RemoteCommands={
 			if(SendUserList[Para[0]]===true)
 				SendUsers.splice(SendUsers.indexOf(Para[0]),1),--SendNumber;
 			SendUserList[Para[0]]=false;
-			$('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description: ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>' '+(SendUserList[x]===true?`<i class="fas fa-send" style="cursor:pointer;width:20px;color:#13c60d" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban" style="cursor:pointer;color:#e7483f;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check" style="cursor:pointer;color:#13c60d;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x).join('\n')}`);
+			flushOutput();
 		}
 	}
 }
@@ -289,6 +300,36 @@ function parseCommand(msg){
 		else
 			Write(`<i class="fas fa-times" style="width:20px"></i> Code Not Found.\n`,{"color":"#e7483f"});
 	}
+	else if(cmd[0]==="tag"){
+		if(cmd.length<3){
+			Write(`<i class="fas fa-times" style="width:20px"></i> Argument List Length Error!\n`,{"color":"#e7483f"});
+			return;
+		}
+		User.tName = cmd[1];
+		User.tColor= cmd[2];
+		if(User.tName.length>10){
+			Write(`<i class="fas fa-times" style="width:20px"></i> Tag Name Longer Than 10!\n`,{"color":"#e7483f"});
+			return;
+		}
+		if(!testColor(User.tColor)){
+			Write(`<i class="fas fa-times" style="width:20px"></i> Invalid Tag Color！\n`,{"color":"#e7483f"});
+			return;
+		}
+		ws.send(JSON.stringify({
+			headers:{
+				Content_Type:'application/changeUserTag',
+				Set_Taginfo:User.tName,
+				Set_Tagcolor:User.tColor
+			}
+		}));
+	}
+	else if(cmd[0]==="untag"){
+		ws.send(JSON.stringify({
+			headers:{
+				Content_Type:'application/closeUserTag'
+			}
+		}));
+	}
 	else{
 		ws.send(JSON.stringify({
 			headers:{
@@ -299,6 +340,12 @@ function parseCommand(msg){
 			body:'/'+msg
 		}))
 	}
+}
+function testColor(color) {
+    var re1 = /^#([0-9a-f]{6}|[0-9a-f]{3})$/i
+    var re2 = /^rgb\(([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\)$/i
+    var re3 = /^rgba\(([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,(1|1.0|0.[0-9])\)$/i
+    return re2.test(color) || re1.test(color) || re3.test(color);
 }
 function Send(msg){
 	if(checkEmpty(msg))	return;
@@ -314,6 +361,7 @@ function Send(msg){
 			Write2(`<span class="loadToServer"><i class="fa fa-spinner fa-spin"></i> Loading to the server : ${User.host} ... </span>\n`,{},Initalize);
 		}else if(S_Status===2){
 			User.name=$.trim(snsArr[idx]);
+			Write(`<i class="fas fa-check" style="width:20px"></i> Get Name: ${User.name}\n`,{color:"#13c60d"});
 			S_Status++;S_Interface=false;
 			Commands.cls.fun();
 			ws.send(JSON.stringify({
@@ -323,7 +371,6 @@ function Send(msg){
 				}
 			}));
 		}
-		else ;
 	}
 	else if(msg[0]==='/'){
 		parseCommand(msg.substr(1));

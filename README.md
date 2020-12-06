@@ -49,6 +49,8 @@ use command `/exit` to leave the chat room.
 
 use command `/notice` to open / close the notice at the title of the website `(<New Message Number>)Chat Room Lite`.
 
+use command `/tag <Tag Info.> <Tag Color>` to set your tag, and `/untag` to reset it. 
+
 You can use `Ctrl+Shift+A` or click the icon below the input box to change input mode. Two input modes are provided:
 
 1. Single Line Mode - You can send messages in a fast speed. Use `Enter` to send message.

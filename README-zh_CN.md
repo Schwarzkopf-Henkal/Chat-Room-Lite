@@ -47,6 +47,8 @@
 
 使用命令 `/notice` 来切换是否启用网页标题的新消息提醒。 `(<New Message Number>)Chat Room Lite`.
 
+使用命令 `/tag <Tag Info.> <Tag Color>` 设置用户的标签，并用 `/untag` 重置。
+
 使用快捷键 `Ctrl+Shift+A` 或点击输入区下方图标来切换输入模式。一共有两种输入模式：
 
 1. 单行输入 - 快速发送单行消息。 使用 `Enter` 来发送消息。
