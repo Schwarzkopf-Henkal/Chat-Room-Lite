@@ -149,7 +149,17 @@ code::-webkit-scrollbar-corner,
 .light{
     color: #ffff00;
 }
-
+.userTag{
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    color: #fff;
+}
 /* Markdown Config */
 p, h1, h2, h3, h4, h5, h6{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
