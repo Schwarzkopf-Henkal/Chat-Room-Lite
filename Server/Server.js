@@ -19,7 +19,8 @@ ServerInfo.isBannedIP=new Object();
 ServerInfo.multiplyIP=new Object();
 ServerInfo.ipNumber=new Object();
 ServerInfo.name2IP=new Object();
-//Environment Vars
+ServerInfo.tagInfo=new Object();
+ServerInfo.tagColor=new Object();
 try{
     Settings=JSON.parse(fs.readFileSync("Properties.json"));
 }catch{
@@ -355,7 +356,7 @@ Server.on('connection',(ws,Req)=>{
             var rM = msg.body;
             msg.body=getMarkdownCode(HtmlSpecialChars(msg.body));
             ServerInfo.time=new Date();
-            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}:\n<div class="MessageInfo" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
+            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}`+(ServerInfo.tagInfo[ws.ClientId]?'<span class="userTag" style="background-color:'+ServerInfo.tagColor[ws.ClientId]+'">'+ServerInfo.tagInfo[ws.ClientId]+'</span>':``)+`:\n<div class="MessageInfo" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
         }
         else if(msg.headers.Content_Type==='application/banUser'){
             let userName=msg.headers['Set_Name'];
@@ -417,12 +418,26 @@ Server.on('connection',(ws,Req)=>{
                 }));
             }
         }
+        else if(msg.headers.Content_Type==='application/changeUserTag'){
+            let userName=ws.ClientId;
+            ServerInfo.tagInfo[userName]=msg.headers['Set_Taginfo'];
+            ServerInfo.tagColor[userName]=msg.headers['Set_Tagcolor'];
+            broadcastAsAlert(`<i class="fas fa-tags" style="width:20px"></i> ${ws.ClientId} set his/her tag as <span class="userTag" style="background-color:${ServerInfo.tagColor[userName]}">${ServerInfo.tagInfo[userName]}</span>.\n`,'application/changeUserTag',{"color":"#13c60d"});
+        }
+        else if(msg.headers.Content_Type==='application/closeUserTag'){
+            let userName=ws.ClientId;
+            ServerInfo.tagInfo[userName]=undefined;
+            ServerInfo.tagColor[userName]=undefined;
+            broadcastAsAlert(`<i class="fas fa-tags" style="width:20px"></i> ${ws.ClientId} close his/her tag.\n`,'application/changeUserTag',{"color":"#e7483f"});
+        }
     });
     ws.on('close',()=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
             --ServerInfo.ipNumber[ws.IP];
             ServerInfo.isAdmin[ws.ClientId]=false;
             ServerInfo.isBanned[ws.ClientId]=false;
+            ServerInfo.tagInfo[ws.ClientId]=undefined;
+            ServerInfo.tagColor[ws.ClientId]=undefined;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
             broadcast(EventMsg,'',{'color':'#e7483f'});
