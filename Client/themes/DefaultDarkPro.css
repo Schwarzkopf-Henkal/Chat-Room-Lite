@@ -1,0 +1,53 @@
+body{
+    background-color: black;
+}
+.Block{
+    border: 2px solid #cccccc;
+}
+.Block .Title{
+    background-color: #cccccc;
+}
+.Input{
+    color: #cccccc;
+    background-color: black;
+}
+.Output{
+    color:#cccccc;
+}
+.fuckat{
+    background-color: #ffff00;
+    color: black;
+}
+.InputType{
+    color:#cccccc;
+}
+.MessageInfo{
+    background: #00717d;
+    border-radius: 3px;
+}
+.SignIn{
+    background: #004c11 !important;
+}
+.Error,
+.SignOut{
+    background: #630000 !important;
+}
+.Warning{
+    background: #616300 !important;
+}
+.style_warning{
+    color: #ffff00;
+}
+.style_error{
+    color :#e7483f;
+}
+.style_accept{
+    color: #13c60d;
+}
+.style_pending{
+    color: grey;
+}
+.userTag{
+    border-radius: 4px;
+    color: #fff;
+}

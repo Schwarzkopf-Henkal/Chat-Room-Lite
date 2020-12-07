@@ -1,6 +1,3 @@
-body{
-    background-color: black;
-}
 .ChatRoom{
     height: 443px;
     width: 510px;
@@ -23,7 +20,6 @@ body{
 }
 .Block{
     position: absolute;
-    border: 2px solid #cccccc;
 }
 .Block .Title{
     position: absolute;
@@ -33,7 +29,6 @@ body{
     font-size: 14px;
     line-height: 14px;
     display: inline-block;
-    background-color: #cccccc;
 }
 .Input{
     position: absolute;
@@ -41,16 +36,13 @@ body{
     width: 860px;
     left: 7.5px;
     top: 10.5px;
-    color: #cccccc;
-    font-family: Consolas;
-    background-color: black;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     outline: none;
     border:0;
 }
 .Output{
     margin: 0;
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
-    color:#cccccc;
     font-size: 14px;
     position: absolute;
     word-wrap: break-word;
@@ -98,13 +90,8 @@ code::-webkit-scrollbar-corner,
     height: 363px;
     overflow: auto;
 }
-.fuckat{
-    background-color: #ffff00;
-    color: black;
-}
 .InputType{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
-    color:#cccccc;
     font-size: 14px;
     line-height: 1.5;
     position: absolute;
@@ -112,8 +99,6 @@ code::-webkit-scrollbar-corner,
     top: 613px;
 }
 .MessageInfo{
-    background: #00717d;
-    border-radius: 3px;
     padding-left: 14px;
     padding-right: 14px;
     padding-top: 3px;
@@ -134,40 +119,23 @@ code::-webkit-scrollbar-corner,
     height: 14px;
 }
 .SignIn{
-    background: #004c11 !important;
     display: block !important;
 }
 .Error,
 .SignOut{
-    background: #630000 !important;
     display: block !important;
 }
 .Warning{
-    background: #616300 !important;
     display: block !important;
-}
-.style_warning{
-    color: #ffff00;
-}
-.style_error{
-    color :#e7483f;
-}
-.style_accept{
-    color: #13c60d;
-}
-.style_pending{
-    color: grey;
 }
 .userTag{
     margin-left: 5px;
     margin-right: 5px;
-    border-radius: 4px;
     padding-top: 0px;
     padding-bottom: 0px;
     padding-left: 4px;
     padding-right: 4px;
     font-size: 12px;
-    color: #fff;
 }
 /* Markdown Config */
 p, h1, h2, h3, h4, h5, h6{
