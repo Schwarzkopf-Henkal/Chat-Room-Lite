@@ -1,5 +1,5 @@
 body{
-    background-color: #bbb;
+    background-color: #fff;
 }
 .Block{
     border: 2px solid black;
@@ -10,7 +10,7 @@ body{
 }
 .Input{
     color: black;
-    background-color: #bbb;
+    background-color: #fff;
 }
 .Output{
     color: black;

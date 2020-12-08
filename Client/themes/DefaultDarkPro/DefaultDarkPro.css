@@ -35,7 +35,7 @@ body{
 .Warning{
     background: #616300 !important;
 }
-.style_warning{
+.style_warning, .style_light{
     color: #ffff00;
 }
 .style_error{
