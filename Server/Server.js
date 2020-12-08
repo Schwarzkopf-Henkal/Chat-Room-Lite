@@ -440,7 +440,7 @@ Server.on('connection',(ws,Req)=>{
             ServerInfo.tagColor[ws.ClientId]=undefined;
             ServerInfo.time=new Date();
             let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
-            broadcast(EventMsg,'',{"type":"error"});
+            broadcast(EventMsg,'',{"type":"style_error"});
             broadcommand('UsrDel',[ws.ClientId]);
             ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ws.ClientId),1);
             Status=false;
