@@ -51,3 +51,21 @@ body{
     border-radius: 4px;
     color: #fff;
 }
+a {color: #55d015;}
+a:hover {color: #42c100;}
+a:onclick {color: #42c100;}
+a:visited {color: #55d015;}
+table > tr > th, table > tr > td { border-color:#fff; }
+p, h1, h2, h3, h4, h5, h6{color:#cccccc;}
+.Output::-webkit-scrollbar:hover,
+.Input::-webkit-scrollbar:hover,
+code::-webkit-scrollbar:hover,
+.MessageInfo::-webkit-scrollbar:hover{
+    background-color: #776170;
+}
+.Output::-webkit-scrollbar-thumb,
+.Input::-webkit-scrollbar-thumb,
+code::-webkit-scrollbar-thumb,
+.MessageInfo::-webkit-scrollbar-thumb{
+    background-color: #C9613F;
+}

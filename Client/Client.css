@@ -63,18 +63,11 @@ code::-webkit-scrollbar,
     width: 5px;
     height: 5px;
 }
-.Output::-webkit-scrollbar:hover,
-.Input::-webkit-scrollbar:hover,
-code::-webkit-scrollbar:hover,
-.MessageInfo::-webkit-scrollbar:hover{
-    background-color: #776170;
-}
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb{
     border-radius: 1px;
-    background-color: #C9613F;
 }
 .Output::-webkit-scrollbar-corner,
 .Input::-webkit-scrollbar-corner,
@@ -140,7 +133,6 @@ code::-webkit-scrollbar-corner,
 /* Markdown Config */
 p, h1, h2, h3, h4, h5, h6{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
-    color:#cccccc;
     display: inline;
     margin: 0px;
 }
@@ -184,12 +176,7 @@ hr {
     background: ;
     width: 100%;
 }
-a {color: #55d015;}
-a:hover {color: #42c100;}
-a:onclick {color: #42c100;}
-a:visited {color: #55d015;}
 table{border-collapse: collapse; padding:2px;}
-table > tr > th, table > tr > td { border-color:#fff; }
 th, td{
     border: 1px solid #fff;
     padding-left: 8px;
