@@ -1,16 +1,16 @@
 body{
-    background-color: #bbb;
+    background-color: rgb(252, 252, 252);
 }
 .Block{
-    border: 2px solid black;
+    border: 2px solid #e1ecf9;
 }
 .Block .Title{
-    background-color: black;
-    color: white;
+    background-color: #e1ecf9;
+    color:#66afe0;
 }
 .Input{
     color: black;
-    background-color: #bbb;
+    background-color:rgb(252, 252, 252);
 }
 .Output{
     color: black;
@@ -23,7 +23,7 @@ body{
     color: black;
 }
 .MessageInfo{
-    background: #888;
+    background: #ececec;
     border-radius: 3px;
 }
 .SignIn{
@@ -34,10 +34,13 @@ body{
     background: #efb0b0 !important;
 }
 .Warning{
-    background: #c1c27c !important;
+    background: #e5e69a !important;
+}
+.style_light{
+    color: #f0dc1e;
 }
 .style_warning{
-    color: #ffff00;
+    color: #d2713a;
 }
 .style_error{
     color :#e7483f;
