@@ -1,0 +1,72 @@
+body{
+    background-color: #bbb;
+}
+.Block{
+    border: 2px solid black;
+}
+.Block .Title{
+    background-color: black;
+    color: white;
+}
+.Input{
+    color: black;
+    background-color: #bbb;
+}
+.Output{
+    color: black;
+}
+.fuckat{
+    background-color: #ffff00;
+    color: black;
+}
+.InputType{
+    color: black;
+}
+.MessageInfo{
+    background: #888;
+    border-radius: 3px;
+}
+.SignIn{
+    background: #7bd791 !important;
+}
+.Error,
+.SignOut{
+    background: #efb0b0 !important;
+}
+.Warning{
+    background: #c1c27c !important;
+}
+.style_warning{
+    color: #ffff00;
+}
+.style_error{
+    color :#e7483f;
+}
+.style_accept{
+    color: #20901c;
+}
+.style_pending{
+    color: grey;
+}
+.userTag{
+    border-radius: 4px;
+    color: #fff;
+}
+a {color: #45d0f5;}
+a:hover {color: #4eb2cd;}
+a:onclick {color: #4eb2cd;}
+a:visited {color: #45d0f5;}
+table > tr > th, table > tr > td { border-color:black; }
+p, h1, h2, h3, h4, h5, h6{color:black;}
+.Output::-webkit-scrollbar:hover,
+.Input::-webkit-scrollbar:hover,
+code::-webkit-scrollbar:hover,
+.MessageInfo::-webkit-scrollbar:hover{
+    background-color: #93d9e5;
+}
+.Output::-webkit-scrollbar-thumb,
+.Input::-webkit-scrollbar-thumb,
+code::-webkit-scrollbar-thumb,
+.MessageInfo::-webkit-scrollbar-thumb{
+    background-color: #6bb4cb;
+}
