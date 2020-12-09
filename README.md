@@ -51,6 +51,8 @@ use command `/notice` to open / close the notice at the title of the website `(<
 
 use command `/tag <Tag Info.> <Tag Color>` to set your tag, and `/untag` to reset it. 
 
+use command `/theme <Theme Name>` to set the theme. You can put your own themes under `./Client/themes` folder. You can also modify the theme list and theme icon at `ThemeL` and `ThemeI` in `./Client/index.html`. The default theme list is `["DefaultLight", "DefaultDark"]`.
+
 You can use `Ctrl+Shift+A` or click the icon below the input box to change input mode. Two input modes are provided:
 
 1. Single Line Mode - You can send messages in a fast speed. Use `Enter` to send message.

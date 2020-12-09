@@ -49,6 +49,8 @@
 
 使用命令 `/tag <Tag Info.> <Tag Color>` 设置用户的标签，并用 `/untag` 重置。
 
+使用命令 `/theme <Theme Name>` 设置主题。你可以在 `./Client/themes` 文件夹下添加自己的主题。你也可以向 `./Client/index.html` 中的 `ThemeL` 和 `ThemeI` 添加主题名称和图标。默认主题列表是 `["DefaultLight", "DefaultDark"]`。
+
 使用快捷键 `Ctrl+Shift+A` 或点击输入区下方图标来切换输入模式。一共有两种输入模式：
 
 1. 单行输入 - 快速发送单行消息。 使用 `Enter` 来发送消息。
