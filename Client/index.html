@@ -6,8 +6,11 @@
 	<script src="showdown.min.js"></script>
 	<link rel="stylesheet" href="katex.min.css">
 	<link rel="stylesheet" href="Client.css">
-	<link rel="stylesheet" href="themes/DefaultLight/main.css" theme>
-	<link rel="stylesheet" href="themes/DefaultLight/highlight.css" theme>
+	<!--Just in case-->
+	<link rel="stylesheet" href="./themes/DefaultLight/main.css">
+	<link rel="stylesheet" href="./themes/DefaultLight/highlight.css">
+	<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultLight/main.css">
+	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultLight/highlight.css">
 	<link rel="stylesheet" href="all.min.css">
 </head>
 <body>
@@ -29,11 +32,18 @@
 			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 		</div>
 		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
+		<div style="position:absolute;width:500px;top:598px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
 	</div>
 </body>
 <footer>
 	<script src="Client.js"></script>
 	<script>
+		var ThemeL = ["DefaultLight", "DefaultDark"];
+		var ThemeI = ["fas fa-sun-o", "fas fa-moon-o"];
+		var ThemeS = "Theme List | ";
+		for(var p=0;p<ThemeL.length;p++)
+			ThemeS+=`<i class="${ThemeI[p]}" style="cursor:pointer;width:20px;" onclick="setTheme('${ThemeL[p]}')"></i>`;
+		$(".ThemeList").html(ThemeS);
 		var input=$('.Input'),Doc=$(document);
 		var MultiplySelection=false;
 		input.on('keypress',K=>{
@@ -62,15 +72,6 @@
 			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
 			"Multiple Line Mode - CTRL + Enter to send message":
 			"Single Line Mode - Enter to send message";
-		}
-		var ThemeList=['DefaultLight','DefaultDark'];
-		var CurrentTheme=0,Link=$('link[theme]');
-		function changeTheme(){
-			CurrentTheme++;
-			if(CurrentTheme===ThemeList.length)
-				CurrentTheme=0;
-			Link[0].href=`themes/${ThemeList[CurrentTheme]}/main.css`;
-			Link[1].href=`themes/${ThemeList[CurrentTheme]}/highlight.css`;
 		}
 	</script>
 </footer>

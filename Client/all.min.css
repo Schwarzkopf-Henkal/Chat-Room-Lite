@@ -386,3 +386,12 @@
 .fa-tags:before {
   content: "\f02c";
 }
+.fa-eyedropper:before {
+  content: "\f1fb";
+}
+.fa-sun-o:before {
+  content: "\f185";
+}
+.fa-moon-o:before {
+  content: "\f186";
+}

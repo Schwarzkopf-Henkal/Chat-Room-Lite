@@ -22,6 +22,9 @@ body{
 .InputType{
     color: black;
 }
+.ThemeList{
+    color: black;
+}
 .MessageInfo{
     background: #ececec;
     border-radius: 3px;

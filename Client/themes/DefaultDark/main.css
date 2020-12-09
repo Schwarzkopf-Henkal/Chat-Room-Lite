@@ -6,6 +6,7 @@ body{
 }
 .Block .Title{
     background-color: #cccccc;
+    color: black;
 }
 .Input{
     color: #cccccc;
@@ -24,6 +25,9 @@ body{
 .MessageInfo{
     background: #00717d;
     border-radius: 3px;
+}
+.ThemeList{
+    color: white;
 }
 .SignIn{
     background: #004c11 !important;

@@ -91,6 +91,10 @@ code::-webkit-scrollbar-corner,
     left: 10.5px;
     top: 613px;
 }
+.ThemeList{
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
+    font-size: 14px;
+}
 .MessageInfo{
     padding-left: 14px;
     padding-right: 14px;
