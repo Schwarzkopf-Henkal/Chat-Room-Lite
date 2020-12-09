@@ -1,4 +1,4 @@
-﻿# Chat Room Lite
+# Chat Room Lite
 
 ## 使用方法
 ### 作为服务端

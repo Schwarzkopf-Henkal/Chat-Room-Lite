@@ -1,0 +1,78 @@
+body{
+    background-color: rgb(252, 252, 252);
+}
+.Block{
+    border: 2px solid #e1ecf9;
+}
+.Block .Title{
+    background-color: #e1ecf9;
+    color:#66afe0;
+}
+.Input{
+    color: black;
+    background-color:rgb(252, 252, 252);
+}
+.Output{
+    color: black;
+}
+.fuckat{
+    background-color: #ffff00;
+    color: black;
+}
+.InputType{
+    color: black;
+}
+.ThemeList{
+    color: black;
+}
+.MessageInfo{
+    background: #ececec;
+    border-radius: 3px;
+}
+.SignIn{
+    background: #7bd791 !important;
+}
+.Error,
+.SignOut{
+    background: #efb0b0 !important;
+}
+.Warning{
+    background: #e5e69a !important;
+}
+.style_light{
+    color: #f0dc1e;
+}
+.style_warning{
+    color: #d2713a;
+}
+.style_error{
+    color :#e7483f;
+}
+.style_accept{
+    color: #20901c;
+}
+.style_pending{
+    color: grey;
+}
+.userTag{
+    border-radius: 4px;
+    color: #fff;
+}
+a {color: #45d0f5;}
+a:hover {color: #4eb2cd;}
+a:onclick {color: #4eb2cd;}
+a:visited {color: #45d0f5;}
+table > tr > th, table > tr > td { border-color:black; }
+p, h1, h2, h3, h4, h5, h6{color:black;}
+.Output::-webkit-scrollbar:hover,
+.Input::-webkit-scrollbar:hover,
+code::-webkit-scrollbar:hover,
+.MessageInfo::-webkit-scrollbar:hover{
+    background-color: #93d9e5;
+}
+.Output::-webkit-scrollbar-thumb,
+.Input::-webkit-scrollbar-thumb,
+code::-webkit-scrollbar-thumb,
+.MessageInfo::-webkit-scrollbar-thumb{
+    background-color: #6bb4cb;
+}
