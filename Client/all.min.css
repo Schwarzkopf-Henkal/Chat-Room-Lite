@@ -257,7 +257,7 @@
   font-style: normal;
   font-weight: 900;
   font-display: auto;
-  src: url("fa-solid-900.woff2") format("woff2");
+  src: url("fa-webfont.woff2") format("woff2");
 }
 .fa,
 .fas {
