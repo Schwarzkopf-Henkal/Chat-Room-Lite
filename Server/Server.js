@@ -318,7 +318,7 @@ Server.on('connection',(ws,Req)=>{
                 }
             }));
             if(ServerInfo.isBannedIP[ws.IP]){
-                if(ServerInfo.BannedUntil[ws.IP]<=(new Date().getTime)){
+                if(ServerInfo.BannedUntil[ws.IP]<=(new Date().getTime())){
                     ServerInfo.isBannedIP[ws.IP]=false;
                     ServerInfo.BannedUntil[ws.IP]=0;
                 }
