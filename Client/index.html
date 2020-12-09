@@ -6,8 +6,8 @@
 	<script src="showdown.min.js"></script>
 	<link rel="stylesheet" href="katex.min.css">
 	<link rel="stylesheet" href="Client.css">
-	<link rel="stylesheet" href="themes/DefaultLight/DefaultLight.css">
-	<link rel="stylesheet" href="themes/DefaultLight/atelier-cave-dark.css">
+	<link rel="stylesheet" href="themes/DefaultLight/main.css" theme>
+	<link rel="stylesheet" href="themes/DefaultLight/highlight.css" theme>
 	<link rel="stylesheet" href="all.min.css">
 </head>
 <body>
@@ -62,6 +62,15 @@
 			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
 			"Multiple Line Mode - CTRL + Enter to send message":
 			"Single Line Mode - Enter to send message";
+		}
+		var ThemeList=['DefaultLight','DefaultDark'];
+		var CurrentTheme=0,Link=$('link[theme]');
+		function changeTheme(){
+			CurrentTheme++;
+			if(CurrentTheme===ThemeList.length)
+				CurrentTheme=0;
+			Link[0].href=`themes/${ThemeList[CurrentTheme]}/main.css`;
+			Link[1].href=`themes/${ThemeList[CurrentTheme]}/highlight.css`;
 		}
 	</script>
 </footer>
