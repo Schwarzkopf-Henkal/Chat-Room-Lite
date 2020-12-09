@@ -1,0 +1,10 @@
+{
+  "name": "Chat Room Lite",
+  "main": "index.html",
+  "nodejs": true,
+  "windows":{
+  	"width": 1126,
+  	"height": 800,
+  	"rresizable": false
+  }
+}

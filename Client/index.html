@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+	<title>Chat Room Lite</title>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/showdown.min.js"></script>
+	<link rel="stylesheet" href="./css/katex.min.css">
+	<link rel="stylesheet" href="./css/Client.css">
+	<!--Just in case-->
+	<link rel="stylesheet" href="./themes/DefaultLight/main.css">
+	<link rel="stylesheet" href="./themes/DefaultLight/highlight.css">
+	<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultLight/main.css">
+	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultLight/highlight.css">
+	<link rel="stylesheet" href="./css/all.min.css">
+</head>
+<body>
+    <div class="interface">
+		<div class="ChatRoom Block">
+			<div class="Title">Chat Room</div>
+			<pre class="Output"></pre>
+		</div>
+		<div class="Status Block">
+			<div class="Title">Status</div>
+			<pre class="Output"><span class="style_error"><i class="fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span></pre>
+		</div>
+		<div class="UserInfo Block">
+			<div class="Title">User Info.</div>
+			<pre class="Output"></pre>
+		</div>
+		<div class="InputArea Block">
+			<div class="Title">Input Area</div>
+			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
+		</div>
+		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
+		<div style="position:absolute;width:500px;top:613px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
+	</div>
+</body>
+<footer>
+	<script src="./js/Client.js"></script>
+	<script>
+		var ThemeL = ["DefaultLight", "DefaultDark"];
+		var ThemeI = ["fas fa-sun-o", "fas fa-moon-o"];
+		var ThemeS = "Theme List | ";
+		for(var p=0;p<ThemeL.length;p++)
+			ThemeS+=`<i class="${ThemeI[p]}" style="cursor:pointer;width:20px;" onclick="setTheme('${ThemeL[p]}')"></i>`;
+		$(".ThemeList").html(ThemeS);
+		var input=$('.Input'),Doc=$(document);
+		var MultiplySelection=false;
+		input.on('keypress',K=>{
+			if(MultiplySelection&&event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
+				if(input.val()!=""){
+					Send(input.val());
+					input.val("");
+				}
+				return false;
+			}
+			if(!MultiplySelection&&!event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
+				if(input.val()!=""){
+					Send(input.val());
+					input.val("");
+				}
+				return false;
+			}
+		});
+		Doc.on('keypress',K=>{
+			if(K.ctrlKey===true&&K.shiftKey===true&&K.keyCode===1)
+				changeInputType();
+		});
+		function changeInputType(){
+			MultiplySelection=!MultiplySelection;
+			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
+			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
+			"Multiple Line Mode - CTRL + Enter to send message":
+			"Single Line Mode - Enter to send message";
+		}
+	</script>
+</footer>
+</html>
