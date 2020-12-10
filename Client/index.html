@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <head>
-	<script>
-		document.addEventListener("DOMContentLoaded",()=>{
-			var TT = localStorage.getItem('themeT');
-			if(TT!=undefined)	setTheme(TT);
-		});
-	</script>
     <meta charset="UTF-8">
 	<title>Chat Room Lite</title>
 	<script src="./js/jquery.min.js"></script>
@@ -14,10 +8,10 @@
 	<link rel="stylesheet" href="./css/katex.min.css">
 	<link rel="stylesheet" href="./css/Client.css">
 	<!--Just in case-->
-	<link rel="stylesheet" href="./themes/DefaultDark/main.css">
+	<!-- <link rel="stylesheet" href="./themes/DefaultDark/main.css">
 	<link rel="stylesheet" href="./themes/DefaultDark/highlight.css">
 	<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultDark/main.css">
-	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultDark/highlight.css">
+	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultDark/highlight.css"> -->
 	<link rel="stylesheet" href="./css/all.min.css">
 </head>
 <body>
@@ -80,6 +74,14 @@
 			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
 			"Multiple Line Mode - CTRL + Enter to send message":
 			"Single Line Mode - Enter to send message";
+		}
+		let TT=localStorage.getItem('themeT');
+		if(TT!==undefined){
+			$('head').append(`<link class="setDefaultCss" rel="stylesheet" href="./themes/${TT}/main.css">`);
+			$('head').append(`<link class="setHighlightCss" rel="stylesheet" href="./themes/${TT}/highlight.css">`);
+		}else {
+			$('head').append(`<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultDark/main.css">`);
+			$('head').append(`<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultDark/highlight.css">`);
 		}
 	</script>
 </footer>
