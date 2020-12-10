@@ -26,12 +26,15 @@ body{
     color: black;
 }
 .onlineIPCard{
+    background:#ededf5;
     /*在线服务器*/
 }
 .recentIPCard{
+    background: #c4b7d7;
     /*最近 5 个服务器*/
 }
 .newIPCard{
+    background: #81b88b;
     /*新加 IP 卡片*/
 }
 .MessageInfo{
