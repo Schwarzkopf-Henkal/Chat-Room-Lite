@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <head>
+	<script>
+		document.addEventListener("DOMContentLoaded",()=>{
+			var TT = localStorage.getItem('themeT');
+			if(TT!=undefined)	setTheme(TT);
+		});
+	</script>
     <meta charset="UTF-8">
 	<title>Chat Room Lite</title>
 	<script src="./js/jquery.min.js"></script>

@@ -5,6 +5,7 @@ var SendUserList=new Object(),SendNumber=0;
 var SendUsers=[];
 var closeNotice=new Object();
 var isBannedNow=false;
+var LoadReady=false;
 function InitWindow(){
 	Write2(`<i class="fas fa-globe"></i> IP List: \n<span class="chatRoomList"></span>\n`,{},function(){
 		let Ping=new WebSocket('ws://49.234.17.22:8080');
@@ -52,7 +53,8 @@ function setTheme(str){
 	localStorage.setItem('themeT',str,{expires:7});
 	$(".setDefaultCss").attr("href",`./themes/${str}/main.css`);
 	$(".setHighlightCss").attr("href",`./themes/${str}/highlight.css`);
-	Write(`<i class="fas fa-eyedropper" style="width:20px"></i> Theme Changed: ${str}\n`,{'type':'style_accept'});
+	if(LoadReady===true)
+		Write(`<i class="fas fa-eyedropper" style="width:20px"></i> Theme Changed: ${str}\n`,{'type':'style_accept'});
 }
 var Commands={
 	"cls":{
@@ -118,6 +120,7 @@ function Initalize(){
 		$(".loadToServer").addClass('style_error');
 	}
 	ws.onclose=(CS_E)=>{
+		LoadReady=false;
 		if(S_Status==1){
 			$(".loadToServer").html(`<i class="fas fa-times" style="width:20px"></i> Cannot Connect To The Server!`);
 			$(".loadToServer").addClass('style_error');
@@ -137,6 +140,7 @@ function Initalize(){
 			S_Status++;Write("Your Unique Name: \n");
 		}
 		if(msg.headers['Content_Type']==='application/init'){
+			LoadReady=true;
 			Server=msg.headers.Set_serverinfo;
 			isAdmin=Server.isAdmin;
 			SendUserList[User.name]=true;
@@ -438,8 +442,6 @@ function getQueryVariable(variable){
 	return(false);
 }
 window.onload=()=>{
-	var TT = localStorage.getItem('themeT');
-	if(TT!=undefined)	setTheme(TT);
 	InitWindow();
 }
 window.onfocus=()=>{
