@@ -105,6 +105,14 @@ code::-webkit-scrollbar-corner,
     position: relative;
     display: inline-block;
 }
+.onlineIPCard, .recentIPCard, .newIPCard{
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 5px;
+}
 .Message{
     min-height: 14px;
     overflow-y: hidden;

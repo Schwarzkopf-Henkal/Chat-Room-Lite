@@ -5,27 +5,85 @@ var SendUserList=new Object(),SendNumber=0;
 var SendUsers=[];
 var closeNotice=new Object();
 var isBannedNow=false;
-var LoadReady=false;
-function InitWindow(){
-	Write2(`<i class="fas fa-globe"></i> IP List: \n<span class="chatRoomList"></span>\n`,{},function(){
-		let Ping=new WebSocket('ws://49.234.17.22:8080');
-		Ping.onstyle_error=()=>{
-			if(S_Interface===true){
-				$(".chatRoomList").html(`<i class="fas fa-chain-broken style_error" style="width:20px"></i> Public Room: 49.234.17.22:8080 <span class="style_error">·Offline</span>`);
-			}
-		};
-		Ping.onopen=()=>{
-			if(S_Interface===true){
-				$(".chatRoomList").html(`<span onclick="if(S_Status==0) Send('49.234.17.22:8080');" style="cursor:pointer"><i class="fas fa-link style_accept" style="width:20px"></i> Public Room: 49.234.17.22:8080 <span class="style_accept">·Online</span></span>`);
-				Ping.close();
-			}
+var recentIPs=[];
+var onlineIPs=['49.234.17.22:8080'];
+const MAX_RECENTIP_LENGTH=5;
+var readUrlIP=true;
+function SetFeedback(func1,func2){
+	func1();func2();
+}
+var Commands={
+	"cls":{
+		fun:()=>{output.empty();}
+	},
+	"exit":{
+		fun:()=>{
+			S_Status=0;S_Interface=true;
+			if(ws.readyState===WebSocket.OPEN)	ws.close();
+			$('.Status .Output').html(`<span class="style_error"><i class="fas fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span>`);
+			output.html('');$('.UserInfo .Output').html('');InitWindow();
 		}
-		if(getQueryVariable("ip")){
+	},
+	"notice":{
+		fun:()=>{
+			M_Notice=!M_Notice;
+			document.getElementById('AlertS').className=(M_Notice?"fas fa-bell style_light":"fas fa-bell-slash");
+			Write(`<i class="fas fa-wrench" style="width:20px"></i> Message notice = ${M_Notice}\n`,{'type':'style_accept'})
+		}
+	}
+},S_Status=0,S_Interface=true;
+function InitWindow(){
+	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div style="text-align:center;"><span class="chatRoomList" style="display: inline-block;"></span></div>\n`,{},function(){
+		for(var p=0;p<onlineIPs.length;p++){
+			SetFeedback(function(){$(".chatRoomList").append(`<span class="onlineIPCard OIP${p+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Online Server #${(p+1)+""}\n${onlineIPs[p]}</span></span>`);},function(){
+			let Ping=new WebSocket(`ws://${onlineIPs[p]}`);
+			Ping.info=p;
+			Ping.onerror=()=>{
+				if(S_Interface===true){
+					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Online IP #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
+				}
+			};
+			Ping.onopen=()=>{
+				if(S_Interface===true){
+					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Online IP #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
+					$(`.OIP${Ping.info+""}`).click(function(){
+						if(S_Status==0)
+							Send(`${onlineIPs[Ping.info]}`);
+					});
+					$(`.OIP${Ping.info+""}`).attr('style','cursor:pointer');
+					Ping.close();
+				}
+			}});
+		}
+		for(var p=0;p<recentIPs.length;p++){
+			SetFeedback(function(){$(".chatRoomList").append(`<span class="recentIPCard RIP${p+""}"><i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Recent IP #${(p+1)+""}\n${recentIPs[p]}</span></span>`);},function(){
+			let Ping=new WebSocket(`ws://${recentIPs[p]}`);
+			Ping.info=p;
+			Ping.onerror=()=>{
+				if(S_Interface===true){
+					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Recent IP #${(Ping.info+1)+""}\n${recentIPs[Ping.info]}</span>`);
+				}
+			};
+			Ping.onopen=()=>{
+				if(S_Interface===true){
+					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Recent IP #${(Ping.info+1)+""}\n${recentIPs[Ping.info]}</span>`);
+					$(`.RIP${Ping.info+""}`).click(function(){
+						if(S_Status==0)
+							Send(`${recentIPs[Ping.info]}`);
+					});
+					$(`.RIP${Ping.info+""}`).attr('style','cursor:pointer');
+					Ping.close();
+				}
+			}});
+		}
+		$(".chatRoomList").append(`<span class="newIPCard"><i class="fas fa-plus" style="font-size:30px;float:left;margin-right:5px;"></i><span>Want a new IP?\n--------------</span></span>`);
+		if(getQueryVariable("ip") && readUrlIP){
 			let IPByGet = getQueryVariable("ip");
 			Write(`Get IP from URL : ${IPByGet}\n`);
 			Send(IPByGet);
 		}
-		else Write(`Host IP [IP:port] :\n`);
+		else Write(`<i class="fas fa-info-circle" style="width:20px"></i>Type the IP in [IP:port] format if you want to add IP.\n`,{'type':'style_accept'});
+		readUrlIP=false;
 	});
 }
 function flushOutput(){
@@ -53,29 +111,8 @@ function setTheme(str){
 	localStorage.setItem('themeT',str,{expires:7});
 	$(".setDefaultCss").attr("href",`./themes/${str}/main.css`);
 	$(".setHighlightCss").attr("href",`./themes/${str}/highlight.css`);
-	if(LoadReady===true)
-		Write(`<i class="fas fa-eyedropper" style="width:20px"></i> Theme Changed: ${str}\n`,{'type':'style_accept'});
+	Write(`<i class="fas fa-eyedropper" style="width:20px"></i> Theme Changed: ${str}\n`,{'type':'style_accept'});
 }
-var Commands={
-	"cls":{
-		fun:()=>{output.empty();}
-	},
-	"exit":{
-		fun:()=>{
-			S_Status=0;S_Interface=true;
-			if(ws.readyState===WebSocket.OPEN)	ws.close();
-			$('.Status .Output').html(`<span class="style_error"><i class="fas fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span>`);
-			output.html('');$('.UserInfo .Output').html('');InitWindow();
-		}
-	},
-	"notice":{
-		fun:()=>{
-			M_Notice=!M_Notice;
-			document.getElementById('AlertS').className=(M_Notice?"fas fa-bell style_light":"fas fa-bell-slash");
-			Write(`<i class="fas fa-wrench" style="width:20px"></i> Message notice = ${M_Notice}\n`,{'type':'style_accept'})
-		}
-	}
-},S_Status=0,S_Interface=true;
 if (!window.WebSocket){
 	output.html('');
 	Write(`Fucking Error: No Websocket support.\n`,{'type':'style_error'});
@@ -107,23 +144,22 @@ function changeNoticeOption(userName){
 function Initalize(){
 	ws=new WebSocket(`ws://${User.host}`);
 	ws.onopen=()=>{
-		$(".loadToServer").html(`<i class="fas fa-check style_accept" style="width:20px"></i> Connected Successfully!`);
-		$(".loadToServer").addClass('style_accept');
+		$(".loadToServer:last").html(`<i class="fas fa-check style_accept" style="width:20px"></i>Connected Successfully! [-> ${User.host}]`);
+		$(".loadToServer:last").addClass('style_accept');
 		ws.send(JSON.stringify({
 			headers:{
 				"Content_Type":'application/userlist'
 			}
 		}));
 	}
-	ws.onstyle_error=()=>{
-		$(".loadToServer").html(`<i class="fas fa-times" style="width:20px"></i> Cannot Connect To The Server!`);
-		$(".loadToServer").addClass('style_error');
+	ws.onerror=()=>{
+		$(".loadToServer:last").html(`<i class="fas fa-times" style="width:20px"></i>Cannot Connect To The Server! [-> ${User.host}]`);
+		$(".loadToServer:last").addClass('style_error');S_Status--;
 	}
 	ws.onclose=(CS_E)=>{
-		LoadReady=false;
 		if(S_Status==1){
-			$(".loadToServer").html(`<i class="fas fa-times" style="width:20px"></i> Cannot Connect To The Server!`);
-			$(".loadToServer").addClass('style_error');
+			$(".loadToServer:last").html(`<i class="fas fa-times" style="width:20px"></i>Cannot Connect To The Server! [-> ${User.host}]`);
+			$(".loadToServer:last").addClass('style_error');S_Status--;
 			return;
 		}
 		if(S_Status==0){
@@ -140,7 +176,13 @@ function Initalize(){
 			S_Status++;Write("Your Unique Name: \n");
 		}
 		if(msg.headers['Content_Type']==='application/init'){
-			LoadReady=true;
+			//Server.usrList.splice(Server.usrList.indexOf(Para[0]),1);
+			if(recentIPs.indexOf(User.host)!=-1)
+				recentIPs.splice(recentIPs.indexOf(User.host),1);
+			recentIPs.push(User.host);
+			while(recentIPs.length>MAX_RECENTIP_LENGTH)
+				recentIPs.splice(0,1);
+			localStorage.setItem('recentI',recentIPs.join(','),{expires:7});
 			Server=msg.headers.Set_serverinfo;
 			isAdmin=Server.isAdmin;
 			SendUserList[User.name]=true;
@@ -442,6 +484,12 @@ function getQueryVariable(variable){
 	return(false);
 }
 window.onload=()=>{
+	if(localStorage.getItem('recentI')==undefined)
+		localStorage.setItem('recentI',"",{expires:7});
+	var rI = localStorage.getItem('recentI');
+	if(rI!=="")
+		recentIPs=rI.split(',');
+	else	recentIPs=[];
 	InitWindow();
 }
 window.onfocus=()=>{

@@ -25,6 +25,15 @@ body{
 .ThemeList{
     color: black;
 }
+.onlineIPCard{
+    /*在线服务器*/
+}
+.recentIPCard{
+    /*最近 5 个服务器*/
+}
+.newIPCard{
+    /*新加 IP 卡片*/
+}
 .MessageInfo{
     background: #ececec;
     border-radius: 3px;

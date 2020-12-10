@@ -5,17 +5,24 @@
 	<script src="./js/jquery.min.js"></script>
 	<script src="./js/showdown.min.js"></script>
 	<script src="./js/jscookie.min.js"></script>
+	<link class="defDefaultCss" rel="stylesheet">
+	<link class="defHighlightCss" rel="stylesheet">
+	<link class="setDefaultCss" rel="stylesheet">
+	<link class="setHighlightCss" rel="stylesheet">
+	<script>
+		var TT = localStorage.getItem('themeT');
+		if(TT!=undefined){
+			$(".setDefaultCss").attr("href",`./themes/${TT}/main.css`);
+			$(".setHighlightCss").attr("href",`./themes/${TT}/highlight.css`);
+		}
+		$('.defDefaultCss').attr('href','./themes/DefaultDark/main.css');
+		$('.defHighlightCss').attr('href','./themes/DefaultDark/highlight.css');
+	</script>
 	<link rel="stylesheet" href="./css/katex.min.css">
 	<link rel="stylesheet" href="./css/Client.css">
-	<!--Just in case-->
-	<!-- <link rel="stylesheet" href="./themes/DefaultDark/main.css">
-	<link rel="stylesheet" href="./themes/DefaultDark/highlight.css">
-	<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultDark/main.css">
-	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultDark/highlight.css"> -->
 	<link rel="stylesheet" href="./css/all.min.css">
 </head>
 <body>
-	<!-- Just in case (no flashed) -->
     <div class="interface">
 		<div class="ChatRoom Block">
 			<div class="Title">Chat Room</div>
@@ -74,14 +81,6 @@
 			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
 			"Multiple Line Mode - CTRL + Enter to send message":
 			"Single Line Mode - Enter to send message";
-		}
-		let TT=localStorage.getItem('themeT');
-		if(TT!==undefined){
-			$('head').append(`<link class="setDefaultCss" rel="stylesheet" href="./themes/${TT}/main.css">`);
-			$('head').append(`<link class="setHighlightCss" rel="stylesheet" href="./themes/${TT}/highlight.css">`);
-		}else {
-			$('head').append(`<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultDark/main.css">`);
-			$('head').append(`<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultDark/highlight.css">`);
 		}
 	</script>
 </footer>

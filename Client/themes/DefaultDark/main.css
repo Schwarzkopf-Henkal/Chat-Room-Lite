@@ -1,5 +1,5 @@
 body{
-    background-color: black;
+    background-color: #333;
 }
 .Block{
     border: 2px solid #cccccc;
@@ -10,7 +10,7 @@ body{
 }
 .Input{
     color: #cccccc;
-    background-color: black;
+    background-color: #333;
 }
 .Output{
     color:#cccccc;
@@ -21,6 +21,15 @@ body{
 }
 .InputType{
     color:#cccccc;
+}
+.onlineIPCard{
+    background: #255f7c;
+}
+.recentIPCard{
+    background: #725313;
+}
+.newIPCard{
+    background: #004c11;
 }
 .MessageInfo{
     background: #00717d;

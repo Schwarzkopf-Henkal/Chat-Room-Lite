@@ -398,3 +398,9 @@
 .fa-server:before {
   content: "\f233";
 }
+.fa-history:before {
+  content: "\f1da";
+}
+.fa-plus:before {
+  content: "\f067";
+}
