@@ -38,7 +38,7 @@
 		</div>
 		<div class="InputArea Block">
 			<div class="Title">Input Area</div>
-			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
+			<textarea class="Input" id="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 		</div>
 		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
 	</div>
@@ -55,7 +55,18 @@
 		$(".ThemeList").html(ThemeS);
 		var input=$('.Input'),Doc=$(document);
 		var MultiplySelection=false;
-		input.on('keypress',K=>{
+		var onTextareaKeydown = function(K){
+			if (K.keyCode == 9) {
+	        	K.preventDefault();
+	        	var start = this.selectionStart,
+	        		end = this.selectionEnd;
+	        	var text = this.value;
+	        	var tab = "	";
+	        	text = text.substr(0, start) + tab + text.substr(start);
+	        	this.value = text;
+	        	this.selectionStart = start + tab.length;
+	        	this.selectionEnd = end + tab.length;
+	        }
 			if(MultiplySelection&&event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
 				if(input.val()!=""){
 					Send(input.val());
@@ -70,7 +81,8 @@
 				}
 				return false;
 			}
-		});
+		}
+		document.getElementById("Input").onkeydown = onTextareaKeydown;
 		Doc.on('keypress',K=>{
 			if(K.ctrlKey===true&&K.shiftKey===true&&K.keyCode===1)
 				changeInputType();

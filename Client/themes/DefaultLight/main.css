@@ -26,20 +26,20 @@ body{
     color: black;
 }
 .onlineIPCard{
-    background:#ededf5;
-    /*在线服务器*/
+    background: #9fbaff;
 }
 .recentIPCard{
-    background: #c4b7d7;
-    /*最近 5 个服务器*/
+    background: #c8ef99;
 }
-.newIPCard{
-    background: #81b88b;
-    /*新加 IP 卡片*/
+.customIPCard{
+    background: #fca3ff;
 }
 .MessageInfo{
     background: #ececec;
     border-radius: 3px;
+}
+.IPList > p, .IPList > span{
+    background: #cacaca;
 }
 .SignIn{
     background: #7bd791 !important;
@@ -79,12 +79,14 @@ p, h1, h2, h3, h4, h5, h6{color:black;}
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover,
 code::-webkit-scrollbar:hover,
+.IPList > span::-webkit-scrollbar:hover,
 .MessageInfo::-webkit-scrollbar:hover{
     background-color: #93d9e5;
 }
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
+.IPList > span::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb{
     background-color: #6bb4cb;
 }

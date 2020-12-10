@@ -17,6 +17,7 @@
     height: 135px;
     width: 877px;
     top: 470px;
+    tab-size: 4;
 }
 .Block{
     position: absolute;
@@ -59,6 +60,7 @@
 .Output::-webkit-scrollbar,
 .Input::-webkit-scrollbar,
 code::-webkit-scrollbar,
+.IPList > span::-webkit-scrollbar,
 .MessageInfo::-webkit-scrollbar{
     width: 5px;
     height: 5px;
@@ -66,12 +68,36 @@ code::-webkit-scrollbar,
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
+.IPList > span::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb{
     border-radius: 1px;
 }
 .Output::-webkit-scrollbar-corner,
 .Input::-webkit-scrollbar-corner,
 code::-webkit-scrollbar-corner,
+.IPList > span::webkit-scrollbar-corner,
+.MessageInfo::-webkit-scrollbar-corner{
+    display: none;
+}
+.Output::-webkit-scrollbar,
+.Input::-webkit-scrollbar,
+code::-webkit-scrollbar,
+.IPList > span::webkit-scrollbar,
+.MessageInfo::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+.Output::-webkit-scrollbar-thumb,
+.Input::-webkit-scrollbar-thumb,
+code::-webkit-scrollbar-thumb,
+.IPList > span::webkit-scrollbar-thumb,
+.MessageInfo::-webkit-scrollbar-thumb{
+    border-radius: 1px;
+}
+.Output::-webkit-scrollbar-corner,
+.Input::-webkit-scrollbar-corner,
+code::-webkit-scrollbar-corner,
+.IPList > span::-webkit-scrollbar-corner,
 .MessageInfo::-webkit-scrollbar-corner{
     display: none;
 }
@@ -105,19 +131,43 @@ code::-webkit-scrollbar-corner,
     position: relative;
     display: inline-block;
 }
-.onlineIPCard, .recentIPCard, .newIPCard{
+.onlineIPCard, .recentIPCard, .customIPCard{
     width: 200px;
     height: 30px;
     display: inline-block;
     margin: 5px;
     border-radius: 5px;
     padding: 5px;
+    text-align: center;
+    white-space: normal;
+}
+.IPList{
+    text-align: left;
+    margin-bottom: 10px;
+}
+.IPList > p{
+    padding-left: 5px;
+    padding-right: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.IPList > span{
+    display: block;
+    height: 55px;
+    width: 480px;
+    overflow-x: scroll;
+    overflow-y: none;
+    white-space: nowrap;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .Message{
     min-height: 14px;
     overflow-y: hidden;
     display: block;
 }
+
 .showContent{
     text-align: center;
     width:100%;

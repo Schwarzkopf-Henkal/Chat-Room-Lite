@@ -28,8 +28,11 @@ body{
 .recentIPCard{
     background: #725313;
 }
-.newIPCard{
-    background: #004c11;
+.customIPCard{
+    background: #821e4e;
+}
+.IPList > p, .IPList > span{
+    background: #777;
 }
 .MessageInfo{
     background: #00717d;
@@ -73,12 +76,14 @@ p, h1, h2, h3, h4, h5, h6{color:#cccccc;}
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover,
 code::-webkit-scrollbar:hover,
+.IPList > span::-webkit-scrollbar:hover,
 .MessageInfo::-webkit-scrollbar:hover{
     background-color: #776170;
 }
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
+.IPList > span::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb{
     background-color: #C9613F;
 }

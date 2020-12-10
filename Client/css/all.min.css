@@ -404,3 +404,9 @@
 .fa-plus:before {
   content: "\f067";
 }
+.fa-compass:before {
+  content: "\f14e";
+}
+.fa-list:before {
+  content: "\f03a";
+}
