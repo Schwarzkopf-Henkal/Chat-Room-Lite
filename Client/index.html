@@ -4,16 +4,18 @@
 	<title>Chat Room Lite</title>
 	<script src="./js/jquery.min.js"></script>
 	<script src="./js/showdown.min.js"></script>
+	<script src="./js/jscookie.min.js"></script>
 	<link rel="stylesheet" href="./css/katex.min.css">
 	<link rel="stylesheet" href="./css/Client.css">
 	<!--Just in case-->
-	<link rel="stylesheet" href="./themes/DefaultLight/main.css">
-	<link rel="stylesheet" href="./themes/DefaultLight/highlight.css">
-	<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultLight/main.css">
-	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultLight/highlight.css">
+	<link rel="stylesheet" href="./themes/DefaultDark/main.css">
+	<link rel="stylesheet" href="./themes/DefaultDark/highlight.css">
+	<link class="setDefaultCss" rel="stylesheet" href="./themes/DefaultDark/main.css">
+	<link class="setHighlightCss" rel="stylesheet" href="./themes/DefaultDark/highlight.css">
 	<link rel="stylesheet" href="./css/all.min.css">
 </head>
 <body>
+	<!-- Just in case (no flashed) -->
     <div class="interface">
 		<div class="ChatRoom Block">
 			<div class="Title">Chat Room</div>
@@ -32,8 +34,8 @@
 			<textarea class="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 		</div>
 		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
-		<div style="position:absolute;width:500px;top:613px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
 	</div>
+	<div style="position:absolute;width:500px;top:613px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
 </body>
 <footer>
 	<script src="./js/Client.js"></script>
