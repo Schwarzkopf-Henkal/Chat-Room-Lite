@@ -8,6 +8,7 @@ var isBannedNow=false;
 var recentIPs=[];
 var customIPs=[];
 var onlineIPs=['49.234.17.22:8080'];
+var GETOS_URL='https://cdn-warfare-1302619124.file.myqcloud.com/OnlineServer.json';
 if(localStorage.getItem('customI')==undefined
 || localStorage.getItem('customI')==null)
 	localStorage.setItem('customI',"",{expires:7});
@@ -64,6 +65,32 @@ function InitWindow(){
 				}
 			}});
 		}
+		fetch(GETOS_URL).then(Res=>Res.json()).then(Res=>{
+			let Current_CardCnt=onlineIPs.length;
+			Res.forEach(Url=>{
+				SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${Current_CardCnt+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Online Server #${(Current_CardCnt+1)+""}\n${Url}</span></span>`);},function(){
+					let Ping=new WebSocket(`ws://${Url}`);
+					Ping.info=Current_CardCnt;
+					Ping.onerror=()=>{
+						if(S_Interface===true){
+							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Online IP #${(Ping.info+1)+""}\n${Url}</span>`);
+						}
+					};
+					Ping.onopen=()=>{
+						if(S_Interface===true){
+							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Online IP #${(Ping.info+1)+""}\n${Url}</span>`);
+							$(`.OIP${Ping.info+""}`).click(function(){
+								if(S_Status==0)
+									Send(`${Url}`);
+							});
+							$(`.OIP${Ping.info+""}`).attr('style','cursor:pointer');
+							Ping.close();
+						}
+					}
+				});
+				Current_CardCnt++;
+			});
+		});
 		for(var p=0;p<recentIPs.length;p++){
 			SetFeedback(function(){$(".RecentIPList").append(`<span class="recentIPCard RIP${p+""}"><i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Recent IP #${(p+1)+""}\n${recentIPs[p]}</span></span>`);},function(){
 			let Ping=new WebSocket(`ws://${recentIPs[p]}`);
