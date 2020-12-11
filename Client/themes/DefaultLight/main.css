@@ -38,7 +38,10 @@ body{
     background: #ececec;
     border-radius: 3px;
 }
-.IPList > p, .IPList > span{
+.IPList > p{
+    background: #e9e9e9;
+}
+.IPList > p[on_focus|=true], .IPList > span{
     background: #cacaca;
 }
 .SignIn{

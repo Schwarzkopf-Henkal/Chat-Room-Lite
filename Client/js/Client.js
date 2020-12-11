@@ -42,10 +42,12 @@ var Commands={
 	}
 },S_Status=0,S_Interface=true;
 function InitWindow(){
-	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-list" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:150px"><i class="fas fa-list" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:300px"><i class="fas fa-list" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
+	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-globe" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:150px"><i class="fas fa-history" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:300px" on_focus="true"><i class="fas fa-compass" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
 		$('.IPList > p').click(function(){
 			$('.IPList > span').css('display','none');
+			$('.IPList > p').attr('on_focus',false);
 			$(this).parent().children('span').css('display','block');
+			$(this).parent().children('p').attr('on_focus',true);
 		});
 		for(var p=0;p<onlineIPs.length;p++){
 			SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${p+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Online Server #${(p+1)+""}\n${onlineIPs[p]}</span></span>`);},function(){

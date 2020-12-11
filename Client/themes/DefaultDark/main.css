@@ -31,7 +31,10 @@ body{
 .customIPCard{
     background: #821e4e;
 }
-.IPList > p, .IPList > span{
+.IPList > p{
+    background: #535353;
+}
+.IPList > p[on_focus|=true], .IPList > span{
     background: #777;
 }
 .MessageInfo{
