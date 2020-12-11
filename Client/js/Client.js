@@ -42,8 +42,11 @@ var Commands={
 	}
 },S_Status=0,S_Interface=true;
 function InitWindow(){
-	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div style="text-align:center;"><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-list" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p><i class="fas fa-list" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p><i class="fas fa-list" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
-		
+	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-list" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:150px"><i class="fas fa-list" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:300px"><i class="fas fa-list" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
+		$('.IPList > p').click(function(){
+			$('.IPList > span').css('display','none');
+			$(this).parent().children('span').css('display','block');
+		});
 		for(var p=0;p<onlineIPs.length;p++){
 			SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${p+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Online Server #${(p+1)+""}\n${onlineIPs[p]}</span></span>`);},function(){
 			let Ping=new WebSocket(`ws://${onlineIPs[p]}`);
@@ -113,17 +116,17 @@ function InitWindow(){
 			}});
 		}
 		for(var p=0;p<customIPs.length;p++){
-			SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
+			SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}");' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
 			let Ping=new WebSocket(`ws://${customIPs[p]}`);
 			Ping.info=p;
 			Ping.onerror=()=>{
 				if(S_Interface===true){
-					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 				}
 			};
 			Ping.onopen=()=>{
 				if(S_Interface===true){
-					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 					$(`.CIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
 							Send(`${customIPs[Ping.info]}`);
@@ -145,9 +148,9 @@ function InitWindow(){
 		if(getQueryVariable("ip") && readUrlIP){
 			let IPByGet = getQueryVariable("ip");
 			Write(`Get IP from URL : ${IPByGet}\n`);
-			Send('+'+IPByGet);
+			Send(IPByGet);
 		}
-		else Write(`<i class="fas fa-info-circle" style="width:20px"></i>Type the IP in [[+/-]IP:port] format if you want to add/delete custom IP.\n`,{'type':'style_accept'});
+		else Write(`<i class="fas fa-info-circle" style="width:20px"></i>Type the IP in [[+/-]IP:port] format if you want to add/delete custom IP.\nOr use [IP:port] to directly connect to the IP.\n`,{'type':'style_accept'});
 		readUrlIP=false;
 	});
 }
@@ -517,17 +520,17 @@ function Send(msg){
 					customIPs.push(msg);
 					localStorage.setItem('customI',customIPs.join(','),{expires:7});
 					for(var p=0;p<customIPs.length;p++){
-						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
+						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}");' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
 						let Ping=new WebSocket(`ws://${customIPs[p]}`);
 						Ping.info=p;
 						Ping.onerror=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 							}
 						};
 						Ping.onopen=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 								$(`.CIP${Ping.info+""}`).click(function(){
 									if(S_Status==0)
 										Send(`${customIPs[Ping.info]}`);
@@ -549,17 +552,17 @@ function Send(msg){
 					customIPs.splice(customIPs.indexOf(msg),1);
 					localStorage.setItem('customI',customIPs.join(','),{expires:7});
 					for(var p=0;p<customIPs.length;p++){
-						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
+						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}");' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
 						let Ping=new WebSocket(`ws://${customIPs[p]}`);
 						Ping.info=p;
 						Ping.onerror=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 							}
 						};
 						Ping.onopen=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px“></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 								$(`.CIP${Ping.info+""}`).click(function(){
 									if(S_Status==0)
 										Send(`${customIPs[Ping.info]}`);
