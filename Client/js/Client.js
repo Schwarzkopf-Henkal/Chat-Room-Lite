@@ -50,17 +50,17 @@ function InitWindow(){
 			$(this).parent().children('p').attr('on_focus',true);
 		});
 		for(var p=0;p<onlineIPs.length;p++){
-			SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${p+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Online Server #${(p+1)+""}\n${onlineIPs[p]}</span></span>`);},function(){
+			SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${p+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Local Server #${(p+1)+""}\n${onlineIPs[p]}</span></span>`);},function(){
 			let Ping=new WebSocket(`ws://${onlineIPs[p]}`);
 			Ping.info=p;
 			Ping.onerror=()=>{
 				if(S_Interface===true){
-					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Online IP #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
+					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Local Server #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
 				}
 			};
 			Ping.onopen=()=>{
 				if(S_Interface===true){
-					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Online IP #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
+					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Local Server #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
 					$(`.OIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
 							Send(`${onlineIPs[Ping.info]}`);
@@ -73,17 +73,17 @@ function InitWindow(){
 		fetch(GETOS_URL).then(Res=>Res.json()).then(Res=>{
 			let Current_CardCnt=onlineIPs.length;
 			Res.forEach(Url=>{
-				SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${Current_CardCnt+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Online Server #${(Current_CardCnt+1)+""}\n${Url}</span></span>`);},function(){
+				SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${Current_CardCnt+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Web Server #${(Current_CardCnt+1)+""}\n${Url}</span></span>`);},function(){
 					let Ping=new WebSocket(`ws://${Url}`);
 					Ping.info=Current_CardCnt;
 					Ping.onerror=()=>{
 						if(S_Interface===true){
-							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Online IP #${(Ping.info+1)+""}\n${Url}</span>`);
+							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Web Server #${(Ping.info+1)+""}\n${Url}</span>`);
 						}
 					};
 					Ping.onopen=()=>{
 						if(S_Interface===true){
-							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Online IP #${(Ping.info+1)+""}\n${Url}</span>`);
+							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Web Server #${(Ping.info+1)+""}\n${Url}</span>`);
 							$(`.OIP${Ping.info+""}`).click(function(){
 								if(S_Status==0)
 									Send(`${Url}`);
