@@ -1,5 +1,5 @@
 body{
-    background-color: #333;
+    background-color: rgb(24, 26, 27);
 }
 .Block{
     border: 2px solid #cccccc;
@@ -10,7 +10,7 @@ body{
 }
 .Input{
     color: #cccccc;
-    background-color: #333;
+    background-color: rgb(24, 26, 27);
 }
 .Output{
     color:#cccccc;
@@ -32,10 +32,10 @@ body{
     background: #821e4e;
 }
 .IPList > p{
-    background: #535353;
+    background: #777;
 }
 .IPList > p[on_focus|=true], .IPList > span{
-    background: #777;
+    background: #535353;
 }
 .MessageInfo{
     background: #00717d;
@@ -44,15 +44,41 @@ body{
 .ThemeList{
     color: white;
 }
+.Plainmsg{
+    border-color: rgb(25, 99, 149);
+    color: rgb(92, 174, 227);
+    background: rgb(17, 58, 79);
+}
+.onlineIPCard{
+    border-color: rgb(25, 99, 149);
+    color: rgb(92, 174, 227);
+    background: rgb(17, 58, 79);
+}
 .SignIn{
-    background: #004c11 !important;
+    border-color: rgb(41, 133, 73);
+    color: rgb(131, 217, 161);
+    background: rgb(15, 48, 33);
 }
 .Error,
 .SignOut{
-    background: #630000 !important;
+    border-color: rgb(150, 11, 39);
+    color: rgb(241, 65, 100);
+    background: rgb(60, 3, 16);
 }
 .Warning{
-    background: #616300 !important;
+    border-color: rgb(152, 122, 0);
+    color: rgb(255, 224, 100);
+    background: rgb(63, 50, 0);
+}
+.recentIPCard{
+    border-color: rgb(152, 122, 0);
+    color: rgb(255, 224, 100);
+    background: rgb(63, 50, 0);
+}
+.customIPCard{
+    border-color: rgb(0, 192, 164);
+    color: rgb(100, 255, 232);
+    background: rgb(0, 63, 56);
 }
 .style_warning, .style_light{
     color: #ffff00;

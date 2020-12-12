@@ -85,6 +85,7 @@ var scanf=readline.createInterface({
                 let Bantotal=0;
                 Server.clients.forEach(Cli=>{
                     if(usrn.indexOf(Cli.ClientId)!==-1){
+                        ServerInfo.time=new Date();
                         Cli.send(JSON.stringify({
                             headers:{
                                 Content_Type:'application/message',
@@ -94,7 +95,7 @@ var scanf=readline.createInterface({
                             body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                         }));
                         Cli.close();
-                        broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${Cli.ClientId} is banned from the server.</span></div>`,'',{"type":"style_warning"})
+                        broadcast(`<div class="MessageInfo Warning"><i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${Cli.ClientId} is banned from the server.</span></div>`,'',{"type":"style_warning"})
                         Bantotal++;
                     }
                 });
@@ -108,6 +109,7 @@ var scanf=readline.createInterface({
                 usrip.forEach((ip)=>{ServerInfo.BannedIPs[ip]=true});
                 Server.clients.forEach((Cli)=>{
                     if(ServerInfo.BannedIPs[Cli.IP]===true){
+                        ServerInfo.time=new Date();
                         Cli.send(JSON.stringify({
                             headers:{
                                 Content_Type:'application/message',
@@ -117,7 +119,7 @@ var scanf=readline.createInterface({
                             body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                         }));
                         Cli.close();
-                        broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${Cli.ClientId} is banned from the server.</span></div>`,'',{"type":"style_warning"})
+                        broadcast(`<div class="MessageInfo Warning"><i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${Cli.ClientId} is banned from the server.</span></div>`,'',{"type":"style_warning"})
                         Bantotal++;
                     }
                 });
@@ -152,9 +154,10 @@ var scanf=readline.createInterface({
             fun:(usrn)=>{
                 let Admintotal=0;
                 Server.clients.forEach(Cli=>{
+                    ServerInfo.time=new Date();
                     if(usrn.indexOf(Cli.ClientId)!==-1 && !ServerInfo.isAdmin[Cli.ClientId]){
                         ServerInfo.isAdmin[Cli.ClientId]=true;
-                        broadcastAsAlert(`<i class="fa fa-cogs" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${Cli.ClientId} is set as adminstrator from the server.</span></div>`,'application/adminChange',{"type":"style_accept"})
+                        broadcastAsAlert(`<div class="MessageInfo SignIn"><i class="fa fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${Cli.ClientId} is set as adminstrator from the server.</span></div>`,'application/adminChange',{"type":"style_accept"})
                         Admintotal++;
                     }
                 });
@@ -166,9 +169,10 @@ var scanf=readline.createInterface({
             fun:(usrn)=>{
                 let Admintotal=0;
                 Server.clients.forEach(Cli=>{
+                    ServerInfo.time=new Date();
                     if(usrn.indexOf(Cli.ClientId)!==-1 && ServerInfo.isAdmin[Cli.ClientId]){
                         ServerInfo.isAdmin[Cli.ClientId]=false;
-                        broadcastAsAlert(`<i class="fa fa-cogs" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>@${Cli.ClientId} is set as common user from the server.</span></div>`,'application/adminChange',{"type":"style_error"})
+                        broadcastAsAlert(`<div class="MessageInfo SignOut"><i class="fa fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${Cli.ClientId} is set as common user from the server.</span></div>`,'application/adminChange',{"type":"style_error"})
                         Admintotal++;
                     }
                 });
@@ -202,6 +206,7 @@ var scanf=readline.createInterface({
 })();
 function getMarkdownCode(msg) {
     var converter = new showdown.Converter({
+        emoji: true,
         tables: true,
         strikethrough: true,
         literalMidWordUnderscores: true,
@@ -236,16 +241,17 @@ Server.on('connection',(ws,Req)=>{
         }catch(OOPS_LOOKS_LIKE_A_HACK_MESSAGE){
             ws.HACK_MSG_C++;
             if(ws.HACK_MSG_C>=Settings.HACK_MSG_MX){
+                ServerInfo.time=new Date();
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
                         Style:{"type":"style_error"},
                         Set_Name:''
                     },
-                    body:"<i class='fas fa-ban'></i> You are banned from the server.\n"
+                    body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                 }));
                 ws.close();
-                broadcast(`<i class="fa fa-exclamation-triangle"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.\n- hack messages received.</span></div>`,'',{"type":"style_warning"})
+                broadcast(`<div class="MessageInfo Warning"><i class="fa fa-exclamation-triangle"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${ws.ClientId} is banned from the server for hack tries.\n- hack messages received.</span></div>`,'',{"type":"style_warning"})
             }
             return;
         }
@@ -260,6 +266,7 @@ Server.on('connection',(ws,Req)=>{
         }
         if(msg.headers['Content_Type']==='application/init'){
             if(ServerInfo.BannedIPs[ws.IP]===true){
+                ServerInfo.time=new Date();
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
@@ -276,6 +283,7 @@ Server.on('connection',(ws,Req)=>{
                 if( ws.ClientId.length>24
                   || !((ws.ClientId[p]>='0' && ws.ClientId[p]<='9') || (ws.ClientId[p]>='a' && ws.ClientId[p]<='z')
                   || (ws.ClientId[p]>='A' && ws.ClientId[p]<='Z') || ws.ClientId[p]=='_')){
+                    ServerInfo.time=new Date();
                     ws.send(JSON.stringify({
                         headers:{
                             Content_Type:'application/message',
@@ -289,6 +297,7 @@ Server.on('connection',(ws,Req)=>{
                 }
             for(var p=0;p<ServerInfo.usrList.length;p++)
                 if(ws.ClientId===ServerInfo.usrList[p]){
+                    ServerInfo.time=new Date();
                     ws.send(JSON.stringify({
                         headers:{
                             Content_Type:'application/message',
@@ -307,10 +316,16 @@ Server.on('connection',(ws,Req)=>{
             ws.VERIFIED=true;
             ServerInfo.name2IP[ws.ClientId]=ws.IP;
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn">${ws.ClientId} entered the chat room!</span></div>`;
+            let EventMsg=`<div class="MessageInfo SignIn"><i class="fas fa-sign-in" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n${ws.ClientId} entered the chat room!</span></div>`;
             broadcast(EventMsg,'',{"type":"style_accept"});
             broadcommand('UsrAdd',[ws.ClientId]);
             ServerInfo.usrList.push(ws.ClientId);
+            if(ServerInfo.isBannedIP[ws.IP]){
+                if(ServerInfo.BannedUntil[ws.IP]<=(new Date().getTime())){
+                    ServerInfo.isBannedIP[ws.IP]=false;
+                    ServerInfo.BannedUntil[ws.IP]=0;
+                }
+            }
             ws.send(JSON.stringify({
                 headers:{
                     Content_Type:'application/init',
@@ -326,37 +341,39 @@ Server.on('connection',(ws,Req)=>{
                     ServerInfo.isBanned[ws.ClientId]=true;
                     ServerInfo.BanName=ws.ClientId;
                     ServerInfo.BanTime=(ServerInfo.BannedUntil[ws.IP]-new Date().getTime());
-                    broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${ws.ClientId} is recently banned by adminstrator.</span></div>`,"application/banChange",{"type":"style_error"});
+                    broadcastAsAlert(`<div class="MessageInfo Error"><i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${ws.ClientId} is recently banned by adminstrator.</span></div>`,"application/banChange",{"type":"style_error"});
                 }
             }
         }else if(msg.headers.Content_Type==='application/message'){
             if(!ws.VERIFIED){
+                ServerInfo.time=new Date();
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
                         Style:{"type":"style_error"},
                         Set_Name:''
                     },
-                    body:"<i class='fas fa-ban'></i> You are banned from the server.\n"
+                    body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                 }));
                 ws.close();
                 return;
             }
             if(ServerInfo.isBanned[ws.ClientId]){
+                ServerInfo.time=new Date();
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
                         Style:{"type":"style_error"},
                         Set_Name:''
                     },
-                    body:"<i class='fas fa-ban'></i> You are still banned from the server.\n"
+                    body:"<i class='fas fa-ban' style='width:20px'></i> You are still banned from the server.\n"
                 }));
                 return;
             }
             var rM = msg.body;
             msg.body=getMarkdownCode(HtmlSpecialChars(msg.body));
             ServerInfo.time=new Date();
-            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}`+(ServerInfo.tagInfo[ws.ClientId]?'<span class="userTag" style="background-color:'+ServerInfo.tagColor[ws.ClientId]+'">'+ServerInfo.tagInfo[ws.ClientId]+'</span>':``)+`:\n<div class="MessageInfo" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
+            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}`+(ServerInfo.tagInfo[ws.ClientId]?'<span class="userTag" style="background-color:'+ServerInfo.tagColor[ws.ClientId]+'">'+ServerInfo.tagInfo[ws.ClientId]+'</span>':``)+`:\n<div class="MessageInfo Plainmsg" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
         }
         else if(msg.headers.Content_Type==='application/banUser'){
             let userName=msg.headers['Set_Name'];
@@ -366,7 +383,7 @@ Server.on('connection',(ws,Req)=>{
             ServerInfo.isBanned[userName]=true;
             ServerInfo.isBannedIP[ServerInfo.name2IP[userName]]=true;
             ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]=new Date().getTime()+banTime;
-            broadcastAsAlert(`<i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Error"><span>@${userName} is banned for ${banTime/1000}s by adminstrator.</span></div>`,"application/banChange",{"type":"style_error"});
+            broadcastAsAlert(`<div class="MessageInfo Error"><i class="fa fa-ban"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${userName} is banned for ${banTime/1000}s by adminstrator.</span></div>`,"application/banChange",{"type":"style_error"});
         }
         else if(msg.headers.Content_Type==='application/unbanUser'){
             let userName=msg.headers['Set_Name'];
@@ -377,16 +394,17 @@ Server.on('connection',(ws,Req)=>{
                 ServerInfo.isBannedIP[ServerInfo.name2IP[userName]]=false;
                 ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]=0;
                 ServerInfo.BanName=userName;
-                broadcastAsAlert(`<i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is unbanned by adminstrator.</span></div>`,"application/unbanChange",{"type":"style_accept"});
+                broadcastAsAlert(`<div class="MessageInfo SignIn"><i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${userName} is unbanned by adminstrator.</span></div>`,"application/unbanChange",{"type":"style_accept"});
             }
             else if(currentTime>=ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]){
                 ServerInfo.isBanned[userName]=false;
                 ServerInfo.isBannedIP[ServerInfo.name2IP[userName]]=false;
                 ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]=0;
                 ServerInfo.BanName=userName;
-                broadcastAsAlert(`<i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is unbanned.</span></div>`,"application/unbanChange",{"type":"style_accept"});
+                broadcastAsAlert(`<div class="MessageInfo SignIn"><i class="fa fa-commenting"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${userName} is unbanned.</span></div>`,"application/unbanChange",{"type":"style_accept"});
             }
             else{
+                ServerInfo.time=new Date();
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
@@ -396,7 +414,7 @@ Server.on('connection',(ws,Req)=>{
                     body:"<i class='fas fa-ban' style='width:20px'></i> You are banned from the server.\n"
                 }));
                 ws.close();
-                broadcast(`<i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo Warning"><span>@${ws.ClientId} is banned from the server for hack tries.\n- send unban command ${(ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]-currentTime)/1000}s earlier.</span></div>`,'',{"type":"style_warning"})
+                broadcast(`<div class="MessageInfo Warning"><i class="fa fa-exclamation-triangle" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${ws.ClientId} is banned from the server for hack tries.\n- send unban command ${(ServerInfo.BannedUntil[ServerInfo.name2IP[userName]]-currentTime)/1000}s earlier.</span></div>`,'',{"type":"style_warning"})
             }
         }
         else if(msg.headers.Content_Type==='application/verifyIdentity'){
@@ -405,9 +423,10 @@ Server.on('connection',(ws,Req)=>{
             if(quesCode===VerifyCode){
                 if(ServerInfo.isAdmin[userName])    return;
                 ServerInfo.isAdmin[userName]=true;
-                broadcastAsAlert(`<i class="fa fa-cogs" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignIn"><span>@${userName} is set as adminstrator by verify code.</span></div>`,'application/adminChange',{"type":"style_accept"})
+                broadcastAsAlert(`<div class="MessageInfo SignIn"><i class="fa fa-user-plus" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>@${userName} is set as adminstrator by verify code.</span></div>`,'application/adminChange',{"type":"style_accept"})
             }
             else{
+                ServerInfo.time=new Date();
                 ws.send(JSON.stringify({
                     headers:{
                         Content_Type:'application/message',
@@ -439,7 +458,7 @@ Server.on('connection',(ws,Req)=>{
             ServerInfo.tagInfo[ws.ClientId]=undefined;
             ServerInfo.tagColor[ws.ClientId]=undefined;
             ServerInfo.time=new Date();
-            let EventMsg=`<i class="fas fa-user-times" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<div class="MessageInfo SignOut"><span>${ws.ClientId} left the chat room!</span></div>`;
+            let EventMsg=`<div class="MessageInfo SignOut"><i class="fas fa-sign-out" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)}\n<span>${ws.ClientId} left the chat room!</span></div>`;
             broadcast(EventMsg,'',{"type":"style_error"});
             broadcommand('UsrDel',[ws.ClientId]);
             ServerInfo.usrList.splice(ServerInfo.usrList.indexOf(ws.ClientId),1);
@@ -449,6 +468,7 @@ Server.on('connection',(ws,Req)=>{
     })
 });
 function broadcommand(cmd,para){
+    ServerInfo.time=new Date();
     Server.clients.forEach(Cli=>{
         if(Cli.readyState===WebSocket.OPEN){
             Cli.send(JSON.stringify({
@@ -462,7 +482,7 @@ function broadcommand(cmd,para){
     });
 };
 function broadcast(msg,from,style){
-    // console.log(style);
+    ServerInfo.time=new Date();
     if(style){
         Server.clients.forEach(Cli=>{
             if(Cli.readyState===WebSocket.OPEN){
@@ -491,7 +511,7 @@ function broadcast(msg,from,style){
     }
 }
 function broadcastAsAlert(msg,contentType,style){
-    // console.log(style);
+    ServerInfo.time=new Date();
     if(style){
         Server.clients.forEach(Cli=>{
             if(Cli.readyState===WebSocket.OPEN){
@@ -520,6 +540,7 @@ function broadcastAsAlert(msg,contentType,style){
     }
 }
 function broadcastAsMessage(msg,rawMessage,from,len,idx){
+    ServerInfo.time=new Date();
     Server.clients.forEach(Cli=>{
         if(Cli.readyState===WebSocket.OPEN &&
           (len==0 || idx[Cli.ClientId]===true)){

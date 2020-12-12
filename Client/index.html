@@ -55,7 +55,15 @@
 		$(".ThemeList").html(ThemeS);
 		var input=$('.Input'),Doc=$(document);
 		var MultiplySelection=false;
+		function changeInputType(){
+			MultiplySelection=!MultiplySelection;
+			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
+			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
+			"Multiple Line Mode - CTRL + Enter to send message":
+			"Single Line Mode - Enter to send message";
+		}
 		var onTextareaKeydown = function(K){
+			K = K || event;
 			if (K.keyCode == 9) {
 	        	K.preventDefault();
 	        	var start = this.selectionStart,
@@ -66,6 +74,10 @@
 	        	this.value = text;
 	        	this.selectionStart = start + tab.length;
 	        	this.selectionEnd = end + tab.length;
+	        }
+	        if(K.ctrlKey&&K.shiftKey&&K.keyCode==65){
+				changeInputType();
+				return false;
 	        }
 			if(MultiplySelection&&event.ctrlKey&&(K.keyCode==13 || K.keyCode==10)){
 				if(input.val()!=""){
@@ -83,17 +95,6 @@
 			}
 		}
 		document.getElementById("Input").onkeydown = onTextareaKeydown;
-		Doc.on('keypress',K=>{
-			if(K.ctrlKey===true&&K.shiftKey===true&&K.keyCode===1)
-				changeInputType();
-		});
-		function changeInputType(){
-			MultiplySelection=!MultiplySelection;
-			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
-			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
-			"Multiple Line Mode - CTRL + Enter to send message":
-			"Single Line Mode - Enter to send message";
-		}
 	</script>
 </footer>
 </html>

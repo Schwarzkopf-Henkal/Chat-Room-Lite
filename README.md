@@ -1,4 +1,4 @@
-# Chat Room Lite
+﻿# Chat Room Lite
 
 > View Chinese version at [README-zh_CN.md](https://github.com/Schwarzkopf-Henkal/Chat-Room-Lite/blob/master/README-zh_CN.md)
 

@@ -39,20 +39,46 @@ body{
     border-radius: 3px;
 }
 .IPList > p{
-    background: #e9e9e9;
-}
-.IPList > p[on_focus|=true], .IPList > span{
     background: #cacaca;
 }
+.IPList > p[on_focus|=true], .IPList > span{
+    background: #e9e9e9;
+}
+.Plainmsg{
+    border-color: #3298dc;
+    color: #1d72aa;
+    background: rgb(238, 246, 252);
+}
+.onlineIPCard{
+    border-color: #3298dc;
+    color: #1d72aa;
+    background: rgb(238, 246, 252);
+}
 .SignIn{
-    background: #7bd791 !important;
+    border-color: #48c774;
+    color: #257942;
+    background: rgb(239, 250, 243);
 }
 .Error,
 .SignOut{
-    background: #efb0b0 !important;
+    border-color: #f14668;
+    color: #cc0f35;
+    background: rgb(254, 236, 240);
 }
 .Warning{
-    background: #e5e69a !important;
+    border-color: #ffdd57;
+    color: #947600;
+    background: rgb(255, 251, 235);
+}
+.recentIPCard{
+    border-color: #ffdd57;
+    color: #947600;
+    background: rgb(255, 251, 235);
+}
+.customIPCard{
+    border-color: #00d1b2;
+    color: #00947e;
+    background: rgb(235, 255, 252);
 }
 .style_light{
     color: #f0dc1e;
