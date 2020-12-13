@@ -18,6 +18,42 @@ if(cI!=="")
 else	customIPs=[];
 const MAX_RECENTIP_LENGTH=5;
 var readUrlIP=true;
+var EditMode="Edit";
+var lastMDConvert="";
+function changeEditType(str){
+	if(str==EditMode)	return;
+	EditMode=str;
+	if(EditMode=="Edit"){
+		$('.Input').css('display','block');
+		$('.PreviewEdit').addClass('chosenEditType');
+		$('.Preview').css('display','none');
+		$('.PreviewWatch').removeClass('chosenEditType');
+	}
+	else{
+		$('.Preview').css('display','block');
+		$('.PreviewWatch').addClass('chosenEditType');
+		$('.Input').css('display','none');
+		$('.PreviewEdit').removeClass('chosenEditType');
+		var info=$('.Input').val();
+		if(info==lastMDConvert && info!="")	return;
+		lastMDConvert=info;
+		$('.Preview').html("<i class='fa fa-spinner fa-spin'></i> Loading Preiew...");
+		if(S_Status!=3){
+			$('.Preview').html("<i class='fa fa-times style_error' style='width:20px'></i> Markdown is NOT needed while entering information.");
+			return;
+		}
+		if(info==""){
+			$('.Preview').html("<i class='fa fa-times style_error' style='width:20px'></i> Nothing to preview.");
+			return;
+		}
+		ws.send(JSON.stringify({
+			headers:{
+				"Content_Type":'application/previewMarkdown'
+			},
+			body: info
+		}));
+	}
+}
 function SetFeedback(func1,func2){
 	func1();func2();
 }
@@ -235,7 +271,6 @@ function Initalize(){
 		if(S_Status==0){
 			return;
 		}
-		$('.Status .Output').html(`<span class="style_error"><i class="fas fa fa-exclamation-circle" style="width:20px"></i>Cannot find the service</span>`);
 		Write(`<i class="fa fa-exclamation-circle" style="width:20px"></i> Error Code : ${CS_E.code}\nCannot find the service.`,{'type':'style_error'});
 	}
 	ws.onmessage=(msg)=>{
@@ -378,6 +413,9 @@ function Initalize(){
 				Write(msg.body,msg.headers['Style']);
 			}else Write(msg.body);
 			flushOutput();
+		}
+		if(msg.headers['Content_Type']==='application/previewMarkdown'){
+			$('.Preview').html(msg.body);
 		}
 	}
 }

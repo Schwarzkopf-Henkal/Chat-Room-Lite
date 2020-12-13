@@ -39,14 +39,22 @@
 		<div class="InputArea Block">
 			<div class="Title">Input Area</div>
 			<textarea class="Input" id="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
+			<div class="Preview" style="display:none"></div>
+			<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
+			<span class="PreviewType"><span class="PreviewEdit chosenEditType" style="cursor:pointer;"><i class="fas fa-edit" style="width:20px"></i> Write</span> | <span class="PreviewWatch" style="cursor:pointer;"><i class="fas fa-sticky-note-o" style="width:20px"></i> Preview</span></span>
 		</div>
-		<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
 	</div>
-	<div style="position:absolute;width:500px;top:613px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
+	<div style="position:absolute;width:500px;top:635px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
 </body>
 <footer>
 	<script src="./js/Client.js"></script>
 	<script>
+		$(".PreviewEdit").click(function(){
+			changeEditType('Edit');
+		});
+		$(".PreviewWatch").click(function(){
+			changeEditType('Preview');
+		});
 		var ThemeL = ["DefaultLight", "DefaultDark"];
 		var ThemeI = ["fas fa-sun-o", "fas fa-moon-o"];
 		var ThemeS = "Theme List | ";

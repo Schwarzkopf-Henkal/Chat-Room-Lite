@@ -410,3 +410,10 @@
 .fa-list:before {
   content: "\f03a";
 }
+.fa-sticky-note-o:before {
+  content: "\f24a";
+}
+.fa-edit:before,
+.fa-pencil-square-o:before {
+  content: "\f044";
+}

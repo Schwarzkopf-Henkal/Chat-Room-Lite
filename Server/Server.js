@@ -449,6 +449,14 @@ Server.on('connection',(ws,Req)=>{
             ServerInfo.tagColor[userName]=undefined;
             broadcastAsAlert(`<i class="fas fa-tags" style="width:20px"></i> ${ws.ClientId} close his/her tag.\n`,'application/changeUserTag',{"type":"style_error"});
         }
+        else if(msg.headers.Content_Type==='application/previewMarkdown'){
+            ws.send(JSON.stringify({
+                headers:{
+                    Content_Type:'application/previewMarkdown'
+                },
+                body: getMarkdownCode(HtmlSpecialChars(msg.body))
+            }));
+        }
     });
     ws.on('close',()=>{
         if(ws.ClientId && !ws.USER_NAME_WRONG){
