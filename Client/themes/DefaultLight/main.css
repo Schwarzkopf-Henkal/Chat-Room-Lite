@@ -58,7 +58,6 @@ body{
 }
 .Plainmsg{
     border-color: #3298dc;
-    color: #1d72aa;
     background: rgb(238, 246, 252);
 }
 .onlineIPCard{
@@ -117,6 +116,7 @@ a:onclick {color: #4eb2cd;}
 a:visited {color: #45d0f5;}
 table > tr > th, table > tr > td { border-color:black; }
 p, h1, h2, h3, h4, h5, h6{color:black;}
+code{background: #58c7ff;}
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover,
 .Preview::-webkit-scrollbar:hover,

@@ -1,3 +1,6 @@
+body{
+    overflow: hidden;
+}
 .ChatRoom{
     height: 443px;
     width: 510px;
@@ -18,12 +21,12 @@
     width: 877px;
     top: 470px;
     tab-size: 4;
-    overflow: hidden;
 }
 .Block{
     position: absolute;
 }
 .Block .Title{
+    z-index: 1;
     position: absolute;
     top:-7px;
     left: 7px;
@@ -45,6 +48,7 @@
     margin: 7.5px 7.5px 0px 7.5px;
     height: 115px !important;
     max-height: 115px !important;
+    white-space: pre-wrap;
     flex-direction: column;
     width: 860px;
     border-width: 0 0 2px 0;
@@ -276,7 +280,6 @@ code {
     max-width: 100%;
     overflow-x: auto;
     box-sizing: border-box;
-    background: #164b66;
     border-radius: 3px;
 }
 hr {

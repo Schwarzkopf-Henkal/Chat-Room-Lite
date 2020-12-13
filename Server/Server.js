@@ -279,9 +279,21 @@ Server.on('connection',(ws,Req)=>{
                 return;
             }
             ws.ClientId=msg.headers['Set_Name'].trim();
+            if(ws.ClientId.length==0 || ws.ClientId.length>24){
+                ServerInfo.time=new Date();
+                ws.send(JSON.stringify({
+                    headers:{
+                        Content_Type:'application/message',
+                        Style:{"type":"style_error"},
+                        Set_Name:''
+                    },
+                    body:"<i class='fas fa-info-circle' style='width:20px'></i> Error : Username must consist of up to 24 letters, numbers, and underscores\n"
+                }));
+                ws.USER_NAME_WRONG=true;
+                ws.close();return;
+            }
             for(var p=0;p<ws.ClientId.length;p++)
-                if( ws.ClientId.length>24
-                  || !((ws.ClientId[p]>='0' && ws.ClientId[p]<='9') || (ws.ClientId[p]>='a' && ws.ClientId[p]<='z')
+                if( !((ws.ClientId[p]>='0' && ws.ClientId[p]<='9') || (ws.ClientId[p]>='a' && ws.ClientId[p]<='z')
                   || (ws.ClientId[p]>='A' && ws.ClientId[p]<='Z') || ws.ClientId[p]=='_')){
                     ServerInfo.time=new Date();
                     ws.send(JSON.stringify({
