@@ -130,3 +130,6 @@ code::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb{
     background-color: #C9613F;
 }
+blockquote{
+    border-left-color: rgb(172, 172, 172);
+}
