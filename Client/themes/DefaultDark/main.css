@@ -114,6 +114,7 @@ a:onclick {color: #42c100;}
 a:visited {color: #55d015;}
 table > tr > th, table > tr > td { border-color:#fff; }
 p, h1, h2, h3, h4, h5, h6{color:#cccccc;}
+code{background: #0176b1;}
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover,
 .Preview::-webkit-scrollbar:hover,
