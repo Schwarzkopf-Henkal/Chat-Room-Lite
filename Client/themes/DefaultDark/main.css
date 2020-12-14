@@ -53,7 +53,7 @@ body{
     background: #00717d;
     border-radius: 3px;
 }
-.ThemeList{
+.ThemeList, .ToolList{
     color: white;
 }
 .Plainmsg{

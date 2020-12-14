@@ -4,7 +4,6 @@
 	<title>Chat Room Lite</title>
 	<script src="./js/jquery.min.js"></script>
 	<script src="./js/showdown.min.js"></script>
-	<script src="./js/jscookie.min.js"></script>
 	<link class="defDefaultCss" rel="stylesheet">
 	<link class="defHighlightCss" rel="stylesheet">
 	<link class="setDefaultCss" rel="stylesheet">
@@ -40,10 +39,11 @@
 			<div class="Title">Input Area</div>
 			<textarea class="Input" id="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 			<div class="Preview" style="display:none"></div>
-			<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode - Enter to send message</span></span>
-			<span class="PreviewType"><span class="PreviewEdit chosenEditType" style="cursor:pointer;"><i class="fas fa-edit" style="width:20px"></i> Write</span> | <span class="PreviewWatch" style="cursor:pointer;"><i class="fas fa-sticky-note-o" style="width:20px"></i> Preview</span></span>
+			<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode</span></span>
+			<span class="PreviewType"><span class="PreviewEdit chosenEditType" style="cursor:pointer;"><i class="fas fa-edit" style="width:20px"></i> Write</span> | <span class="PreviewWatch" style="cursor:pointer;"><i class="fas fa-sticky-note-o" style="width:20px"></i> Preview</span> | <span class="SendMessage style_accept" style="cursor:pointer;"><i class="fas fa-send-o" style="width:20px"></i> Send (Enter)</span></span>
 		</div>
 	</div>
+	<div style="position:absolute;top:637px;left:14px;text-align:left;"><span class="ToolList"><span onclick="Send('/cls')" style="cursor:pointer;"><i class="fas fa-eraser" style="width:20px"></i></span> <span onclick="FastSetTag();" style="cursor:pointer;"><i class="fas fa-tags" style="width:20px"></i></span> <span onclick="FastSetAdmin();" style="cursor:pointer;"><i class="fas fa-user-secret" style="width:20px"></i></span> <span onclick="FastSetBan();" style="cursor:pointer;"><i class="fas fa-ban" style="width:20px"></i></span> <span onclick="FastSetUnban();" style="cursor:pointer;"><i class="fas fa-commenting" style="width:20px"></i></span></span></div>
 	<div style="position:absolute;width:500px;top:635px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
 </body>
 <footer>
@@ -54,6 +54,10 @@
 		});
 		$(".PreviewWatch").click(function(){
 			changeEditType('Preview');
+		});
+		$(".SendMessage").click(function(){
+			Send($('.Input').val());
+			input.val("");
 		});
 		var ThemeL = ["DefaultLight", "DefaultDark"];
 		var ThemeI = ["fas fa-sun-o", "fas fa-moon-o"];
@@ -67,8 +71,9 @@
 			MultiplySelection=!MultiplySelection;
 			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
 			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
-			"Multiple Line Mode - CTRL + Enter to send message":
-			"Single Line Mode - Enter to send message";
+			"Multiple Line Mode":
+			"Single Line Mode";
+			$('.SendMessage').html(`<i class="fas fa-send-o" style="width:20px"></i> Send (${MultiplySelection?"CTRL+Enter":"Enter"})</span>`);
 		}
 		var onTextareaKeydown = function(K){
 			K = K || event;

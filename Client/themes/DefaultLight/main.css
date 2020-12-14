@@ -34,7 +34,7 @@ body{
 .InputType{
     color: black;
 }
-.ThemeList{
+.ThemeList, .ToolList{
     color: black;
 }
 .onlineIPCard{

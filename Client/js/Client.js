@@ -78,7 +78,7 @@ var Commands={
 	}
 },S_Status=0,S_Interface=true;
 function InitWindow(){
-	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-globe" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:150px"><i class="fas fa-history" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:300px" on_focus="true"><i class="fas fa-compass" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
+	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-globe" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:140px"><i class="fas fa-history" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:280px" on_focus="true"><i class="fas fa-compass" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
 		$('.IPList > p').click(function(){
 			$('.IPList > span').css('display','none');
 			$('.IPList > p').attr('on_focus',false);
@@ -542,9 +542,10 @@ function testColor(color) {
     var re1 = /^#([0-9a-f]{6}|[0-9a-f]{3})$/i
     var re2 = /^rgb\(([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\)$/i
     var re3 = /^rgba\(([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,([0-9]|[0-9][0-9]|25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9])\,(1|1.0|0.[0-9])\)$/i
-    return re1.test(color) || re2.test(color) || re3.test(color);
+    var re4 = /^[a-zA-Z]+$/i
+    return re1.test(color) || re2.test(color) || re3.test(color) || re4.test(color);
 }
-function Send(msg){
+function Send(msg,sentByUser){
 	if(checkEmpty(msg))	return;
 	snsArr=msg.split(/[(\r\n)\r\n]+/);
 	let idx=0;
@@ -635,7 +636,7 @@ function Send(msg){
 			}));
 		}
 	}
-	else if(msg[0]==='/'){
+	else if(msg[0]==='/' && sentByUser===undefined){
 		parseCommand(msg.substr(1));
 	}else {
 		ws.send(JSON.stringify({
@@ -730,4 +731,16 @@ function Write(msg,style){
 	}else output.append(msg);
 	if(scrollBotton)
 		output.scrollTop(output[0].scrollHeight);
+}
+function FastSetTag(){
+
+}
+function FastSetAdmin(){
+
+}
+function FastSetBan(){
+
+}
+function FastSetUnban(){
+
 }

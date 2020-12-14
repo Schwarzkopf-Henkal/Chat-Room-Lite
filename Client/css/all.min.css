@@ -417,3 +417,6 @@
 .fa-pencil-square-o:before {
   content: "\f044";
 }
+.fa-eraser:before {
+  content: "\f12d";
+}
