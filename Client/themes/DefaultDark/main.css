@@ -10,12 +10,12 @@ body{
 }
 .Input{
     color: #cccccc;
-    border-bottom-color: : #ccc;
+    border-bottom-color: #ccc;
     background-color: rgb(24, 26, 27);
 }
 .Preview{
     color: #cccccc;
-    border-bottom-color: : #ccc;
+    border-bottom-color: #ccc;
     background-color: rgb(24, 26, 27);
 }
 .chosenEditType{
@@ -107,11 +107,23 @@ body{
     border-radius: 4px;
     color: #fff;
 }
+.AlertWindow{
+    background: rgb(28,30,31);
+    color: white;
+}
+input{
+    border-color: #333;
+    background: #333;
+    color: white;
+}
 a {color: #55d015;}
 a:hover {color: #42c100;}
 a:onclick {color: #42c100;}
 a:visited {color: #55d015;}
 table > tr > th, table > tr > td { border-color:#fff; }
+td, th{
+    border: 1px solid #fff;
+}
 p, h1, h2, h3, h4, h5, h6{color:#cccccc;}
 code{background: #0176b1;}
 .Output::-webkit-scrollbar:hover,

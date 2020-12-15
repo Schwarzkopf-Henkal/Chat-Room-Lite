@@ -1,5 +1,6 @@
 body{
     overflow: hidden;
+    border: 0px;
 }
 .ChatRoom{
     height: 443px;
@@ -242,6 +243,34 @@ code::-webkit-scrollbar-corner,
     padding-right: 4px;
     font-size: 12px;
 }
+.WindowBuild{
+    position:fixed;
+    top:-8px;
+    height:calc(100% + 8px);
+    left:-8px;
+    width:calc(100% + 8px);
+    background-color:rgba(0,0,0,0.6);
+    z-index:1;
+    text-align:center;
+    font-size: 14px;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
+}
+.AlertWindow{
+    pointer-events: auto;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
+}
+.WindowInfo{
+    margin: 15px;
+}
+input{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    border-radius: 0;
+    padding: 5px;
+    font-size: 14px;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
+    height: 16px;
+    width: 300px;
+}
 /* Markdown Config */
 p, h1, h2, h3, h4, h5, h6{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
@@ -284,12 +313,10 @@ code {
 }
 hr {
     display: inline-block;
-    background: ;
     width: 100%;
 }
 table{border-collapse: collapse; padding:2px;}
 th, td{
-    border: 1px solid #fff;
     padding-left: 8px;
     padding-right: 8px;
     padding-top: 4px;

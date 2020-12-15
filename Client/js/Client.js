@@ -99,7 +99,7 @@ function InitWindow(){
 					$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Local Server #${(Ping.info+1)+""}\n${onlineIPs[Ping.info]}</span>`);
 					$(`.OIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
-							Send(`${onlineIPs[Ping.info]}`);
+							Send(`${onlineIPs[Ping.info]}`,true);
 					});
 					$(`.OIP${Ping.info+""}`).attr('style','cursor:pointer');
 					Ping.close();
@@ -122,7 +122,7 @@ function InitWindow(){
 							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Web Server #${(Ping.info+1)+""}\n${Url}</span>`);
 							$(`.OIP${Ping.info+""}`).click(function(){
 								if(S_Status==0)
-									Send(`${Url}`);
+									Send(`${Url}`,true);
 							});
 							$(`.OIP${Ping.info+""}`).attr('style','cursor:pointer');
 							Ping.close();
@@ -146,7 +146,7 @@ function InitWindow(){
 					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Recent IP #${(Ping.info+1)+""}\n${recentIPs[Ping.info]}</span>`);
 					$(`.RIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
-							Send(`${recentIPs[Ping.info]}`);
+							Send(`${recentIPs[Ping.info]}`,true);
 					});
 					$(`.RIP${Ping.info+""}`).attr('style','cursor:pointer');
 					Ping.close();
@@ -167,7 +167,7 @@ function InitWindow(){
 					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 					$(`.CIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
-							Send(`${customIPs[Ping.info]}`);
+							Send(`${customIPs[Ping.info]}`,true);
 					});
 					$(`.CIP${Ping.info+""}`).attr('style','cursor:pointer');
 					Ping.close();
@@ -186,14 +186,14 @@ function InitWindow(){
 		if(getQueryVariable("ip") && readUrlIP){
 			let IPByGet = getQueryVariable("ip");
 			Write(`Get IP from URL : ${IPByGet}\n`);
-			Send(IPByGet);
+			Send(IPByGet,true);
 		}
 		else Write(`<i class="fas fa-info-circle" style="width:20px"></i>Type the IP in [[+/-]IP:port] format if you want to add/delete custom IP.\nOr use [IP:port] to directly connect to the IP.\n`,{'type':'style_accept'});
 		readUrlIP=false;
 	});
 }
 function flushOutput(){
-  $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description : ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>(SendUserList[x]===true?`<i class="fas fa-send style_accept" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send-o" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell style_light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban style_error" style="cursor:pointer;width:20px" onclick="ChangeInputContent(\'/unban `+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check style_accept" style="cursor:pointer;width:20px" onclick="ChangeInputContent(\'/ban '+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x+(Server.tagInfo[x]?'<span class="userTag" style="background-color:'+Server.tagColor[x]+'">'+Server.tagInfo[x]+'</span>':'')).join('\n')}`);
+  $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description : ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>(SendUserList[x]===true?`<i class="fas fa-send style_accept" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send-o" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell style_light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban style_error" style="cursor:pointer;width:20px" onclick="FastSetBan(\'`+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check style_accept" style="cursor:pointer;width:20px" onclick="FastSetBan(\''+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x+(Server.tagInfo[x]?'<span class="userTag" style="background-color:'+Server.tagColor[x]+'">'+Server.tagInfo[x]+'</span>':'')).join('\n')}`);
 }
 function changeSendUserType(msg){
 	if(msg===User.name){
@@ -294,7 +294,7 @@ function Initalize(){
 			$('.Status .Output').html('<i class="fas fa-close style_error" onclick="Send(\'/exit\')" style="cursor:pointer;width:20px"></i><i class="fas fa-bell style_light" id="AlertS" onclick="Send(\'/notice\')" style="width:20px;cursor:pointer;"></i> Chat Room');
 			flushOutput();
 			output.html('');
-			Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n	   Chat Room Lite\n/cls	  | to clear the messages.\n/exit     | to exit the chat room.\n/notice   | notice on new message.\n/tag      | to set your own tag.\n/untag    | to reset your tag.\n/theme    | to set the theme.\n`,{'type':'style_accept'});
+			Write(`<i class="fas fa-info-circle" style="width:20px"></i> Chat name : ${Server.name}\nUser(s) : ${Server.usrList.join(', ')}\n`,{'type':'style_accept'});
 		}
 		if(msg.headers['Content_Type']==='application/message'){
 			if(S_Status!=3)	return;
@@ -553,6 +553,7 @@ function Send(msg,sentByUser){
 		if($.trim(snsArr[idx])!="")
 			break;
 	if(S_Status!==3){
+		if(sentByUser!==true)	return;
 		if(S_Status===0){
 			if(msg[0]=='+'){
 				msg=$.trim(msg.substr(1));
@@ -733,14 +734,65 @@ function Write(msg,style){
 		output.scrollTop(output[0].scrollHeight);
 }
 function FastSetTag(){
-
+	if(S_Status!==3)	return;
+	$(".AllWindow").css("display","block");
+	$(".WindowInfo").html(`<i class="fas fa-tags style="width:20px"></i> Tag<hr><table style="margin:0 auto"><tr><td>Info.</td><td><input type="input" id="Input1" maxlength="12"></td></tr><tr><td>Color</td><td><input type="input" id="Input2"></td></tr></table><div>${User.name}<span class="userTag PreviewTag"></div>`);
+	document.getElementById("Input1").onkeydown=function(K){
+		if(K.key == ' ' || K.key=='Tab' || K.key=='Enter'){
+			K.preventDefault();return false;
+		}
+	}
+	document.getElementById("Input1").onkeyup=function(K){
+		$('.PreviewTag').css("background",$('#Input2').val()).html($('#Input1').val());
+	}
+	document.getElementById("Input2").onkeydown=function(K){
+		if(K.key == ' ' || K.key=='Tab' || K.key=='Enter'){
+			K.preventDefault();return false;
+		}
+	}
+	document.getElementById("Input2").onkeyup=function(K){
+		$('.PreviewTag').css("background",$('#Input2').val()).html($('#Input1').val());
+	}
+	$('.ConfirmInfo').unbind('click').click(function(){
+		if($('#Input1').val()==''){
+			if(Server.tagInfo[User.name]!==""
+			&& Server.tagInfo[User.name]!==undefined)
+				Send('/untag');
+		}
+		else	Send(`/tag ${$('#Input1').val()} ${$('#Input2').val()}`);
+		CloseWindow();
+	})
 }
 function FastSetAdmin(){
-
+	if(S_Status!==3)	return;
+	$(".AllWindow").css("display","block");
+	$(".WindowInfo").html(`<i class="fas fa-user-secret style="width:20px"></i> Adminstrator<hr>Enter verify code to be an adminstrator:<table style="margin:0 auto"><tr><td>Code</td><td><input type="input" id="Input1"></td></tr></table>`);
+	$('.ConfirmInfo').unbind('click').click(function(){
+		Send(`/verify ${$('#Input1').val()}`);
+		CloseWindow();
+	})
 }
-function FastSetBan(){
-
+function FastSetBan(msg){
+	if(msg===undefined)	msg="";
+	if(S_Status!==3)	return;
+	$(".AllWindow").css("display","block");
+	$(".WindowInfo").html(`<i class="fas fa-ban style="width:20px"></i> Ban<hr>Set the user and time below(unban if time=0)${isAdmin[User.name]?'':`</br><span class="style_error">The command is disabled as you are not an adminstrator.</span>`}\n<table style="margin:0 auto"><tr><td>User</td><td><input type="input" id="Input1"></td></tr><tr><td>Time</td><td><input type="input" id="Input2" oninput="value=value.replace(/[^\\d]/g,'')"></td></tr></table>`);
+	document.getElementById("Input1").onkeydown=function(K){
+		if(K.key == ' ' || K.key=='Tab' || K.key=='Enter'){
+			K.preventDefault();return false;
+		}
+	}
+	$("#Input1").val(msg);
+	$('.ConfirmInfo').unbind('click').click(function(){
+		var banT=$('#Input2').val();
+		if(banT=="")	banT=0;
+		else	banT=Number(banT);
+		if(banT==0)	Send(`/unban ${$('#Input1').val()}`);
+		else	Send(`/ban ${$('#Input1').val()} ${banT}`);
+		CloseWindow();
+	})
 }
-function FastSetUnban(){
-
+function CloseWindow(){
+	$('.AllWindow').css("display","none");
+	$(".WindowInfo").html('');
 }
