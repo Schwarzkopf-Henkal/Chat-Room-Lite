@@ -91,6 +91,11 @@ body{
     color: rgb(100, 255, 232);
     background: rgb(0, 63, 56);
 }
+.addIPCard{
+    border-color: rgb(41, 133, 73);
+    color: rgb(131, 217, 161);
+    background: rgb(15, 48, 33);
+}
 .style_warning, .style_light{
     color: #ffff00;
 }

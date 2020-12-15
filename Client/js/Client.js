@@ -109,17 +109,17 @@ function InitWindow(){
 		fetch(GETOS_URL).then(Res=>Res.json()).then(Res=>{
 			let Current_CardCnt=onlineIPs.length;
 			Res.forEach(Url=>{
-				SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${Current_CardCnt+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Web Server #${(Current_CardCnt+1)+""}\n${Url}</span></span>`);},function(){
+				SetFeedback(function(){$(".OnlineIPList").append(`<span class="onlineIPCard OIP${Current_CardCnt+""}"><i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Web Server #${(Current_CardCnt-onlineIPs.length+1)+""}\n${Url}</span></span>`);},function(){
 					let Ping=new WebSocket(`ws://${Url}`);
 					Ping.info=Current_CardCnt;
 					Ping.onerror=()=>{
 						if(S_Interface===true){
-							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Web Server #${(Ping.info+1)+""}\n${Url}</span>`);
+							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Web Server #${(Ping.info-onlineIPs.length+1)+""}\n${Url}</span>`);
 						}
 					};
 					Ping.onopen=()=>{
 						if(S_Interface===true){
-							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Web Server #${(Ping.info+1)+""}\n${Url}</span>`);
+							$(`.OIP${Ping.info+""}`).html(`<i class="fas fa-globe" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Web Server #${(Ping.info-onlineIPs.length+1)+""}\n${Url}</span>`);
 							$(`.OIP${Ping.info+""}`).click(function(){
 								if(S_Status==0)
 									Send(`${Url}`,true);
@@ -132,18 +132,18 @@ function InitWindow(){
 				Current_CardCnt++;
 			});
 		});
-		for(var p=0;p<recentIPs.length;p++){
-			SetFeedback(function(){$(".RecentIPList").append(`<span class="recentIPCard RIP${p+""}"><i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Recent IP #${(p+1)+""}\n${recentIPs[p]}</span></span>`);},function(){
+		for(var p=recentIPs.length-1;p>=0;p--){
+			SetFeedback(function(){$(".RecentIPList").append(`<span class="recentIPCard RIP${p+""}"><i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i> Recent IP #${(recentIPs.length-p)+""}\n${recentIPs[p]}</span></span>`);},function(){
 			let Ping=new WebSocket(`ws://${recentIPs[p]}`);
 			Ping.info=p;
 			Ping.onerror=()=>{
 				if(S_Interface===true){
-					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Recent IP #${(Ping.info+1)+""}\n${recentIPs[Ping.info]}</span>`);
+					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i> Recent IP #${(recentIPs.length-Ping.info)+""}\n${recentIPs[Ping.info]}</span>`);
 				}
 			};
 			Ping.onopen=()=>{
 				if(S_Interface===true){
-					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Recent IP #${(Ping.info+1)+""}\n${recentIPs[Ping.info]}</span>`);
+					$(`.RIP${Ping.info+""}`).html(`<i class="fas fa-history" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i> Recent IP #${(recentIPs.length-Ping.info)+""}\n${recentIPs[Ping.info]}</span>`);
 					$(`.RIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
 							Send(`${recentIPs[Ping.info]}`,true);
@@ -154,17 +154,17 @@ function InitWindow(){
 			}});
 		}
 		for(var p=0;p<customIPs.length;p++){
-			SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}");' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
+			SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}",true);' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
 			let Ping=new WebSocket(`ws://${customIPs[p]}`);
 			Ping.info=p;
 			Ping.onerror=()=>{
 				if(S_Interface===true){
-					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}",true);' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 				}
 			};
 			Ping.onopen=()=>{
 				if(S_Interface===true){
-					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+					$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}",true);' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 					$(`.CIP${Ping.info+""}`).click(function(){
 						if(S_Status==0)
 							Send(`${customIPs[Ping.info]}`,true);
@@ -174,14 +174,12 @@ function InitWindow(){
 				}
 			}});
 		}
+		$(".CustomIPList").append(`<span class="addIPCard" onclick="FastSetNewIP();"><i class="fas fa-plus" style="font-size:30px;float:left;margin-right:5px;"></i><span>Want to add IP?\n----------------</span></span>`)
 		if($(".OnlineIPList")[0].innerHTML==""){
 			$(".OnlineIPList")[0].innerHTML==`<p style='position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);'>Empty</p>`;
 		}
 		if($(".RecentIPList")[0].innerHTML==""){
 			$(".RecentIPList")[0].innerHTML==`<p style='position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);'>Empty</p>`;
-		}
-		if($(".CustomIPList")[0].innerHTML==""){
-			$(".CustomIPList")[0].innerHTML=`<p style='position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);'>Empty</p>`;
 		}
 		if(getQueryVariable("ip") && readUrlIP){
 			let IPByGet = getQueryVariable("ip");
@@ -562,29 +560,27 @@ function Send(msg,sentByUser){
 					customIPs.push(msg);
 					localStorage.setItem('customI',customIPs.join(','),{expires:7});
 					for(var p=0;p<customIPs.length;p++){
-						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}");' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
+						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}",true);' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
 						let Ping=new WebSocket(`ws://${customIPs[p]}`);
 						Ping.info=p;
 						Ping.onerror=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}",true);' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 							}
 						};
 						Ping.onopen=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}",true);' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 								$(`.CIP${Ping.info+""}`).click(function(){
 									if(S_Status==0)
-										Send(`${customIPs[Ping.info]}`);
+										Send(`${customIPs[Ping.info]}`,true);
 								});
 								$(`.CIP${Ping.info+""}`).attr('style','cursor:pointer');
 								Ping.close();
 							}
 						}});
 					}
-					if($(".CustomIPList")[0].innerHTML==""){
-						$(".CustomIPList")[0].innerHTML=`<p style='position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);'>Empty</p>`;
-					}
+					$(".CustomIPList").append(`<span class="addIPCard" onclick="FastSetNewIP();"><i class="fas fa-plus" style="font-size:30px;float:left;margin-right:5px;"></i><span>Want to add IP?\n----------------</span></span>`);
 				}
 			}
 			else if(msg[0]=='-'){
@@ -594,29 +590,27 @@ function Send(msg,sentByUser){
 					customIPs.splice(customIPs.indexOf(msg),1);
 					localStorage.setItem('customI',customIPs.join(','),{expires:7});
 					for(var p=0;p<customIPs.length;p++){
-						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}");' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
+						SetFeedback(function(){$(".CustomIPList").append(`<span class="customIPCard CIP${p+""}"><i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-spinner fa-spin"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[p]}",true);' style="width:20px"></i> Custom IP #${(p+1)+""}\n${customIPs[p]}</span></span>`);},function(){
 						let Ping=new WebSocket(`ws://${customIPs[p]}`);
 						Ping.info=p;
 						Ping.onerror=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-chain-broken style_error"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}",true);' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 							}
 						};
 						Ping.onopen=()=>{
 							if(S_Interface===true){
-								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}");' style="width:20px“></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
+								$(`.CIP${Ping.info+""}`).html(`<i class="fas fa-compass" style="font-size:30px;float:left;margin-right:5px;"></i><span><i class="fa fa-link style_accept"></i><i class="fa fa-times style_error" onclick='Send("-${customIPs[Ping.info]}",true);' style="width:20px"></i> Custom IP #${(Ping.info+1)+""}\n${customIPs[Ping.info]}</span>`);
 								$(`.CIP${Ping.info+""}`).click(function(){
 									if(S_Status==0)
-										Send(`${customIPs[Ping.info]}`);
+										Send(`${customIPs[Ping.info]}`,true);
 								});
 								$(`.CIP${Ping.info+""}`).attr('style','cursor:pointer');
 								Ping.close();
 							}
 						}});
 					}
-					if($(".CustomIPList")[0].innerHTML==""){
-						$(".CustomIPList")[0].innerHTML=`<p style='position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);'>Empty</p>`;
-					}
+					$(".CustomIPList").append(`<span class="addIPCard" onclick="FastSetNewIP();"><i class="fas fa-plus" style="font-size:30px;float:left;margin-right:5px;"></i><span>Want to add IP?\n----------------</span></span>`);
 				}
 			}
 			else{
@@ -789,6 +783,19 @@ function FastSetBan(msg){
 		else	banT=Number(banT);
 		if(banT==0)	Send(`/unban ${$('#Input1').val()}`);
 		else	Send(`/ban ${$('#Input1').val()} ${banT}`);
+		CloseWindow();
+	})
+}
+function FastSetNewIP(){
+	$(".AllWindow").css("display","block");
+	$(".WindowInfo").html(`<i class="fas fa-plus style="width:20px"></i> New IP<hr>Enter new IP below:<table style="margin:0 auto"><tr><td>IP</td><td><input type="input" id="Input1" maxlength="21"></td></tr></table>`);
+	document.getElementById("Input1").onkeydown=function(K){
+		if(K.key == ' ' || K.key=='Tab' || K.key=='Enter'){
+			K.preventDefault();return false;
+		}
+	}
+	$('.ConfirmInfo').unbind('click').click(function(){
+		Send(`+${$('#Input1').val()}`,true);
 		CloseWindow();
 	})
 }

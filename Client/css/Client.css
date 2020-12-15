@@ -174,7 +174,7 @@ code::-webkit-scrollbar-corner,
     width: 490px;
     height: 70px;
 }
-.onlineIPCard, .recentIPCard, .customIPCard{
+.onlineIPCard, .recentIPCard, .customIPCard, .addIPCard{
     width: 200px;
     height: 30px;
     display: inline-block;

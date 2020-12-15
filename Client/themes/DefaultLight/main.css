@@ -91,6 +91,11 @@ body{
     color: #00947e;
     background: rgb(235, 255, 252);
 }
+.addIPCard{
+    border-color: #48c774;
+    color: #257942;
+    background: rgb(239, 250, 243);
+}
 .style_light{
     color: #f0dc1e;
 }
