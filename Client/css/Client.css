@@ -81,7 +81,8 @@ body{
 .Preview::-webkit-scrollbar,
 code::-webkit-scrollbar,
 .IPList > span::-webkit-scrollbar,
-.MessageInfo::-webkit-scrollbar{
+.MessageInfo::-webkit-scrollbar,
+.Message::-webkit-scrollbar{
     width: 5px;
     height: 5px;
 }
@@ -90,7 +91,8 @@ code::-webkit-scrollbar,
 .Preview::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::-webkit-scrollbar-thumb,
-.MessageInfo::-webkit-scrollbar-thumb{
+.MessageInfo::-webkit-scrollbar-thumb,
+.Message::-webkit-scrollbar-thumb{
     border-radius: 1px;
 }
 .Output::-webkit-scrollbar-corner,
@@ -98,7 +100,8 @@ code::-webkit-scrollbar-thumb,
 .Preview::-webkit-scrollbar-corner,
 code::-webkit-scrollbar-corner,
 .IPList > span::webkit-scrollbar-corner,
-.MessageInfo::-webkit-scrollbar-corner{
+.MessageInfo::-webkit-scrollbar-corner,
+.Message::-webkit-scrollbar-corner{
     display: none;
 }
 .Output::-webkit-scrollbar,
@@ -106,7 +109,8 @@ code::-webkit-scrollbar-corner,
 .Preview::-webkit-scrollbar,
 code::-webkit-scrollbar,
 .IPList > span::webkit-scrollbar,
-.MessageInfo::-webkit-scrollbar{
+.MessageInfo::-webkit-scrollbar,
+.Message::-webkit-scrollbar{
     width: 5px;
     height: 5px;
 }
@@ -115,7 +119,8 @@ code::-webkit-scrollbar,
 .Preview::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::webkit-scrollbar-thumb,
-.MessageInfo::-webkit-scrollbar-thumb{
+.MessageInfo::-webkit-scrollbar-thumb,
+.Message::-webkit-scrollbar-thumb{
     border-radius: 1px;
 }
 .Output::-webkit-scrollbar-corner,
@@ -123,7 +128,8 @@ code::-webkit-scrollbar-thumb,
 .Preview::-webkit-scrollbar-corner,
 code::-webkit-scrollbar-corner,
 .IPList > span::-webkit-scrollbar-corner,
-.MessageInfo::-webkit-scrollbar-corner{
+.MessageInfo::-webkit-scrollbar-corner,
+.Message::-webkit-scrollbar-corner{
     display: none;
 }
 .Status .Output{

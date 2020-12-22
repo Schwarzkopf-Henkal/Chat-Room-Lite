@@ -86,6 +86,11 @@ body{
     color: #947600;
     background: rgb(255, 251, 235);
 }
+.Alertmsg{
+    border-color: #00d1b2;
+    color: #00947e;
+    background: rgb(235, 255, 252);
+}
 .customIPCard{
     border-color: #00d1b2;
     color: #00947e;
@@ -139,7 +144,8 @@ code{background: #58c7ff;}
 .Preview::-webkit-scrollbar:hover,
 code::-webkit-scrollbar:hover,
 .IPList > span::-webkit-scrollbar:hover,
-.MessageInfo::-webkit-scrollbar:hover{
+.MessageInfo::-webkit-scrollbar:hover,
+.Message::-webkit-scrollbar:hover{
     background-color: #93d9e5;
 }
 .Output::-webkit-scrollbar-thumb,
@@ -147,7 +153,8 @@ code::-webkit-scrollbar:hover,
 .Preview::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::-webkit-scrollbar-thumb,
-.MessageInfo::-webkit-scrollbar-thumb{
+.MessageInfo::-webkit-scrollbar-thumb,
+.Message::-webkit-scrollbar-thumb{
     background-color: #6bb4cb;
 }
 blockquote{

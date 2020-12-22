@@ -73,7 +73,7 @@ var Commands={
 		fun:()=>{
 			M_Notice=!M_Notice;
 			document.getElementById('AlertS').className=(M_Notice?"fas fa-bell style_light":"fas fa-bell-slash");
-			Write(`<i class="fas fa-wrench" style="width:20px"></i> Message notice = ${M_Notice}\n`,{'type':'style_accept'})
+			Write(`<i class="fas fa-bell" style="width:20px"></i> Message notice is ${M_Notice?'opened':'closed'}.\n`,{'type':'style_warning'});
 		}
 	}
 },S_Status=0,S_Interface=true;
@@ -191,7 +191,7 @@ function InitWindow(){
 	});
 }
 function flushOutput(){
-  $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description : ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>(SendUserList[x]===true?`<i class="fas fa-send style_accept" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send-o" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell style_light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban style_error" style="cursor:pointer;width:20px" onclick="FastSetBan(\'`+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check style_accept" style="cursor:pointer;width:20px" onclick="FastSetBan(\''+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x+(Server.tagInfo[x]?'<span class="userTag" style="background-color:'+Server.tagColor[x]+'">'+Server.tagInfo[x]+'</span>':'')).join('\n')}`);
+  $('.UserInfo .Output').html(`<i class="fas fa-comments" style="width:20px"></i> Chat Name : ${Server.name}\n<i class="fas fa-bookmark" style="width:20px"></i> Description : ${Server.description}\n<i class="fas fa-user" style="width:20px"></i> User : ${User.name}\n<i class="fa fa-send" style="width:20px"></i> Recipient List: <span class='style_warning'>${SendNumber==0?"All":SendUsers.join(", ")}</span>\n<i class="fas fa-users" style="width:20px"></i> User List : \n${Server.usrList.map(x=>(SendUserList[x]===true?`<i class="fas fa-send style_accept" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`:`<i class="fas fa-send-o" style="cursor:pointer;width:20px;" onclick="changeSendUserType(\'`+x+`\')"></i>`)+(closeNotice[x]===true?`<i class="fas fa-bell-slash" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`:`<i class="fas fa-bell style_light" style="cursor:pointer;width:20px;" onclick="changeNoticeOption(\'`+x+`\')"></i>`)+(isBanned[x]?`<i class="fas fa-ban style_error" style="cursor:pointer;width:20px" onclick="FastSetBan(\'`+x+`\')"></i>`:(isAdmin[x]?'<i class="fas fa-user-secret" style="width:20px"></i>':'<i class="fas fa-check style_accept" style="cursor:pointer;width:20px" onclick="FastSetBan(\''+x+'\')"></i>'))+'<i class="fas fa-at" style="cursor:pointer" onclick="AddInputContent(\'@'+x+' \')" style="width:20px"></i> '+x+(Server.tagInfo[x]?'<span class="userTag" style="background-color:'+Server.tagColor[x]+'">'+Server.tagInfo[x]+'</span>':'')).join('\n')}`);
 }
 function changeSendUserType(msg){
 	if(msg===User.name){
@@ -202,13 +202,14 @@ function changeSendUserType(msg){
 		SendUserList[msg]=false;
 		--SendNumber;
 		SendUsers.splice(SendUsers.indexOf(msg),1);
+		Write(`<i class="fa fa-send-o" style="width:20px"></i> Remove ${msg} from recipient list.\n`,{'type':'style_error'});
 	}
 	else{
 		SendUserList[msg]=true;
 		++SendNumber;
 		SendUsers.push(msg);
+		Write(`<i class="fa fa-send" style="width:20px"></i> Add ${msg} to recipient list.\n`,{'type':'style_accept'});
 	}
-	Write(`<i class="fa fa-send" style="width:20px"></i> Set Recipient List: ${SendNumber==0?"All":'['+SendUsers.join(", ")+']'}\n`,{'type':'style_warning'});
 	flushOutput();
 }
 function setTheme(str){
@@ -301,7 +302,7 @@ function Initalize(){
 				msg.body=`<div>`+msg.body+`</div><div class="showContent" data-no-cache="true"><i class="fas fa-angle-down" style="width:20px;"></i><span class="sh-btn">Unfold</span></div></div></div>`;
 				if(msg.headers['Style']){
 					Write2(msg.body,msg.headers['Style'],function(){
-					$('.fa-comment:last').each(function(){
+					$(`.reply:last`).each(function(){
 						$(this).css('cusorr', 'pointer');
 						$(this).click(function(){
 							$('.Input').val((ws.headers['Set_Rawmessage']).split('\n').map(x=>("> "+x)).join('\n'));
@@ -331,7 +332,7 @@ function Initalize(){
 					});
 				});}
 				else Write2(msg.body,{},function(){
-					$('.fa-comment:last').each(function(){
+					$('.reply:last').each(function(){
 						$(this).css('cursor', 'pointer');
 						$(this).click(function(){
 							$('.Input').val((msg.headers['Set_Rawmessage']).split('\n').map(x=>("\n> "+x)).join(''));

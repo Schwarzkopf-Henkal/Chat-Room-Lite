@@ -86,6 +86,11 @@ body{
     color: rgb(255, 224, 100);
     background: rgb(63, 50, 0);
 }
+.Alertmsg{
+    border-color: rgb(0, 192, 164);
+    color: rgb(100, 255, 232);
+    background: rgb(0, 63, 56);
+}
 .customIPCard{
     border-color: rgb(0, 192, 164);
     color: rgb(100, 255, 232);
@@ -136,7 +141,8 @@ code{background: #0176b1;}
 .Preview::-webkit-scrollbar:hover,
 code::-webkit-scrollbar:hover,
 .IPList > span::-webkit-scrollbar:hover,
-.MessageInfo::-webkit-scrollbar:hover{
+.MessageInfo::-webkit-scrollbar:hover,
+.Message::-webkit-scrollbar:hover{
     background-color: #776170;
 }
 .Output::-webkit-scrollbar-thumb,
@@ -144,7 +150,8 @@ code::-webkit-scrollbar:hover,
 .Preview::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::-webkit-scrollbar-thumb,
-.MessageInfo::-webkit-scrollbar-thumb{
+.MessageInfo::-webkit-scrollbar-thumb,
+.Message::-webkit-scrollbar-thumb{
     background-color: #C9613F;
 }
 blockquote{
