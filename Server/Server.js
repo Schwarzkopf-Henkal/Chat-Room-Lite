@@ -385,7 +385,10 @@ Server.on('connection',(ws,Req)=>{
             var rM = msg.body;
             msg.body=getMarkdownCode(HtmlSpecialChars(msg.body));
             ServerInfo.time=new Date();
-            broadcastAsMessage(`<i class="fas fa-comment" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}`+(ServerInfo.tagInfo[ws.ClientId]?'<span class="userTag" style="background-color:'+ServerInfo.tagColor[ws.ClientId]+'">'+ServerInfo.tagInfo[ws.ClientId]+'</span>':``)+`:\n<div class="MessageInfo Plainmsg" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
+            if(msg.headers['Set_Sendnumber']==0)
+                broadcastAsMessage(`<i class="fas fa-comment reply" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}`+(ServerInfo.tagInfo[ws.ClientId]?'<span class="userTag" style="background-color:'+ServerInfo.tagColor[ws.ClientId]+'">'+ServerInfo.tagInfo[ws.ClientId]+'</span>':``)+`:\n<div class="MessageInfo Plainmsg" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
+            else
+                broadcastAsMessage(`<i class="fas fa-envelope reply" style="width:20px"></i> ${ServerInfo.time.toTimeString().substring(0,8)} ${ws.ClientId}`+(ServerInfo.tagInfo[ws.ClientId]?'<span class="userTag" style="background-color:'+ServerInfo.tagColor[ws.ClientId]+'">'+ServerInfo.tagInfo[ws.ClientId]+'</span>':``)+`: [PRIVATE]\n<div class="MessageInfo Alertmsg" style="overflow-y:hidden;"><div class="Message">`+msg.body,rM,ws.ClientId,msg.headers['Set_Sendnumber'],msg.headers['Set_Senduserlist']);
         }
         else if(msg.headers.Content_Type==='application/banUser'){
             let userName=msg.headers['Set_Name'];
