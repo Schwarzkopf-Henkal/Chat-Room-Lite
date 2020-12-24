@@ -60,6 +60,18 @@ body{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     outline: none;
 }
+.RawCodeArea{
+    margin: 7.5px 7.5px 0px 7.5px;
+    height: 200px !important;
+    max-height: 200px !important;
+    width: calc(100% - 50px);
+    word-wrap: normal;
+    padding: 2px;
+    resize: none;
+    font-size: 14px;
+    overflow: scroll;
+    font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
+}
 .Output{
     margin: 0;
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
@@ -79,6 +91,7 @@ body{
 .Output::-webkit-scrollbar,
 .Input::-webkit-scrollbar,
 .Preview::-webkit-scrollbar,
+.RawCodeArea::-webkit-scrollbar,
 code::-webkit-scrollbar,
 .IPList > span::-webkit-scrollbar,
 .MessageInfo::-webkit-scrollbar,
@@ -89,6 +102,7 @@ code::-webkit-scrollbar,
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 .Preview::-webkit-scrollbar-thumb,
+.RawCodeArea::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb,
@@ -98,6 +112,7 @@ code::-webkit-scrollbar-thumb,
 .Output::-webkit-scrollbar-corner,
 .Input::-webkit-scrollbar-corner,
 .Preview::-webkit-scrollbar-corner,
+.RawCodeArea::-webkit-scrollbar-corner,
 code::-webkit-scrollbar-corner,
 .IPList > span::webkit-scrollbar-corner,
 .MessageInfo::-webkit-scrollbar-corner,
@@ -107,6 +122,7 @@ code::-webkit-scrollbar-corner,
 .Output::-webkit-scrollbar,
 .Input::-webkit-scrollbar,
 .Preview::-webkit-scrollbar,
+.RawCodeArea::-webkit-scrollbar,
 code::-webkit-scrollbar,
 .IPList > span::webkit-scrollbar,
 .MessageInfo::-webkit-scrollbar,
@@ -117,6 +133,7 @@ code::-webkit-scrollbar,
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 .Preview::-webkit-scrollbar-thumb,
+.RawCodeArea::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb,
@@ -126,6 +143,7 @@ code::-webkit-scrollbar-thumb,
 .Output::-webkit-scrollbar-corner,
 .Input::-webkit-scrollbar-corner,
 .Preview::-webkit-scrollbar-corner,
+.RawCodeArea::-webkit-scrollbar-corner,
 code::-webkit-scrollbar-corner,
 .IPList > span::-webkit-scrollbar-corner,
 .MessageInfo::-webkit-scrollbar-corner,

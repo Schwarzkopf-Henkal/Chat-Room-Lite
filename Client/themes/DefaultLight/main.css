@@ -13,7 +13,7 @@ body{
     border-bottom-color: #ccc;
     background-color:rgb(252, 252, 252);
 }
-.Preview{
+.Preview, .RawCodeArea{
     color: black;
     border-bottom-color: #ccc;
     background-color:rgb(252, 252, 252);

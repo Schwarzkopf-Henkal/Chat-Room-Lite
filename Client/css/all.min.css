@@ -423,3 +423,14 @@
 .fa-envelope:before {
   content: "\f0e0";
 }
+.fa-mail-reply:before,
+.fa-reply:before {
+  content: "\f112";
+}
+.fa-mail-reply-all:before,
+.fa-reply-all:before {
+  content: "\f122";
+}
+.fa-code:before {
+  content: "\f121";
+}

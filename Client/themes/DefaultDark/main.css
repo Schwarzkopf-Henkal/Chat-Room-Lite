@@ -13,7 +13,7 @@ body{
     border-bottom-color: #ccc;
     background-color: rgb(24, 26, 27);
 }
-.Preview{
+.Preview, .RawCodeArea{
     color: #cccccc;
     border-bottom-color: #ccc;
     background-color: rgb(24, 26, 27);
@@ -139,6 +139,7 @@ code{background: #0176b1;}
 .Output::-webkit-scrollbar:hover,
 .Input::-webkit-scrollbar:hover,
 .Preview::-webkit-scrollbar:hover,
+.RawCodeArea::-webkit-scrollbar:hover,
 code::-webkit-scrollbar:hover,
 .IPList > span::-webkit-scrollbar:hover,
 .MessageInfo::-webkit-scrollbar:hover,
@@ -148,6 +149,7 @@ code::-webkit-scrollbar:hover,
 .Output::-webkit-scrollbar-thumb,
 .Input::-webkit-scrollbar-thumb,
 .Preview::-webkit-scrollbar-thumb,
+.RawCodeArea::-webkit-scrollbar-thumb,
 code::-webkit-scrollbar-thumb,
 .IPList > span::-webkit-scrollbar-thumb,
 .MessageInfo::-webkit-scrollbar-thumb,

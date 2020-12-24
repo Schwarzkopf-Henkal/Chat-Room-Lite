@@ -212,6 +212,16 @@ function changeSendUserType(msg){
 	}
 	flushOutput();
 }
+function setSingleUser(name){
+	if(name===User.name){
+		Write(`<i class="fas fa-times" style="width:20px"></i> You are trying to reply your message.\n`,{'type':'style_error'});
+		return;
+	}
+	Write(`<i class="fa fa-send" style="width:20px"></i> Replying to ${name}.\n`,{'type':'style_accept'});
+	SendUserList={};SendUserList[name]=true;
+	SendNumber=1;SendUsers=[name];
+	flushOutput();
+}
 function setTheme(str){
 	localStorage.setItem('themeT',str,{expires:7});
 	$(".setDefaultCss").attr("href",`./themes/${str}/main.css`);
@@ -300,42 +310,20 @@ function Initalize(){
 			if(closeNotice[msg.headers['Set_Name']]===true)	return;
 			if(msg.headers['Set_Rawmessage']){
 				msg.body=`<div>`+msg.body+`</div><div class="showContent" data-no-cache="true"><i class="fas fa-angle-down" style="width:20px;"></i><span class="sh-btn">Unfold</span></div></div></div>`;
-				if(msg.headers['Style']){
-					Write2(msg.body,msg.headers['Style'],function(){
-					$(`.reply:last`).each(function(){
-						$(this).css('cusorr', 'pointer');
-						$(this).click(function(){
-							$('.Input').val((ws.headers['Set_Rawmessage']).split('\n').map(x=>("> "+x)).join('\n'));
-						});
-					});
-					$('.Message:last').each(function(){
-						if($(this).height()<82){
-							$(this).next('.showContent').hide();
-						}else{
-							$(this).css("height","82px");
-							$(this).css("--lcollapsed-height","82px");
-						}
-					});
-					$('.showContent:last').click(function () {
-						var htm = $(this).find('.sh-btn').html();
-						if (htm == "Unfold") {
-							$(this).find('.sh-btn').html('Fold');
-							$(this).find('i').removeClass('fas fa-angle-down').addClass('fas fa-angle-up');
-							$(this).prev('.Message').css('height', 'auto');
-							$(this).prev('.Message').css('--lcollapsed-height', 'auto');
-						} else {
-							$(this).find('.sh-btn').html('Unfold');
-							$(this).find('i').removeClass('fas fa-angle-up').addClass('fas fa-angle-down');
-							$(this).prev('.Message').css('height', '82px');
-							$(this).prev('.Message').css('--lcollapsed-height', '82px');
-						}
-					});
-				});}
-				else Write2(msg.body,{},function(){
-					$('.reply:last').each(function(){
-						$(this).css('cursor', 'pointer');
+				Write2(msg.body,msg.headers['Style']?msg.headers['Style']:{},function(){
+					$('.replyAllUser:last').each(function(){
 						$(this).click(function(){
 							$('.Input').val((msg.headers['Set_Rawmessage']).split('\n').map(x=>("\n> "+x)).join(''));
+						});
+					});
+					$('.replySingleUser:last').each(function(){
+						$(this).click(function(){
+							$('.Input').val((msg.headers['Set_Rawmessage']).split('\n').map(x=>("\n> "+x)).join(''));
+						});
+					});
+					$('.getRawCode:last').each(function(){
+						$(this).click(function(){
+							FastWatchRawCode(msg.headers['Set_Rawmessage']);
 						});
 					});
 					$('.Message:last').each(function(){
@@ -800,7 +788,17 @@ function FastSetNewIP(){
 		CloseWindow();
 	})
 }
+function FastWatchRawCode(msg){
+	$(".AllWindow").css("display","block");
+	$(".WindowInfo").html(`<i class="fas fa-code style="width:20px"></i> Raw Code<hr><textarea class="RawCodeArea" wrap="off" readonly="readonly"></textarea>`);
+	$(".RawCodeArea").val(msg);
+	$('.ConfirmInfo').unbind('click').click(function(){
+		CloseWindow();
+	})
+	$('.Closer:last').css("display","none");
+}
 function CloseWindow(){
 	$('.AllWindow').css("display","none");
 	$(".WindowInfo").html('');
+	$('.Closer:last').css("display","inline-block");
 }
