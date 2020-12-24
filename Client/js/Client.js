@@ -218,7 +218,7 @@ function setSingleUser(name){
 		return;
 	}
 	Write(`<i class="fa fa-send" style="width:20px"></i> Replying to ${name}.\n`,{'type':'style_accept'});
-	SendUserList={};SendUserList[name]=true;
+	SendUserList={};SendUserList[name]=SendUserList[User.name]=true;
 	SendNumber=1;SendUsers=[name,User.name];
 	flushOutput();
 }
