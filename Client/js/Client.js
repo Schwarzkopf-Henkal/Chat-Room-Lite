@@ -219,7 +219,7 @@ function setSingleUser(name){
 	}
 	Write(`<i class="fa fa-send" style="width:20px"></i> Replying to ${name}.\n`,{'type':'style_accept'});
 	SendUserList={};SendUserList[name]=true;
-	SendNumber=1;SendUsers=[name];
+	SendNumber=1;SendUsers=[name,User.name];
 	flushOutput();
 }
 function setTheme(str){
