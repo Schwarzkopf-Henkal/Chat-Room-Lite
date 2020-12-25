@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
 	<title>Chat Room Lite</title>
 	<script src="./js/jquery.min.js"></script>
@@ -23,17 +24,21 @@
 </head>
 <body>
     <div class="interface">
-		<div class="ChatRoom Block">
-			<div class="Title">Chat Room</div>
-			<pre class="Output"></pre>
-		</div>
-		<div class="Status Block">
-			<div class="Title">Status</div>
-			<pre class="Output"><span class="style_error"><i class="fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span></pre>
-		</div>
-		<div class="UserInfo Block">
-			<div class="Title">User Info.</div>
-			<pre class="Output"></pre>
+    	<div class="ChatRoomContent">
+			<div class="ChatRoom Block">
+				<div class="Title">Chat Room</div>
+				<pre class="Output"></pre>
+			</div>
+			<div class="SideBar">
+				<div class="Status Block">
+					<div class="Title">Status</div>
+					<pre class="Output"><span class="style_error"><i class="fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span></pre>
+				</div>
+				<div class="UserInfo Block">
+					<div class="Title">User Info.</div>
+					<pre class="Output"></pre>
+				</div>
+			</div>
 		</div>
 		<div class="InputArea Block">
 			<div class="Title">Input Area</div>
@@ -43,8 +48,8 @@
 			<span class="PreviewType"><span class="PreviewEdit chosenEditType" style="cursor:pointer;"><i class="fas fa-edit" style="width:20px"></i> Write</span> | <span class="PreviewWatch" style="cursor:pointer;"><i class="fas fa-sticky-note-o" style="width:20px"></i> Preview</span> | <span class="SendMessage style_accept" style="cursor:pointer;"><i class="fas fa-send-o" style="width:20px"></i> Send (Enter)</span></span>
 		</div>
 	</div>
-	<div style="position:absolute;top:637px;left:14px;text-align:left;white-space:nowrap;"><span class="ToolList"><span onclick="Send('/cls')" style="cursor:pointer;"><i class="fas fa-eraser" style="width:20px"></i></span> <span onclick="FastSetTag();" style="cursor:pointer;"><i class="fas fa-tags" style="width:20px"></i></span> <span onclick="FastSetAdmin();" style="cursor:pointer;"><i class="fas fa-user-secret" style="width:20px"></i></span> <span onclick="FastSetBan();" style="cursor:pointer;"><i class="fas fa-ban" style="width:20px"></i></span></span></div>
-	<div style="position:absolute;width:500px;top:635px;left:390px;text-align:right;"><span class="ThemeList"></span></div>
+	<div style="position:absolute;bottom:0px;left:14px;text-align:left;white-space:nowrap;"><span class="ToolList"><span onclick="Send('/cls')" style="cursor:pointer;"><i class="fas fa-eraser" style="width:20px"></i></span> <span onclick="FastSetTag();" style="cursor:pointer;"><i class="fas fa-tags" style="width:20px"></i></span> <span onclick="FastSetAdmin();" style="cursor:pointer;"><i class="fas fa-user-secret" style="width:20px"></i></span> <span onclick="FastSetBan();" style="cursor:pointer;"><i class="fas fa-ban" style="width:20px"></i></span></span></div>
+	<div style="position:absolute;width:500px;bottom:0px;right:14px;text-align:right;"><span class="ThemeList"></span></div>
 	<div class="AllWindow" style="display:none;text-align:center">
 		<div class="WindowBuild Closer"></div>
 		<div class="AlertWindow" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);z-index:2;" onclick=";"><div class="WindowInfo" style="width:500px;"></div>
