@@ -29,6 +29,7 @@
 				<div class="Title">Chat Room</div>
 				<pre class="Output"></pre>
 			</div>
+			<div class="splitDiv"></div>
 			<div class="SideBar">
 				<div class="Status Block">
 					<div class="Title">Status</div>
@@ -65,6 +66,39 @@
 <footer>
 	<script src="./js/Client.js"></script>
 	<script>
+		function setLeftWidth(_x){
+			$(".ChatRoom").css("width", _x);
+			$(".SideBar").css("width",`calc(100% - 32px - ${_x}px)`);
+		}
+		var inBigScr = ($(window).width() > 768)
+	    $(window).resize(function(){
+	    	var window_width = $(window).width();
+	    	if(window_width > 768){
+	    		inBigScr = true;
+	    		var left_width = $(".ChatRoom").width();
+		    	var p = left_width;
+		    	p = max(p, 450);
+		        p = min(p, window_width - 14 - 300);
+		        if(p!=left_width)	setLeftWidth(p);
+	    	}
+	    	else if(inBigScr)
+	    		inBigScr=false,$(".ChatRoom").css("width","calc(100% - 18px)");
+	    });
+	    function max(a,b){return a>b?a:b;}
+		function min(a,b){return a>b?b:a;}
+	    $(".splitDiv").mousedown(function(e) {
+	    	$("body").css("user-select","none");
+	        $("body").mousemove(function(eve) {
+	            var _x = eve.pageX - 24;
+	            _x = max(_x, 450);
+	            _x = min(_x, $(this).width() - 14 - 300);
+	            setLeftWidth(_x);
+	        })
+	    });
+	    $("body").mouseup(function(e) {
+	    	$("body").css("user-select","text");
+	         $(this).unbind("mousemove");
+	    });
 		$('.Closer').click(CloseWindow);
 		$(".PreviewEdit").click(function(){
 			changeEditType('Edit');

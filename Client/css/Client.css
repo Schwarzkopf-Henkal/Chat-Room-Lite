@@ -15,27 +15,49 @@ body{
     width: 100%;
     height: calc(100% - 20px - 160px);
 }
+.splitDiv{
+    display: none;
+}
+/* 改动开始 */
 .SideBar{
-    float: left;
-    height: calc(100%);
-    width: calc(30% - 14px);
+    margin: 0px;
+    display: none;
 }
 .ChatRoom{
     float: left;
-    height: calc(100% - 14px);
-    width: calc(70% - 14px);
+    height: calc(100% - 18px);
+    width: calc(100% - 18px);
 }
+@media (min-width: 768px){
+    .SideBar{
+        display: block;
+        float: left;
+        height: calc(100% - 4px);
+        width: calc(35% - 18px - 7px);
+    }
+    .splitDiv{
+        display: block;
+        cursor: e-resize;
+        float: left;
+        height: 100%;
+        width: 14px;
+    }
+    .ChatRoom{
+        width: calc(65% - 7px);
+    }
+}
+/* 改动结束 */
 .Status{
     height: 36px;
-    width: calc(100% - 14px);
+    width: calc(100% - 18px);
 }
 .UserInfo{
-    width: calc(100% - 14px);
-    height: calc(100% - 36px - 14px - 14px);
+    width: calc(100% - 18px);
+    height: calc(100% - 36px - 7px - 18px);
 }
 .InputArea{
     height: 160px;
-    width: calc(100% - 14px);
+    width: calc(100% - 18px);
     tab-size: 4;
 }
 .Block{
@@ -55,7 +77,7 @@ body{
 .Input{
     margin: 7.5px 7.5px 0px 7.5px;
     height: 115px;
-    width: calc(100% - 15px);
+    width: calc(100% - 20px);
     border-width: 0 0 2px 0;
     border-style: solid;
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
@@ -67,7 +89,7 @@ body{
     max-height: 115px !important;
     white-space: pre-wrap;
     flex-direction: column;
-    width: calc(100% - 14px);
+    width: calc(100% - 20px);
     border-width: 0 0 2px 0;
     border-style: solid;
     padding: 2px;
@@ -89,14 +111,14 @@ body{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
 }
 .Output{
-    margin: 10px;
+    margin: 10px 0px 0px 10px;
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     font-size: 14px;
     word-wrap: break-word;
     white-space: pre-wrap;
     position: absolute;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
     overflow: hidden;
 }
 .ChatRoom .Output{
@@ -204,7 +226,7 @@ code::-webkit-scrollbar-corner,
     pointer-events: auto;
     position: relative;
     left: 0px;
-    width: 490px;
+    width: 100%;
     height: 70px;
 }
 .onlineIPCard, .recentIPCard, .customIPCard, .addIPCard{
@@ -227,6 +249,7 @@ code::-webkit-scrollbar-corner,
     left: 0px;
     text-align: left;
     margin-bottom: 10px;
+    width: 100%;
 }
 .IPList > p{
     pointer-events: auto;
@@ -239,7 +262,7 @@ code::-webkit-scrollbar-corner,
     pointer-events: auto;
     display: block;
     height: 55px;
-    width: 480px;
+    width: calc(100%);
     overflow-x: scroll;
     overflow-y: none;
     white-space: nowrap;
