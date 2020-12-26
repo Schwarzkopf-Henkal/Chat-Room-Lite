@@ -16,6 +16,9 @@ body{
     height: calc(100% - 20px - 160px);
 }
 .splitDiv{
+    transition: background 0.3s ease 0s;
+    position: relative;
+    text-align:center;
     display: none;
 }
 /* 改动开始 */

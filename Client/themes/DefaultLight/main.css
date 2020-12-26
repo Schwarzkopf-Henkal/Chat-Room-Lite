@@ -8,6 +8,13 @@ body{
     background-color: #e1ecf9;
     color:#66afe0;
 }
+.splitDiv{
+    background: rgb(252, 252, 252);
+    color: black;
+}
+.splitDiv:hover{
+    background: #b5b5b5;
+}
 .Input{
     color: black;
     border-bottom-color: #ccc;
