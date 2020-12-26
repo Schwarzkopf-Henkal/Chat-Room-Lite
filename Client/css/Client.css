@@ -15,16 +15,27 @@ body{
     width: 100%;
     height: calc(100% - 20px - 160px);
 }
+/* 改动开始 */
 .SideBar{
-    float: left;
-    height: calc(100%);
-    width: calc(30% - 14px);
+    display: none;
+}
+@media (min-width: 768px){
+    .SideBar{
+        display: block;
+        float: left;
+        height: calc(100%);
+        width: calc(30% - 14px);
+    }
+    .ChatRoom{
+        width: calc(70% - 14px) !important;
+    }
 }
 .ChatRoom{
     float: left;
     height: calc(100% - 14px);
-    width: calc(70% - 14px);
+    width: calc(100% - 14px);
 }
+/* 改动结束 */
 .Status{
     height: 36px;
     width: calc(100% - 14px);
