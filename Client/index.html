@@ -24,7 +24,7 @@
 </head>
 <body>
     <div class="interface">
-    	<div class="ChatRoomContent">
+    	<div class="ChatRoomContent" style='z-index:0'>
 			<div class="ChatRoom Block">
 				<div class="Title">Chat Room</div>
 				<pre class="Output"></pre>
@@ -38,6 +38,19 @@
 				<div class="UserInfo Block">
 					<div class="Title">User Info.</div>
 					<pre class="Output"></pre>
+				</div>
+			</div>
+			<div class="openSideBar Block">
+				<div class='openSideBarIf' onclick="ShowSideBar();"><i class="fa fa-angle-left openSideBarIcon" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:14px;cursor:pointer;"></i></div>
+				<div class="openSideBarContent" style="display:none">
+					<div class="Status Block">
+						<div class="Title">Status</div>
+						<pre class="Output"><span class="style_error"><i class="fa fa-exclamation-circle" style="width:20px"></i>Please enter a chat room</span></pre>
+					</div>
+					<div class="UserInfo Block">
+						<div class="Title">User Info.</div>
+						<pre class="Output"></pre>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -74,7 +87,10 @@
 	    $(window).resize(function(){
 	    	var window_width = $(window).width();
 	    	if(window_width > 768){
-	    		inBigScr = true;
+	    		if(!inBigScr){
+	    			inBigScr= true;
+	    			HideSideBar();
+	    		}
 	    		var left_width = $(".ChatRoom").width();
 		    	var p = left_width;
 		    	p = max(p, 450);
@@ -82,7 +98,7 @@
 		        if(p!=left_width)	setLeftWidth(p);
 	    	}
 	    	else if(inBigScr)
-	    		inBigScr=false,$(".ChatRoom").css("width","calc(100% - 18px)");
+	    		inBigScr=false,$(".ChatRoom").css("width","calc(100% -  18px - 14px - 18px)");
 	    });
 	    function max(a,b){return a>b?a:b;}
 		function min(a,b){return a>b?b:a;}
@@ -159,6 +175,20 @@
 			}
 		}
 		document.getElementById("Input").onkeydown = onTextareaKeydown;
+		function ShowSideBar(){
+			$(".openSideBarContent").css("display","block");
+			$(".openSideBar").css('width','calc(100% - 18px)');
+			$(".ChatRoom").css('display','none');
+			$(".openSideBarIcon").removeClass('fa-angle-left').addClass('fa-angle-right');
+			$('.openSideBarIf').attr("onclick","HideSideBar();");
+		}
+		function HideSideBar(){
+			$(".openSideBarContent").css("display","none");
+			$(".openSideBar").css('width','14px');
+			$(".ChatRoom").css('display','block');
+			$(".openSideBarIcon").removeClass('fa-angle-right').addClass('fa-angle-left');
+			$('.openSideBarIf').attr("onclick","ShowSideBar();");
+		}
 	</script>
 </footer>
 </html>

@@ -29,7 +29,27 @@ body{
 .ChatRoom{
     float: left;
     height: calc(100% - 18px);
+    width: calc(100% - 18px - 14px - 18px);
+}
+.openSideBar{
+    float: right;
+    position:absolute;
+    height: calc(100% - 18px);
+    width: 14px;
+}
+.openSideBarContent{
     width: calc(100% - 18px);
+    height: 100%;
+    float: right;
+}
+.openSideBarIf{
+    cursor:pointer;
+    text-align:center;
+    transition: background 0.3s ease 0s;
+    height:100%;
+    width:14px;
+    position:relative;
+    float:left;
 }
 @media (min-width: 768px){
     .SideBar{
@@ -47,6 +67,9 @@ body{
     }
     .ChatRoom{
         width: calc(65% - 7px);
+    }
+    .openSideBar{
+        display: none;
     }
 }
 /* 改动结束 */

@@ -440,3 +440,9 @@
 .fa-ellipsis-v:before {
   content: "\f142";
 }
+.fa-angle-left:before {
+  content: "\f104";
+}
+.fa-angle-right:before {
+  content: "\f105";
+}

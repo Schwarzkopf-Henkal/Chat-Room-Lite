@@ -8,11 +8,14 @@ body{
     background-color: #e1ecf9;
     color:#66afe0;
 }
-.splitDiv{
+.openSideBarContent{
+    border-left: 2px solid #e1ecf9;
+}
+.splitDiv, .openSideBarIf{
     background: rgb(252, 252, 252);
     color: black;
 }
-.splitDiv:hover{
+.splitDiv:hover, .openSideBarIf:hover{
     background: #b5b5b5;
 }
 .Input{
