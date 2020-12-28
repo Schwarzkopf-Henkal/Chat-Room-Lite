@@ -8,6 +8,9 @@ body{
     background-color: #cccccc;
     color: black;
 }
+.copyToClickboard:hover{
+    background: rgb(73,73,73);
+}
 .openSideBarContent{
     border-left: 2px solid #cccccc;
 }

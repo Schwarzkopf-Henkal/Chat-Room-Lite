@@ -215,6 +215,19 @@ code::-webkit-scrollbar-corner,
 .Message::-webkit-scrollbar-corner{
     display: none;
 }
+.copyToClickboard{
+    cursor:pointer;
+    background: inherit;
+    padding:4px;
+    width:14px;
+    height:14px;
+    right:12px;
+    top:4px;
+    position:absolute;
+    border:4px;
+    border-radius:3px;
+    transition: background 0.3s ease-in-out 0s;
+}
 .InputType{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     font-size: 14px;

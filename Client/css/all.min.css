@@ -446,3 +446,11 @@
 .fa-angle-right:before {
   content: "\f105";
 }
+.fa-paste:before,
+.fa-clipboard:before {
+  content: "\f0ea";
+}
+.fa-copy:before,
+.fa-files-o:before {
+  content: "\f0c5";
+}

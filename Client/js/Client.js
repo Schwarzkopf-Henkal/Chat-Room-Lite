@@ -256,6 +256,22 @@ function changeNoticeOption(userName){
 	else	closeNotice[userName]=true,Write(`<i class="fas fa-eye-slash" style="width:20px"></i> You won\'t see messages from ${userName} now.\n`,{'type':`style_error`});
 	flushOutput();
 }
+function addCopyFinish(o){
+	o.removeClass(`fa-copy`).addClass(`fa-check`).addClass(`style_accept`);
+}
+function remCopyFinish(o){
+	setTimeout(function(){o.addClass(`fa-copy`).removeClass(`fa-check`).removeClass(`style_accept`)},1000);
+}
+function copyUtil(info) {
+   var $textArea = $('<textarea></textarea>');
+   $textArea.val(info);
+   $textArea.css('opacity','0');
+   $('body').append($textArea);
+   $textArea.select();
+   document.execCommand('copy', false, null);
+   $textArea.remove();
+}
+
 function Initalize(){
 	ws=new WebSocket(`ws://${User.host}`);
 	ws.onopen=()=>{
@@ -325,6 +341,10 @@ function Initalize(){
 						$(this).click(function(){
 							FastWatchRawCode(msg.headers['Set_Rawmessage']);
 						});
+					});
+					$('.Message:last > pre > code').each(function(){
+						$(this).parent().css("position",'relative').css('display','block');
+						$(this).parent().prepend("<div class='copyToClickboard fa fa-copy' style='float:right' onclick='copyUtil($(this).next(`code`).text());addCopyFinish($(this));remCopyFinish($(this));'></div>");
 					});
 					$('.Message:last').each(function(){
 						if($(this).height()<82){
