@@ -78,7 +78,7 @@ var Commands={
 	}
 },S_Status=0,S_Interface=true;
 function InitWindow(){
-	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-globe" style="width:20px"></i>Online IP List</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:140px"><i class="fas fa-history" style="width:20px"></i>Recent IP List</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:280px" on_focus="true"><i class="fas fa-compass" style="width:20px"></i>Custom IP List</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
+	Write2(`<i class="fas fa-server"></i> IP Menu: \n<div><span class="chatRoomList" style="display: inline-block;"><div class="IPList"><p><i class="fas fa-globe" style="width:20px"></i>Online</p>\n<span class="OnlineIPList"></div><div class="IPList"><p style="margin-left:80px"><i class="fas fa-history" style="width:20px"></i>Recent</p>\n<span class="RecentIPList"></div><div class="IPList"><p style="margin-left:160px" on_focus="true"><i class="fas fa-compass" style="width:20px"></i>Custom</p>\n<span class="CustomIPList"></div><span></div>\n`,{},function(){
 		$('.IPList > p').click(function(){
 			$('.IPList > span').css('display','none');
 			$('.IPList > p').attr('on_focus',false);

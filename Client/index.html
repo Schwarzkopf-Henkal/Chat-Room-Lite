@@ -58,8 +58,9 @@
 			<div class="Title">Input Area</div>
 			<textarea class="Input" id="Input" placeholder="Your Comment Here." style="resize:none"></textarea>
 			<div class="Preview" style="display:none"></div>
-			<span class="InputType"><i class="fas fa-terminal" id="InputT" onclick="changeInputType();" style="width:20px;cursor:pointer;"></i> <span id="InputTypeChooser">Single Line Mode</span></span>
-			<span class="PreviewType"><span class="PreviewEdit chosenEditType" style="cursor:pointer;"><i class="fas fa-edit" style="width:20px"></i> Write</span> | <span class="PreviewWatch" style="cursor:pointer;"><i class="fas fa-sticky-note-o" style="width:20px"></i> Preview</span> | <span class="SendMessage style_accept" style="cursor:pointer;"><i class="fas fa-send-o" style="width:20px"></i> Send (Enter)</span></span>
+			</span>
+			<span class="InputType"><span class="ButtonList"><span class="SetInputType" style="cursor:pointer;"><i class="fas fa-keyboard-o" style="width:20px"></i>Enter</span></span></span>
+			<span class="PreviewType"><span class="ButtonList"><span class="PreviewEdit chosenEditType" style="cursor:pointer;"><i class="fas fa-edit" style="width:20px"></i>Edit</span><span class="PreviewWatch" style="cursor:pointer;"><i class="fas fa-sticky-note-o" style="width:20px"></i>Preview</span><span class="SendMessage style_accept_backg" style="cursor:pointer;"><i class="fas fa-send-o" style="width:20px"></i>Send</span></span></div></span>
 		</div>
 	</div>
 	<div style="position:absolute;bottom:0px;left:14px;text-align:left;white-space:nowrap;"><span class="ToolList"><span onclick="Send('/cls')" style="cursor:pointer;"><i class="fas fa-eraser" style="width:20px"></i></span> <span onclick="FastSetTag();" style="cursor:pointer;"><i class="fas fa-tags" style="width:20px"></i></span> <span onclick="FastSetAdmin();" style="cursor:pointer;"><i class="fas fa-user-secret" style="width:20px"></i></span> <span onclick="FastSetBan();" style="cursor:pointer;"><i class="fas fa-ban" style="width:20px"></i></span></span></div>
@@ -126,6 +127,11 @@
 			Send($('.Input').val(),true);
 			input.val("");
 		});
+		var MultiplySelection=false;
+		$(".SetInputType").click(function(){
+			MultiplySelection=!MultiplySelection;
+			$(".SetInputType").html(`<i class="fas fa-keyboard-o" style="width:20px"></i>${MultiplySelection?"CTRL+Enter":"Enter"}`);
+		});
 		var ThemeL = ["DefaultLight", "DefaultDark"];
 		var ThemeI = ["fas fa-sun-o", "fas fa-moon-o"];
 		var ThemeS = "Theme List | ";
@@ -133,15 +139,6 @@
 			ThemeS+=`<i class="${ThemeI[p]}" style="cursor:pointer;width:20px;" onclick="setTheme('${ThemeL[p]}')"></i>`;
 		$(".ThemeList").html(ThemeS);
 		var input=$('.Input'),Doc=$(document);
-		var MultiplySelection=false;
-		function changeInputType(){
-			MultiplySelection=!MultiplySelection;
-			document.getElementById("InputT").className=(MultiplySelection?"fas fa-align-left":"fas fa-terminal");
-			document.getElementById("InputTypeChooser").innerHTML=MultiplySelection?
-			"Multiple Line Mode":
-			"Single Line Mode";
-			$('.SendMessage').html(`<i class="fas fa-send-o" style="width:20px"></i> Send (${MultiplySelection?"CTRL+Enter":"Enter"})</span>`);
-		}
 		var onTextareaKeydown = function(K){
 			K = K || event;
 			if (K.keyCode == 9) {

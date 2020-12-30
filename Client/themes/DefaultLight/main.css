@@ -32,10 +32,16 @@ body{
     background-color:rgb(252, 252, 252);
 }
 .PreviewType{
-    color: black;
+    color: #ccc;
 }
 .chosenEditType{
-    color: #3273dc;
+    background-color: rgb(68, 147, 223) !important;
+}
+.style_accept_backg{
+    background-color: #238636 !important;
+}
+.ButtonList > span{
+    background-color : #21262d;
 }
 .Output{
     color: black;

@@ -6,6 +6,19 @@ body{
     width: 100%;
     height: 100%;
 }
+.ButtonList > span{
+    display:inline-block;
+    padding: 2px;
+    border: 2px;
+}
+.ButtonList > span:first-child{
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.ButtonList > span:last-child{
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
 .interface{
     position: fixed;
     width: 100%;
@@ -13,7 +26,7 @@ body{
 }
 .ChatRoomContent{
     width: 100%;
-    height: calc(100% - 20px - 160px);
+    height: calc(100% - 20px - 120px);
 }
 .splitDiv{
     transition: background 0.3s ease 0s;
@@ -82,7 +95,7 @@ body{
     height: calc(100% - 36px - 7px - 18px);
 }
 .InputArea{
-    height: 160px;
+    height: 120px;
     width: calc(100% - 18px);
     tab-size: 4;
 }
@@ -102,7 +115,7 @@ body{
 }
 .Input{
     margin: 7.5px 7.5px 0px 7.5px;
-    height: 115px;
+    height: 75px;
     width: calc(100% - 20px);
     border-width: 0 0 2px 0;
     border-style: solid;
@@ -111,8 +124,8 @@ body{
 }
 .Preview{
     margin: 7.5px 7.5px 0px 7.5px;
-    height: 115px !important;
-    max-height: 115px !important;
+    height: 75px !important;
+    max-height: 75px !important;
     white-space: pre-wrap;
     flex-direction: column;
     width: calc(100% - 20px);
@@ -232,14 +245,17 @@ code::-webkit-scrollbar-corner,
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     font-size: 14px;
     line-height: 1.5;
-    margin-left: 10px;
+    position: absolute;
+    left: 6px;
+    bottom: 2px;
 }
 .PreviewType{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
     font-size: 14px;
     line-height: 1.5;
     position: absolute;
-    right: 10px;
+    right: 6px;
+    bottom: 2px;
 }
 .ThemeList{
     font-family: 'Consolas','Fira Code','Source Code Pro','Lucida Console','Cascadia Code','Ubuntu Mono','Monospace';
